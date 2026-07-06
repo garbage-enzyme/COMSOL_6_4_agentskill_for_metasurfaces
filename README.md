@@ -4,8 +4,6 @@ English | [中文](README_CN.md)
 
 An agent skill that teaches AI coding assistants how to drive **COMSOL Multiphysics 6.3** through the [comsol MCP server](https://github.com/garbage-enzyme/COMSOL_Multiphysics_MCP_6_3_Calibrated) (MPh 1.3.1 standalone / `clientapi`), and how to write or fix code in `src/tools/` when the API mismatches.
 
-> ⚠️ The repository name says `6_2`, but the skill content is calibrated for **COMSOL 6.3 + MPh 1.3.1 standalone** (the `clientapi` wrapper layer). On 6.2 the same patterns apply if you use `mph.Client(standalone)`; the direct-`Model` API on 5.x is different.
-
 ## Compatible with: opencode, Claude Code, Codex (and any AGENTS.md reader)
 
 This repo uses the open agent-skill conventions so the **same** skill content works across three AI coding tools without duplication:
@@ -33,18 +31,18 @@ The single source of truth is `skills/comsol-63-operations/SKILL.md` (markdown +
 opencode auto-loads skills from `~/.config/opencode/skills/` (`%USERPROFILE%\.config\opencode\skills\` on Windows). Copy the skill folder there:
 
 ```bash
-git clone https://github.com/garbage-enzyme/COMSOL_6_2_mcp_skill.git
+git clone https://github.com/garbage-enzyme/COMSOL_6_3_mcp_skill.git
 mkdir -p ~/.config/opencode/skills
-cp -r COMSOL_6_2_mcp_skill/skills/comsol-63-operations ~/.config/opencode/skills/
+cp -r COMSOL_6_3_mcp_skill/skills/comsol-63-operations ~/.config/opencode/skills/
 ```
 
 Windows PowerShell:
 
 ```powershell
-git clone https://github.com/garbage-enzyme/COMSOL_6_2_mcp_skill.git
+git clone https://github.com/garbage-enzyme/COMSOL_6_3_mcp_skill.git
 $dest = "$env:USERPROFILE\.config\opencode\skills"
 New-Item -ItemType Directory -Path $dest -Force | Out-Null
-Copy-Item -Recurse "COMSOL_6_2_mcp_skill\skills\comsol-63-operations" $dest
+Copy-Item -Recurse "COMSOL_6_3_mcp_skill\skills\comsol-63-operations" $dest
 ```
 
 Restart opencode. The skill's `description` frontmatter will match COMSOL-related tasks automatically — no explicit invocation needed.
@@ -56,7 +54,7 @@ Drop the repo (or just `CLAUDE.md` + `skills/`) into your project. Claude Code r
 For a personal (global) install, copy `CLAUDE.md`'s import line into `~/.claude/CLAUDE.md`:
 
 ```markdown
-@/absolute/path/to/COMSOL_6_2_mcp_skill/skills/comsol-63-operations/SKILL.md
+@/absolute/path/to/COMSOL_6_3_mcp_skill/skills/comsol-63-operations/SKILL.md
 ```
 
 ### Option C — Codex CLI / Gemini CLI / Cursor (AGENTS.md)
@@ -66,7 +64,7 @@ These tools read `AGENTS.md` from the project root automatically. Clone the repo
 For a global Codex install, append a pointer line to `~/.codex/AGENTS.md`:
 
 ```markdown
-For COMSOL 6.3 MCP tasks, read /absolute/path/to/COMSOL_6_2_mcp_skill/skills/comsol-63-operations/SKILL.md first.
+For COMSOL 6.3 MCP tasks, read /absolute/path/to/COMSOL_6_3_mcp_skill/skills/comsol-63-operations/SKILL.md first.
 ```
 
 ### Option D — read it directly

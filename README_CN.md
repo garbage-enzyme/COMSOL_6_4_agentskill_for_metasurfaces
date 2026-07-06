@@ -4,8 +4,6 @@
 
 一个 agent skill，教 AI 编码助手如何通过 [comsol MCP server](https://github.com/garbage-enzyme/COMSOL_Multiphysics_MCP_6_3_Calibrated)（MPh 1.3.1 standalone / `clientapi`）驱动 **COMSOL Multiphysics 6.3**，以及在 `src/tools/` 里写/改代码时如何应对 API 不匹配。
 
-> ⚠️ 仓库名是 `6_2`，但 skill 内容是为 **COMSOL 6.3 + MPh 1.3.1 standalone**（`clientapi` 包装层）校准的。6.2 下若用 `mph.Client(standalone)` 同样适用；5.x 的直接 `Model` API 不同。
-
 ## 兼容：opencode、Claude Code、Codex（以及任何读 AGENTS.md 的工具）
 
 本仓库遵循开放的 agent-skill 约定，**同一份** skill 内容可在三个 AI 编码工具间复用，无重复：
@@ -33,18 +31,18 @@
 opencode 从 `~/.config/opencode/skills/`（Windows 下 `%USERPROFILE%\.config\opencode\skills\`）自动加载 skill。把 skill 文件夹拷过去：
 
 ```bash
-git clone https://github.com/garbage-enzyme/COMSOL_6_2_mcp_skill.git
+git clone https://github.com/garbage-enzyme/COMSOL_6_3_mcp_skill.git
 mkdir -p ~/.config/opencode/skills
-cp -r COMSOL_6_2_mcp_skill/skills/comsol-63-operations ~/.config/opencode/skills/
+cp -r COMSOL_6_3_mcp_skill/skills/comsol-63-operations ~/.config/opencode/skills/
 ```
 
 Windows PowerShell：
 
 ```powershell
-git clone https://github.com/garbage-enzyme/COMSOL_6_2_mcp_skill.git
+git clone https://github.com/garbage-enzyme/COMSOL_6_3_mcp_skill.git
 $dest = "$env:USERPROFILE\.config\opencode\skills"
 New-Item -ItemType Directory -Path $dest -Force | Out-Null
-Copy-Item -Recurse "COMSOL_6_2_mcp_skill\skills\comsol-63-operations" $dest
+Copy-Item -Recurse "COMSOL_6_3_mcp_skill\skills\comsol-63-operations" $dest
 ```
 
 重启 opencode。skill 的 `description` frontmatter 会自动匹配 COMSOL 相关任务 —— 无需显式调用。
@@ -56,7 +54,7 @@ Copy-Item -Recurse "COMSOL_6_2_mcp_skill\skills\comsol-63-operations" $dest
 全局安装：把 `CLAUDE.md` 的 import 行拷进 `~/.claude/CLAUDE.md`：
 
 ```markdown
-@/absolute/path/to/COMSOL_6_2_mcp_skill/skills/comsol-63-operations/SKILL.md
+@/absolute/path/to/COMSOL_6_3_mcp_skill/skills/comsol-63-operations/SKILL.md
 ```
 
 ### 方式 C —— Codex CLI / Gemini CLI / Cursor（AGENTS.md）
@@ -66,7 +64,7 @@ Copy-Item -Recurse "COMSOL_6_2_mcp_skill\skills\comsol-63-operations" $dest
 Codex 全局安装：在 `~/.codex/AGENTS.md` 追加一行指针：
 
 ```markdown
-For COMSOL 6.3 MCP tasks, read /absolute/path/to/COMSOL_6_2_mcp_skill/skills/comsol-63-operations/SKILL.md first.
+For COMSOL 6.3 MCP tasks, read /absolute/path/to/COMSOL_6_3_mcp_skill/skills/comsol-63-operations/SKILL.md first.
 ```
 
 ### 方式 D —— 直接看
