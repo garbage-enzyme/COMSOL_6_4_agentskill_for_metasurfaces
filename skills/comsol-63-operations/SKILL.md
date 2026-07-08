@@ -246,7 +246,8 @@ ltr.set('lth', str(t_au))
 ## Zhou 2024 1D hybrid metagrating notes
 - Paper target: Zhou et al., IEEE Sensors Journal 24(13), 2024, DOI `10.1109/JSEN.2024.3400828`.
 - Structure: 1D Au grating plus aSi cladding. TM excites SPPs on Au; TE excites MaGMR in aSi.
-- Main missing input before precision matching: the paper's supplementary material, especially Fig. S1 for aSi/Au dielectric constants. Use Palik as a first pass only.
+- Supplementary material notes: Fig. S1 plots Palik-derived aSi/Au dielectric constants but does not provide a numeric table. Use Palik interpolation or digitize S1 for precision matching. First-pass aSi can be nearly lossless with `eps ~= 11.90`; Au must remain wavelength-dispersive.
+- SI controls: S2 flat dielectric/metal stack has no dual peaks; S3 W sweep strongly shifts TM but barely moves TE; S6 normal incidence and 8 degree oblique incidence along the ridge are nearly identical; S7 +/-25 nm random period/width errors weakly perturb spectra.
 - Targets:
   | Structure | P | W | H2 | H1 | TE peak | TM peak |
   | --- | --- | --- | --- | --- | --- | --- |
