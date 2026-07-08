@@ -13,7 +13,7 @@ It is a focused instruction document (with YAML frontmatter) that teaches coding
 Read `skills/comsol-63-operations/SKILL.md` **before** doing any of these:
 
 - Driving COMSOL 6.4 via the comsol MCP server (any `comsol_*` tool call).
-- Writing or modifying code in `C:\Users\陆星\COMSOL_Multiphysics_MCP\src\tools\`.
+- Writing or modifying code in the companion MCP server's `src/tools/` directory.
 - Debugging errors like `No matching overloads`, `Operation_cannot_be_created_in_this_context`, `'ComponentGeomListClient' object is not subscriptable`, or `'PhysicsFeatureClient' object has no attribute 'type'` on 6.4 standalone.
 
 The skill's frontmatter `description` is the matching signal for agents that support skill auto-loading (opencode, Claude Code). Codex reads AGENTS.md directly, so: **treat the skill file as required reading for COMSOL-related tasks.**

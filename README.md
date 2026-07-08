@@ -22,6 +22,7 @@ The single source of truth is `skills/comsol-63-operations/SKILL.md` (markdown +
 - **6.3 Electrostatics traps** — default `fsp1` (FreeSpace) domain feature ignores material `relpermittivity`; must add `ChargeConservation` + material node. Block boundary numbering is NOT 1–6 ↔ −x/+x/−y/+y/−z/+z (bnd 3 = z=0, bnd 4 = z=max). `Terminal` `V0` doesn't pin voltage — use `ElectricPotential`. Expression: `1[V]^2` is a parse error, must be `(1[V])^2`.
 - **Mesh & study pitfalls** — COMSOL doesn't auto-create a mesh sequence; study step type must use full names (`Stationary`, not `stat`).
 - **Capacitance verification recipe** — pure-Python (mph Client) and MCP-tool-flow end-to-end recipes. Verified: **C = 1.8593794414 pF** vs theory 1.8593794407 pF (err 4 × 10⁻¹⁰ pF).
+- **Wave Optics metasurface pitfalls** — `PeriodicStructure`, layered Drude boundaries, wavelength-parametric sweeps (`plistarr`), PML/periodic-port traps, and mesh/mode-selection diagnostics for MIM emitter studies.
 - **Debugging tips** — JPype reflection to probe clientapi overloads, `Box` selection to identify boundary numbers by coordinate, `m.evaluate('V')` field arrays.
 
 ## Install

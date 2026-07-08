@@ -22,6 +22,7 @@
 - **6.3 Electrostatics 陷阱** —— 默认 `fsp1` (FreeSpace) domain feature 用真空 ε₀，忽略材料 `relpermittivity`，必须加 `ChargeConservation` feature + 材料节点。Block 边界编号不是 1–6 ↔ −x/+x/−y/+y/−z/+z（bnd 3 = z=0 面，bnd 4 = z=最大值面）。`Terminal` 的 `V0` 不能正确约束电压 —— 用 `ElectricPotential`。表达式语法：`1[V]^2` 会报语法错误，必须 `(1[V])^2`。
 - **网格与求解陷阱** —— COMSOL 不自动创建 mesh 序列；study step type 必须用完整名（`Stationary`，不是 `stat`）。
 - **电容验证 recipe** —— 纯 Python（mph Client）和 MCP 工具流程两版平行板电容器端到端 recipe。验证结果：**C = 1.8593794414 pF**，理论值 1.8593794407 pF（误差 4 × 10⁻¹⁰ pF）。
+- **Wave Optics 超表面陷阱** —— `PeriodicStructure`、Layered Drude 边界、波长-参数扫描（`plistarr`）、PML/periodic-port 陷阱，以及 MIM emitter 的 mesh/mode-selection 诊断。
 - **调试技巧** —— JPype 反射探测 clientapi 重载、用 `Box` selection 按坐标识别边界编号、`m.evaluate('V')` 取场数组。
 
 ## 安装
