@@ -10,11 +10,11 @@ This repo uses the open agent-skill conventions so the **same** skill content wo
 
 | Tool | Entry file it reads | How the skill loads |
 | --- | --- | --- |
-| **opencode** | `skills/comsol-63-operations/SKILL.md` | Auto-loaded from `~/.config/opencode/skills/` when the task matches the frontmatter `description` |
-| **Claude Code** | `CLAUDE.md` (project root) | `CLAUDE.md` contains `@skills/comsol-63-operations/SKILL.md`, an import that injects the full skill body into context |
-| **Codex CLI** (and any AGENTS.md reader: Gemini CLI, Cursor) | `AGENTS.md` (project root) | `AGENTS.md` is read automatically; it instructs the agent to open `skills/comsol-63-operations/SKILL.md` for COMSOL tasks |
+| **opencode** | `skills/comsol-64-operations/SKILL.md` | Auto-loaded from `~/.config/opencode/skills/` when the task matches the frontmatter `description` |
+| **Claude Code** | `CLAUDE.md` (project root) | `CLAUDE.md` contains `@skills/comsol-64-operations/SKILL.md`, an import that injects the full skill body into context |
+| **Codex CLI** (and any AGENTS.md reader: Gemini CLI, Cursor) | `AGENTS.md` (project root) | `AGENTS.md` is read automatically; it instructs the agent to open `skills/comsol-64-operations/SKILL.md` for COMSOL tasks |
 
-The single source of truth is `skills/comsol-63-operations/SKILL.md` (markdown + YAML frontmatter). `CLAUDE.md` and `AGENTS.md` are thin pointers — no content is duplicated.
+The single source of truth is `skills/comsol-64-operations/SKILL.md` (markdown + YAML frontmatter). `CLAUDE.md` and `AGENTS.md` are thin pointers — no content is duplicated.
 
 ## What the skill covers
 
@@ -34,7 +34,7 @@ opencode auto-loads skills from `~/.config/opencode/skills/` (`%USERPROFILE%\.co
 ```bash
 git clone https://github.com/garbage-enzyme/COMSOL_6_4_mcp_skill.git
 mkdir -p ~/.config/opencode/skills
-cp -r COMSOL_6_4_mcp_skill/skills/comsol-63-operations ~/.config/opencode/skills/
+cp -r COMSOL_6_4_mcp_skill/skills/comsol-64-operations ~/.config/opencode/skills/
 ```
 
 Windows PowerShell:
@@ -43,34 +43,34 @@ Windows PowerShell:
 git clone https://github.com/garbage-enzyme/COMSOL_6_4_mcp_skill.git
 $dest = "$env:USERPROFILE\.config\opencode\skills"
 New-Item -ItemType Directory -Path $dest -Force | Out-Null
-Copy-Item -Recurse "COMSOL_6_4_mcp_skill\skills\comsol-63-operations" $dest
+Copy-Item -Recurse "COMSOL_6_4_mcp_skill\skills\comsol-64-operations" $dest
 ```
 
 Restart opencode. The skill's `description` frontmatter will match COMSOL-related tasks automatically — no explicit invocation needed.
 
 ### Option B — Claude Code (project-level)
 
-Drop the repo (or just `CLAUDE.md` + `skills/`) into your project. Claude Code reads `CLAUDE.md` from the project root on startup, and the `@skills/comsol-63-operations/SKILL.md` import pulls the skill body into context.
+Drop the repo (or just `CLAUDE.md` + `skills/`) into your project. Claude Code reads `CLAUDE.md` from the project root on startup, and the `@skills/comsol-64-operations/SKILL.md` import pulls the skill body into context.
 
 For a personal (global) install, copy `CLAUDE.md`'s import line into `~/.claude/CLAUDE.md`:
 
 ```markdown
-@/absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-63-operations/SKILL.md
+@/absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-64-operations/SKILL.md
 ```
 
 ### Option C — Codex CLI / Gemini CLI / Cursor (AGENTS.md)
 
-These tools read `AGENTS.md` from the project root automatically. Clone the repo into (or beside) the project you're working in, and `AGENTS.md` will tell the agent to open `skills/comsol-63-operations/SKILL.md` whenever a COMSOL task comes up.
+These tools read `AGENTS.md` from the project root automatically. Clone the repo into (or beside) the project you're working in, and `AGENTS.md` will tell the agent to open `skills/comsol-64-operations/SKILL.md` whenever a COMSOL task comes up.
 
 For a global Codex install, append a pointer line to `~/.codex/AGENTS.md`:
 
 ```markdown
-For COMSOL 6.4+ MCP tasks, read /absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-63-operations/SKILL.md first.
+For COMSOL 6.4+ MCP tasks, read /absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-64-operations/SKILL.md first.
 ```
 
 ### Option D — read it directly
 
-The skill is a single markdown file. Open `skills/comsol-63-operations/SKILL.md` and use it as a reference when writing COMSOL MCP code or driving the server by hand.
+The skill is a single markdown file. Open `skills/comsol-64-operations/SKILL.md` and use it as a reference when writing COMSOL MCP code or driving the server by hand.
 
 ## Prerequisites
 
@@ -87,7 +87,7 @@ The skill itself has no dependencies — it's just instructions for the agent.
 ```
 .
 ├── skills/
-│   └── comsol-63-operations/
+│   └── comsol-64-operations/
 │       └── SKILL.md          # single source of truth (markdown + frontmatter)
 ├── CLAUDE.md                 # Claude Code entry: @import the skill
 ├── AGENTS.md                 # Codex / Gemini CLI / Cursor entry: pointer

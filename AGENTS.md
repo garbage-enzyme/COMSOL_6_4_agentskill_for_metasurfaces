@@ -3,14 +3,14 @@
 This repository ships an **agent skill** at:
 
 ```
-skills/comsol-63-operations/SKILL.md
+skills/comsol-64-operations/SKILL.md
 ```
 
 It is a focused instruction document (with YAML frontmatter) that teaches coding agents how to drive **COMSOL Multiphysics 6.4+** through the [comsol MCP server](https://github.com/garbage-enzyme/COMSOL_Multiphysics_MCP_6_4_Calibrated) with MPh 1.3.1 standalone / `clientapi`, and how to write or fix code in `src/tools/` when the clientapi wrapper's API differs from the direct `com.comsol.model.Model` API. Also covers geometry boundary probing (getUpDown/faceX/faceNormal), fin Form Assembly (imprint=True, createpairs=False), Wave Optics ewfd periodic metasurface setup with MIM Drude LayeredTransition BC.
 
 ## When to read it
 
-Read `skills/comsol-63-operations/SKILL.md` **before** doing any of these:
+Read `skills/comsol-64-operations/SKILL.md` **before** doing any of these:
 
 - Driving COMSOL 6.4+ via the comsol MCP server (any `comsol_*` tool call).
 - Writing or modifying code in the companion MCP server's `src/tools/` directory.

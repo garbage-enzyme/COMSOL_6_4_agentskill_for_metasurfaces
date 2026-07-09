@@ -1,5 +1,5 @@
 ---
-name: comsol-63-operations
+name: comsol-64-operations
 description: COMSOL Multiphysics 6.4+ with MPh 1.3.1 standalone (clientapi) 操作指南。Use when driving COMSOL 6.4+ via the comsol MCP server (mph.Client standalone) or writing/fixing code in the COMSOL_Multiphysics_MCP src/tools/ directory. Covers clientapi vs direct-Model API differences, geometry boundary probing (getUpDown/faceX/faceNormal), fin Form Assembly (imprint=True, createpairs=False), Electrostatics ChargeConservation trap, Heat Transfer transient pitfalls (TemperatureBoundary / Solid k,rho,Cp / Transient tlist), Wave Optics ewfd periodic metasurface setup (PeriodicStructure/Layered Impedance BC/Drude/LayeredMaterial+LML 4级材料层次/wl参数扫描陷阱), 1D hybrid metagrating Au/aSi MaGMR-SPP thermal emitters, Block boundary numbering, mesh/study pitfalls, MIM paper baseline verification recipe.
 ---
 
