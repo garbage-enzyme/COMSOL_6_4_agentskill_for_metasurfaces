@@ -433,6 +433,29 @@ field profiles if peak assignment is ambiguous.
 - **H2 sweep**: both TM and TE peaks nearly independent of H2 around 0.1 µm
   (robustness check only).
 
+### PeriodicStructure incidence angle API (verified 2026-07-09)
+For Wave Optics `PeriodicStructure`, do **not** look for `Theta0`/`Phi0` on `pport1`. Official COMSOL examples expose the incidence-angle fields as `alpha1_inc` and `alpha2_inc` on the Periodic Structure and mirrored Periodic Port subfeatures.
+
+Verified references:
+- `frequency_selective_surface_csrr.mph`: GUI `Periodic Structure > Port Mode Settings > alpha1 = theta`; clientapi shows `ps1.alpha1_inc = theta`, `pport1.alpha1_inc = theta`, `pport2.alpha1_inc = theta`.
+- `scatterer_on_substrate.mph`: GUI `alpha1 = theta`, `alpha2 = phi`; clientapi shows `ps1.alpha1_inc = theta`, `ps1.alpha2_inc = phi`, mirrored on `pport1/pport2`.
+- Zhou2025 QBIC smoke test: `theta = 0/20/40 deg`, `phi=0`, `wl=4.253 um`; `theta_eval_deg` matched requested values and emissivity changed `0.923969 -> 0.498725 -> 0.109854`, so the angle affected the incident wave.
+
+Minimal staged setup:
+```python
+jm.param().set("theta", f"{theta_deg}[deg]")
+jm.param().set("phi", f"{phi_deg}[deg]")
+ps = comp.physics().get("ewfd").feature().get("ps1")
+for obj in [ps, ps.feature().get("pport1"), ps.feature().get("pport2")]:
+    obj.set("alpha1_inc", "theta")
+    obj.set("alpha2_inc", "phi")
+ps.set("Polarization", "LinearPol")
+ps.set("LinearPol", "S")  # or P, depending on rdir1 convention
+```
+
+For staged angle sweeps, set `theta/phi` as model parameters before each one-wavelength solve. It is not necessary to use Wavelength-step auxiliary sweep for angle if the solve is staged. Keep `wl` as the wavelength parameter when material expressions use `wl`.
+
+Runtime reference from Zhou2025 local_060: one `(theta, wl)` solve point took about 10.7-14.1 s; a 28-30 point scan for one theta is roughly 5-6 min plus setup/save overhead.
 ## Debugging tips
 - Probe clientapi methods/overloads: `for mth in obj.getClass().getMethods(): if str(mth.getName())=='create': ...` (JPype reflection, note `str(p.getName())` to avoid Java String errors).
 - Geometry bbox: `g.getBoundingBox()` returns `[xmin,xmax,ymin,ymax,zmin,zmax]`.
