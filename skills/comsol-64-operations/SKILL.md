@@ -250,6 +250,31 @@ Three MIM patch workflow helper tools, end-to-end tested on MIM_paper_baseline_v
 - In one verified In:CdO MIM case, `hmax=0.015*wl` probes moved `n=2e20` and `1.5e20` back to the expected main peaks, but `n=1e20` still favored a longer-wave peak. Do not claim full low-density agreement without field-profile or dielectric-function evidence.
 - COMSOL memory sawtooth cycles during a sweep often correspond to one wavelength point: assembly/factorization raises memory, result write/free lowers it. Use as a progress hint only.
 
+### Local mesh refinement (verified on Zhou 2025 QBIC 4-pillar supercell)
+For 3D periodic structures with expensive narrow features (high Q resonances), use **selective local refinement** to keep element count low:
+- Keep air domains (surrounding block) at coarse global size (e.g. `hmax=0.16*wl`)
+- Apply a custom `Size` feature (`sz1`) only to metal + pillar domains
+- Verified recipe (Zhou 2025 QBIC, 4-pillar supercell, 11 domains):
+  ```python
+  air_doms = [1, 3]        # air below + surroundings
+  local_doms = [2,4,5,6,7,8,9,10,11]  # Au + SiO2 + aSi pillars
+
+  size = mesh.feature("size")
+  size.set("custom", "on"); size.set("hmax", "0.16*wl")
+  size.set("hmin", "0.035*wl")
+
+  sz1 = mesh.feature().create("sz1", "Size")
+  sz1.set("custom", "on"); sz1.set("hmax", "0.06*wl")
+  sz1.set("hmaxactive", "on"); sz1.set("hmin", "0.012*wl")
+  sz1.set("hminactive", "on")
+  sz1.selection().geom("geom1", 3)
+  sz1.selection().set(jarr_i(local_doms))
+  ```
+- Result: 18k elements vs 64k global at same pillar resolution, ~3x faster
+- **Key property difference**: default `size` node uses `hmax`/`hmin` directly (no `active` suffix); custom `Size` (`sz1`) uses `hmaxactive`/`hminactive` suffixes.
+- For convergence: mesh shifts peak to longer λ (~0.75nm per step from 0.08→0.06→0.04*wl). Always re-find peak after mesh change.
+- 0.04*wl on 220k elements + 392k DOF needs ~48+ GB RAM — avoid global 0.04*wl for production sweeps. Use 0.06*wl production + 0.04*wl single-point sanity check.
+
 ### Final-check addendum
 - In a verified In:CdO MIM run, focused fine sweeps moved one mid-density point back to the paper peak and confirmed another point's higher FEM global peak within tolerance. Use focused fine sweeps before calling a side peak physical or spurious.
 - Point-field profiles at competing wavelengths can show whether peaks belong to the same mode family. Similar field distributions imply a method/boundary-condition residual rather than a simple material-parameter error.
