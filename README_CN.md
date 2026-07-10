@@ -10,11 +10,11 @@
 
 | 工具 | 它读的入口文件 | skill 如何加载 |
 | --- | --- | --- |
-| **opencode** | `skills/comsol-64-operations/SKILL.md` | 从 `~/.config/opencode/skills/` 自动加载，任务匹配 frontmatter `description` 时触发 |
-| **Claude Code** | `CLAUDE.md`（项目根） | `CLAUDE.md` 内含 `@skills/comsol-64-operations/SKILL.md`，import 语法把完整 skill 注入上下文 |
-| **Codex CLI**（及任何读 AGENTS.md 的工具：Gemini CLI、Cursor） | `AGENTS.md`（项目根） | `AGENTS.md` 被自动读取，其中指示 agent 在 COMSOL 任务时打开 `skills/comsol-64-operations/SKILL.md` |
+| **opencode** | `skills/comsol-64-metasurface/SKILL.md` | 从 `~/.config/opencode/skills/` 自动加载，任务匹配 frontmatter `description` 时触发 |
+| **Claude Code** | `CLAUDE.md`（项目根） | `CLAUDE.md` 内含 `@skills/comsol-64-metasurface/SKILL.md`，import 语法把完整 skill 注入上下文 |
+| **Codex CLI**（及任何读 AGENTS.md 的工具：Gemini CLI、Cursor） | `AGENTS.md`（项目根） | `AGENTS.md` 被自动读取，其中指示 agent 在 COMSOL 任务时打开 `skills/comsol-64-metasurface/SKILL.md` |
 
-唯一的内容源是 `skills/comsol-64-operations/SKILL.md`（markdown + YAML frontmatter）。`CLAUDE.md` 和 `AGENTS.md` 是薄指针 —— 无内容重复。
+唯一的内容源是 `skills/comsol-64-metasurface/SKILL.md`（markdown + YAML frontmatter）。`CLAUDE.md` 和 `AGENTS.md` 是薄指针 —— 无内容重复。
 
 ## Skill 覆盖内容
 
@@ -34,7 +34,7 @@ opencode 从 `~/.config/opencode/skills/`（Windows 下 `%USERPROFILE%\.config\o
 ```bash
 git clone https://github.com/garbage-enzyme/COMSOL_6_4_mcp_skill.git
 mkdir -p ~/.config/opencode/skills
-cp -r COMSOL_6_4_mcp_skill/skills/comsol-64-operations ~/.config/opencode/skills/
+cp -r COMSOL_6_4_mcp_skill/skills/comsol-64-metasurface ~/.config/opencode/skills/
 ```
 
 Windows PowerShell：
@@ -43,34 +43,34 @@ Windows PowerShell：
 git clone https://github.com/garbage-enzyme/COMSOL_6_4_mcp_skill.git
 $dest = "$env:USERPROFILE\.config\opencode\skills"
 New-Item -ItemType Directory -Path $dest -Force | Out-Null
-Copy-Item -Recurse "COMSOL_6_4_mcp_skill\skills\comsol-64-operations" $dest
+Copy-Item -Recurse "COMSOL_6_4_mcp_skill\skills\comsol-64-metasurface" $dest
 ```
 
 重启 opencode。skill 的 `description` frontmatter 会自动匹配 COMSOL 相关任务 —— 无需显式调用。
 
 ### 方式 B —— Claude Code（项目级）
 
-把仓库（或只 `CLAUDE.md` + `skills/`）放进你的项目。Claude Code 启动时从项目根读 `CLAUDE.md`，其中的 `@skills/comsol-64-operations/SKILL.md` import 会把 skill 内容注入上下文。
+把仓库（或只 `CLAUDE.md` + `skills/`）放进你的项目。Claude Code 启动时从项目根读 `CLAUDE.md`，其中的 `@skills/comsol-64-metasurface/SKILL.md` import 会把 skill 内容注入上下文。
 
 全局安装：把 `CLAUDE.md` 的 import 行拷进 `~/.claude/CLAUDE.md`：
 
 ```markdown
-@/absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-64-operations/SKILL.md
+@/absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-64-metasurface/SKILL.md
 ```
 
 ### 方式 C —— Codex CLI / Gemini CLI / Cursor（AGENTS.md）
 
-这些工具会自动读项目根的 `AGENTS.md`。把仓库 clone 进（或旁边）你正在做的项目，`AGENTS.md` 会在 COMSOL 任务出现时指示 agent 打开 `skills/comsol-64-operations/SKILL.md`。
+这些工具会自动读项目根的 `AGENTS.md`。把仓库 clone 进（或旁边）你正在做的项目，`AGENTS.md` 会在 COMSOL 任务出现时指示 agent 打开 `skills/comsol-64-metasurface/SKILL.md`。
 
 Codex 全局安装：在 `~/.codex/AGENTS.md` 追加一行指针：
 
 ```markdown
-For COMSOL 6.4+ MCP tasks, read /absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-64-operations/SKILL.md first.
+For COMSOL 6.4+ MCP tasks, read /absolute/path/to/COMSOL_6_4_mcp_skill/skills/comsol-64-metasurface/SKILL.md first.
 ```
 
 ### 方式 D —— 直接看
 
-skill 就是单个 markdown 文件。打开 `skills/comsol-64-operations/SKILL.md`，当写 COMSOL MCP 代码或手动驱动 server 时当参考用。
+skill 就是单个 markdown 文件。打开 `skills/comsol-64-metasurface/SKILL.md`，当写 COMSOL MCP 代码或手动驱动 server 时当参考用。
 
 ## 前提条件
 
@@ -87,7 +87,7 @@ skill 本身无依赖 —— 它只是给 agent 的指令。
 ```
 .
 ├── skills/
-│   └── comsol-64-operations/
+│   └── comsol-64-metasurface/
 │       └── SKILL.md          # 唯一内容源（markdown + frontmatter）
 ├── CLAUDE.md                 # Claude Code 入口：@import skill
 ├── AGENTS.md                 # Codex / Gemini CLI / Cursor 入口：指针
