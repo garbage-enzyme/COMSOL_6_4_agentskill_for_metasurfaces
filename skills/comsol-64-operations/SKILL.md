@@ -241,9 +241,27 @@ Three MIM patch workflow helper tools, end-to-end tested on MIM_paper_baseline_v
 - SI-anchored `wp_fit + muOpt + m*` checks did not fully fix low-density In:CdO MIM peak shifts in FEM. Treat missing `muOpt` as a damping uncertainty, not an automatic peak-position root cause.
 
 ### PML trap with PeriodicStructure
-- Bottom PML can be created with `coordSystem().create("pml1","PML")`, `pml.selection().set([pml_domain])`, `pml.set("d","z")`.
+- Create a Cartesian PML as a component coordinate system: `pml=comp.coordSystem().create("pml1","PML")`, `pml.selection().set(pml_domains)`, `pml.set("ScalingType","Cartesian")`. It is not an `ewfd` domain feature.
 - Do not assume this works with `PeriodicStructure`: `ps1` creates locked periodic port subfeatures on external boundaries. The lowest port can move to the PML bottom, cannot be disabled through clientapi, and PML side faces can break Floquet copy meshes or leave port/PML variables undefined.
-- Keep the finite substrate + periodic port workflow unless replacing the whole port setup.
+- Keep the finite substrate + periodic port workflow unless replacing the whole compound feature with manual Floquet conditions.
+
+### Manual Floquet + scattered field + PML (verified headless)
+- Do not interpret `Unknown feature ID` as a `ModelClient` bridge limitation until checking an official Application Library model. Load the closest `.mph`, export it with `model_save(format="Java")`, and copy the exact feature types and property names from the generated Java source.
+- In Wave Optics 6.4, use these exact clientapi calls:
+  ```python
+  ewfd.prop("BackgroundField").set("SolveFor", "scatteredField")
+  ewfd.prop("BackgroundField").set("Eb", jarr_s(["0", "exp(j*ewfd.k0*z)", "0"]))
+  sbc = ewfd.feature().create("sctr1", "Scattering", 2)
+  fpc = ewfd.feature().create("fpc1", "PeriodicCondition", 2)
+  fpc.set("PeriodicType", "Floquet")
+  fpc.set("kFloquet", jarr_s(["0", "0", "0"]))
+  csc = ewfd.feature().create("csc1", "CrossSectionCalculation", 3)
+  ```
+- `BackgroundField` is a physics property group, not a child feature. The scattering boundary type is `Scattering`, not `ScatteringBoundaryCondition`; Floquet uses vector property `kFloquet`, not separate `kFloquetx/y/z` properties.
+- Mesh every corresponding periodic source face, then copy all source faces to the matching destination faces before `FreeTet`; do not copy only the first face when the PML creates multiple side segments.
+- Validate absorption two ways: integrate `ewfd.Qh` and divide by incident power, then compare against `ewfd.sigmaAbs/unit_cell_area` from `CrossSectionCalculation`. Treat agreement as a normalization check, not proof that the physical spectrum matches the paper.
+- Verified 6.4 standalone smoke test: 8 domains, 43 boundaries, Cartesian PML domains `[1,6]`, x/y manual Floquet pairs, 7842 elements, and a successful `6.0 um` solve. Both absorption paths returned `0.0127`; no GUI was opened.
+- Keep the distinction explicit: `PeriodicStructure + PML` can fail because locked `fpc`/periodic-port selections expand onto PML faces, while `manual PeriodicCondition + scattered field + PML` is operational through `ModelClient`.
 
 ### Mesh and mode selection
 - High-density MIM spectra can be stable at moderate fine mesh, while lower densities may select long-wave side modes unless focused finer probes are run near the expected Fig.2 peak.
