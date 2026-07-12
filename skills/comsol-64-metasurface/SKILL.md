@@ -140,7 +140,17 @@ Reproducing Au-Al₂O₃-Au MIM metasurface thermal emitter (Chen et al. *Int. J
 - After setting `rdir1`, call `ps.runCommand("addDiffractionOrders")` when diffraction orders are needed.
 
 ### Long standalone sweep robustness
-- Prefer staged one-point solves for fragile wavelength sweeps: set `jm.param().set("wl", value)`, run `jm.study("std1").run()`, evaluate with `EvalGlobal`, append CSV immediately. This avoids COMSOL/mph outer-sweep evaluation surprises such as only seeing the last point.
+- Locate a resonance coarsely, refine an interior bracket, then compare every
+  mesh at its own resolved peak. Skip duplicate wavelengths between stages.
+- Prefer staged one-point solves for fragile wavelength sweeps: set
+  `jm.param().set("wl", value)`, run `jm.study("std1").run()`, evaluate with
+  `EvalGlobal`, and persist the row immediately. This avoids COMSOL/mph
+  outer-sweep evaluation surprises such as only seeing the last point.
+- When a failed native solve can retain memory or corrupt process state, run each
+  wavelength in an isolated subprocess. Validate the returned row, append and
+  `flush`+`fsync` it, then let the process exit before starting the next point.
+  Resume only verified rows with the same configuration identity; retry error or
+  partial rows.
 - For production multi-point runs in a compatible same-host setup, prefer the H1 job worker above; retain direct scripts for controlled research drivers and diagnostics.
 - Standalone `mph.Client` scripts may finish saving files but not exit because JVM/helper threads stay alive. After all outputs are flushed and saved, `os._exit(0)` is acceptable for long-running handoff scripts. A standalone client with `client.port is None` is not remotely connected: call `client.clear()` if needed, but do not call `client.disconnect()`.
 
@@ -324,7 +334,9 @@ For 3D periodic structures with expensive narrow features (high Q resonances), u
 - Result: 18k elements vs 64k global at same pillar resolution, ~3x faster
 - **Key property difference**: default `size` node uses `hmax`/`hmin` directly (no `active` suffix); custom `Size` (`sz1`) uses `hmaxactive`/`hminactive` suffixes.
 - For convergence: mesh shifts peak to longer λ (~0.75nm per step from 0.08→0.06→0.04*wl). Always re-find peak after mesh change.
-- 0.04*wl on 220k elements + 392k DOF needs ~48+ GB RAM — avoid global 0.04*wl for production sweeps. Use 0.06*wl production + 0.04*wl single-point sanity check.
+- Avoid promoting a globally refined mesh directly to a production sweep. Run a
+  mesh-only preflight, apply the calibrated memory gate below, and use the finer
+  mesh first for a small bracket or single-point diagnostic.
 
 ### Direct-solver memory gates (portable method)
 
