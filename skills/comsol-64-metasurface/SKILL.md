@@ -50,6 +50,10 @@ How to drive COMSOL 6.4+ via the comsol MCP server, and clientapi pitfalls you m
 
 ## Durable H1 jobs (same-host multi-agent control)
 
+- Treat multi-agent coordination as an optional same-host enhancement, never a
+  prerequisite. Detect the live tools and shared runtime first. On a host without
+  them, use one operator, one solver owner, and a resumable standalone driver with
+  the same immutable spec, durable rows, collision check, and cleanup evidence.
 - Use `solver_status` before every heavy action. If an active lease or external MPh/COMSOL process is reported, do not call `mph.Client()` or `comsol_start`.
 - For multi-point production work, prefer `job_submit(staged_sweep spec)` over a blocking MCP sweep. The worker owns the global solver lease; submitter agents own only control-plane state.
 - Agents on the **same Windows host** may share a job only when they use the same ASCII runtime root (`D:\comsol_runtime` when D: exists, otherwise `C:\ProgramData\comsol_mcp_runtime`), can see the same source MPH path, and run H1-capable MCP code. Set `COMSOL_MCP_RUNTIME_DIR` to select another shared local root. Any agent may use `job_status`, `job_tail`, or `solver_status`; `job_resume` revalidates the immutable spec and ownership evidence.
@@ -180,6 +184,18 @@ Reproducing Au-Al₂O₃-Au MIM metasurface thermal emitter (Chen et al. *Int. J
   Resume only verified rows with the same configuration identity; retry error or
   partial rows.
 - For production multi-point runs in a compatible same-host setup, prefer the H1 job worker above; retain direct scripts for controlled research drivers and diagnostics.
+- Do not attach an unattended production solve to an agent/tool invocation whose
+  lifetime may end independently of the solver. Keep the duration threshold in
+  project-local policy. When it triggers, validate the resumable driver with
+  `py_compile` and a zero-work dry run, generate a standalone foreground
+  launcher, and let the operator start it after checking solver ownership.
+- Make the launcher validate executable/driver paths and duplicate starts, set
+  declared resource and wall-time gates, select the working directory, print the
+  durable log path, and keep the console open on exit. Admit only whole stages
+  that fit the remaining wall budget plus margin; never truncate a stage silently.
+- On Windows PowerShell 5.1, avoid non-ASCII absolute path literals in UTF-8 files
+  without a BOM. Derive sibling paths from `$PSScriptRoot` (or emit a verified
+  BOM) so the launcher remains valid under legacy script decoding.
 - Standalone `mph.Client` scripts may finish saving files but not exit because JVM/helper threads stay alive. After all outputs are flushed and saved, `os._exit(0)` is acceptable for long-running handoff scripts. A standalone client with `client.port is None` is not remotely connected: call `client.clear()` if needed, but do not call `client.disconnect()`.
 
 ### Port failure root cause + solution (PDF docs p151, p179-181)
@@ -681,6 +697,13 @@ one internal normalization.
 - Match the paper's extraction method. Fano, Lorentzian, absolute-half, and
   half-prominence widths are not interchangeable. Save fit residuals and the
   fitted linewidth, and compare every mesh at its own bracketed peak.
+- Use the same baseline rule and spectral support for every mesh. Deriving a
+  half-prominence baseline from unequal scan-window endpoints can manufacture a
+  false Q-convergence failure even when a common absolute-half width agrees.
+  Persist the baseline value, threshold, crossing locations, and fit definition.
+- For narrow mirrored or symmetry-related spectra, compare fitted own-peak
+  centers and aligned curves before interpreting fixed-wavelength amplitude
+  residuals; a small peak shift can create a large pointwise difference.
 - Adding material loss cannot increase total Q. If a simulated Q is already below
   the paper, do not claim that importing a positive loss term will fix it; audit
   geometry, radiation coupling, mesh, mode assignment, and fit definition first.
@@ -709,6 +732,15 @@ one internal normalization.
   old row silently satisfy a new configuration.
 - Use one wavelength per solve, append + flush + `fsync` immediately, and checkpoint
   the working model. This contract makes long runs auditable and resumable.
+- Before publishing a reusable skill, launcher pattern, report, or example,
+  remove usernames, home directories, absolute local paths, host-specific memory
+  or duration thresholds, project-only script names, credentials, and unpublished
+  result values. Replace them with relative artifact IDs or explicit placeholders;
+  keep operational values in private project/runtime state.
+- Treat raw artifact paths as potentially identifying metadata. Preserve the
+  original locally for provenance, but export a sanitized manifest containing
+  relative paths, configuration hashes, and only the evidence authorized for
+  disclosure.
 
 ### Use a common-baseline bridge before explaining cross-method peak offsets
 
@@ -748,6 +780,9 @@ one internal normalization.
 - Stop at that gate and hand the exact PNG/array paths, slice definitions, color
   limits, and numerical summary to Codex or another image-capable agent. Require a
   written visual assessment before assigning a mode or promoting figures to a report.
+- If no image-capable agent is available on the host, preserve a sanitized visual
+  evidence bundle and ask the operator to review it in a capable environment.
+  Do not make the visual claim locally merely to keep the workflow moving.
 
 ### Solver ownership and audit order
 
