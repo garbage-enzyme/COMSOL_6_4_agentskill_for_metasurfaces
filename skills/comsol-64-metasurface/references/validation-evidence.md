@@ -7,6 +7,7 @@
 - Power closure and material loss
 - Wavelength synchronization
 - Provenance and source integrity
+- Reproduction scope and stopping rules
 - Peak finding and mesh convergence
 - Field artifacts and visual review
 - Cross-method comparison
@@ -99,6 +100,30 @@ Every row or artifact should include:
 Never mix rows from different geometry, materials, mesh, normalization, or
 selection definitions in one configuration. Re-hash the source after clone
 cleanup.
+
+## Reproduction scope and stopping rules
+
+Record the caller's requested evidence tier before scheduling expensive sweeps:
+
+- For a core-mechanism reproduction, require the central spectrum or response,
+  contrast between the relevant channels, passive and synchronized raw evidence,
+  own-peak mesh convergence at the design point, and sparse signed branch checks
+  at normal, intermediate, and endpoint settings on the relevant paths.
+- For figure-by-figure reproduction, add only the continuous grids and rendered
+  artifacts needed by the named figures.
+- For a new or publication-grade claim, add the broader convergence, uncertainty,
+  alternative-model, and continuous-domain evidence required by that claim.
+
+Do not make a dense parameter map an automatic acceptance gate. If sparse data
+already establish the caller's declared claim, stop or use an offline table or
+line plot unless the caller explicitly requests continuous-bandwidth evidence or
+figure matching. Conversely, never infer continuous flatness, angular extent, or
+branch absence from sparse points. Treat presentation volume and scientific
+necessity as separate decisions.
+
+Have a preliminary summarizer report exact artifact identities, raw extrema,
+validation failures, and unresolved boundaries. Let a separate reviewer apply
+the final acceptance policy; a summary is not itself a scientific verdict.
 
 ## Peak finding and convergence
 

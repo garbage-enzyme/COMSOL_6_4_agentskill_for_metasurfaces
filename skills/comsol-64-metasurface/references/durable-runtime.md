@@ -115,6 +115,15 @@ Skip completed exact identities before setting parameters. Admit only whole
 stages that fit the remaining wall budget plus margin. Keep control polling and
 durable-row callbacks bounded so cancellation cannot starve.
 
+Never edit a driver or child script that an active parent process may import or
+spawn later. Stop the owner at a durable boundary, defer the change, or create a
+new versioned path with new outputs and hashes.
+
+For disk-light point solves, allow successful point models to be removed only
+after the child evidence and matching aggregate row have both been flushed and
+`fsync`ed. Retain failed-point models and preserve the deletion policy in the
+run provenance.
+
 ## Resource admission and telemetry
 
 Require an explicit caller policy. Do not create machine-specific defaults in a
