@@ -1,6 +1,6 @@
 ---
 name: comsol-64-metasurface
-description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 standalone/clientapi operations for MCP development, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, evidence validation, and production hardening. Use when driving COMSOL through an MCP server or mph.Client, writing or reviewing COMSOL MCP tools, debugging clientapi/periodic-mesh/port/material/study failures, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
+description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 standalone/clientapi operations for MCP development, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, solver-independent FEM/RCWA reproduction planning, evidence validation, and production hardening. Use when driving COMSOL through an MCP server or mph.Client, choosing whether COMSOL or RCWA is sufficient for a periodic-scattering reproduction, writing or reviewing COMSOL MCP tools, debugging clientapi/periodic-mesh/port/material/study failures, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
 ---
 
 # COMSOL 6.4+ operations

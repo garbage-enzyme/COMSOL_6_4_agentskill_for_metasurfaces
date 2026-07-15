@@ -8,6 +8,7 @@
 - Wavelength synchronization
 - Provenance and source integrity
 - Reproduction scope and stopping rules
+- Solver choice and effort-ranked follow-up
 - Peak finding and mesh convergence
 - Field artifacts and visual review
 - Cross-method comparison
@@ -134,6 +135,46 @@ necessity as separate decisions.
 Have a preliminary summarizer report exact artifact identities, raw extrema,
 validation failures, and unresolved boundaries. Let a separate reviewer apply
 the final acceptance policy; a summary is not itself a scientific verdict.
+
+## Solver choice and effort-ranked follow-up
+
+Choose a solver from the evidence required by the reproduced claim, not from a
+preference for one product. For linear periodic scattering, an RCWA result may
+serve as the primary or sole reproduction when it uses the exact declared
+geometry, materials, incidence, and lattice; reports passive raw `R/T/A`; brackets
+each accepted own peak; and converges Fourier orders, shape discretization, peak
+amplitude, and linewidth to the caller's tolerance. Label the result as RCWA
+reproduction rather than implying that FEM was run.
+
+Require FEM or another volumetric method when the claim depends on quantities
+that the selected RCWA implementation cannot validate, such as per-domain loss,
+arbitrary three-dimensional or nonperiodic geometry, multiphysics coupling,
+specific volume-field slices, or a competing branch that remains ambiguous after
+progressive RCWA convergence. Do not rerun a second solver merely for software
+uniformity after the requested reproduction tier is already supported.
+
+Rank optional follow-up work by time to decisive evidence:
+
+1. offline parsing, hashes, summary tables, and rejection of stale artifacts;
+2. bounded boundary extension, a few next-order points, or a narrow own-peak
+   convergence check;
+3. a small independent-method bridge or sparse normal/intermediate/endpoint
+   branch matrix;
+4. broad high-order scans, dense maps, exhaustive uncertainty, and
+   publication-grade alternative models.
+
+Estimate total implementation time from measured per-point runtime, the bounded
+number of new points, setup/preflight, analysis, and archival work. State
+uncertainty when order growth or direct-solver memory scaling is nonlinear, and
+re-estimate after the smallest preflight. Prefer the shortest task that closes a
+high-impact evidence gap. Stop when the caller's reproduction tier is satisfied;
+do not make a dense heatmap, a COMSOL rerun, or a figure-by-figure reconstruction
+an implicit requirement.
+
+Keep solver-specific scripts and outputs distinguishable, and mark every branch
+or dataset as accepted, diagnostic, superseded, quarantined, or unresolved. A
+low-order RCWA non-detection, a scan-boundary maximum, or a fixed-wavelength
+amplitude does not justify a negative modal verdict.
 
 ## Peak finding and convergence
 
