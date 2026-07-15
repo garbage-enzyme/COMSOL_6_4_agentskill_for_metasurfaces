@@ -101,6 +101,16 @@ Never mix rows from different geometry, materials, mesh, normalization, or
 selection definitions in one configuration. Re-hash the source after clone
 cleanup.
 
+For validation matrices, each result row must bind the immutable spec, exact
+point fingerprint, collector name, artifact identifier, and wrapper-manifest
+hash. Keep full evidence in bounded artifacts; status and list operations return
+only bounded summaries.
+
+A successful call is not complete evidence when its manifest is partial,
+missing, integrity-blocked, outside the attempt subtree, or inconsistent with
+the row. Incidence metadata remains `label_only` unless typed application plus
+parent-feature and port readback prove the exact setting used by the solve.
+
 ## Reproduction scope and stopping rules
 
 Record the caller's requested evidence tier before scheduling expensive sweeps:
