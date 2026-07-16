@@ -8,13 +8,25 @@ durable solver workflows, and physical validation.
 
 ## CLI compatibility
 
-The same skill folder works with Claude Code, Codex CLI, and opencode.
+The same skill folder works with Claude Code, Codex CLI, opencode, and Hermes
+Agent.
 
 | CLI | Entry |
 | --- | --- |
 | Claude Code | Import `skills/comsol-64-metasurface/SKILL.md` from `CLAUDE.md`. |
 | Codex CLI | Install the folder under the Codex skills directory or point to it from `AGENTS.md`. |
 | opencode | Copy the folder under `~/.config/opencode/skills/`. |
+| Hermes Agent | Install under `~/.hermes/skills/` or expose the repository `skills/` directory through `skills.external_dirs`. |
+
+Hermes Agent compatibility was checked against its official
+[Skills System documentation](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/user-guide/features/skills.md).
+This repository follows the Agent Skills layout Hermes scans:
+a directory-named skill with `SKILL.md`, required `name` and `description`
+frontmatter, and relative supporting files under `references/`. Hermes-specific
+frontmatter is optional, so no Hermes-only fork is required. Loading the skill
+does not install COMSOL or expose a solver: the Hermes session must still have a
+working COMSOL MCP connection or terminal access to the documented MPh/clientapi
+environment.
 
 `SKILL.md` is intentionally short. Its routing table links task-specific files
 under `references/`, so an agent loads only the modules needed for the current
@@ -56,6 +68,16 @@ Example for a Codex personal install:
 mkdir -p ~/.codex/skills
 cp -r skills/comsol-64-metasurface ~/.codex/skills/
 ```
+
+Example for Hermes Agent using its direct GitHub skill installer:
+
+```bash
+hermes skills install garbage-enzyme/COMSOL_6_4_agentskill_for_metasurfaces/skills/comsol-64-metasurface
+```
+
+Alternatively, copy the complete folder to `~/.hermes/skills/` or add the
+repository's `skills/` directory to `skills.external_dirs` in
+`~/.hermes/config.yaml`.
 
 For Claude Code project use, keep `CLAUDE.md` and `skills/` together. For a
 personal Claude configuration, import the installed `SKILL.md` from the relevant
