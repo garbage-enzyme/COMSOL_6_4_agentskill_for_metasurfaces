@@ -139,6 +139,10 @@ necessity as separate decisions.
 Have a preliminary summarizer report exact artifact identities, raw extrema,
 validation failures, and unresolved boundaries. Let a separate reviewer apply
 the final acceptance policy; a summary is not itself a scientific verdict.
+Treat console-only or report-only numerical claims as unverifiable. If a cited
+mesh, configuration, wavelength, or peak has no matching hash-bound raw artifact,
+exclude that claim from acceptance rather than reconstructing evidence from the
+summary.
 
 ## Peak finding and convergence
 
