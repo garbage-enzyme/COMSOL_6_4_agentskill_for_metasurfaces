@@ -1,6 +1,6 @@
 ---
 name: comsol-64-metasurface
-description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations through a COMSOL MCP server or standalone/clientapi, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, evidence validation, and safe runtime practice. Use when driving COMSOL through an MCP server or mph.Client, debugging clientapi/periodic-mesh/port/material/study failures, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
+description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations through a COMSOL MCP server or standalone/clientapi, shared Desktop/attached-Server collaboration, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, evidence validation, and safe runtime practice. Use when driving COMSOL through an MCP server or mph.Client, collaborating with a user-owned local Server/Desktop model, debugging clientapi/periodic-mesh/port/material/study failures, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
 ---
 
 # COMSOL 6.4+ operations
@@ -31,6 +31,10 @@ Claude Code, Codex CLI, and opencode.
 9. Keep research scope, publication standards, and project priorities
    caller-owned. Describe capabilities and evidence contracts rather than a
    default project strategy.
+10. In a shared Desktop/Server session, require explicit local endpoint and
+    model adoption, take turns rather than editing simultaneously, preserve the
+    user's Server/Desktop/model on detach, and treat GUI visibility as distinct
+    from verified scientific evidence.
 
 ## Reference router
 
@@ -41,8 +45,8 @@ Read each selected file completely before acting.
 | `ModelClient` overloads, components, geometry probing, electrostatics, heat transfer, study/result basics | [clientapi-core.md](references/clientapi-core.md) |
 | `PeriodicStructure`, `rdir1`, incidence angles, polarization, periodic mesh, oblique cells | [wave-optics-periodic.md](references/wave-optics-periodic.md) |
 | Drude/loss signs, layered boundaries, dispersive sweeps, PML, manual Floquet | [materials-boundaries.md](references/materials-boundaries.md) |
-| Solver ownership, durable jobs/validation matrices, cancellation, Windows load stability, resource telemetry/admission | [durable-runtime.md](references/durable-runtime.md) |
-| R/T/A, flux closure, polarization evidence, wavelength sync, provenance, convergence, fields | [validation-evidence.md](references/validation-evidence.md) |
+| Solver ownership, shared Desktop/attached Server, durable jobs/validation matrices, cancellation, Windows load stability, resource telemetry/admission | [durable-runtime.md](references/durable-runtime.md) |
+| Default-on evidence integrity, R/T/A, flux closure, polarization evidence, wavelength sync, provenance, convergence, fields | [validation-evidence.md](references/validation-evidence.md) |
 | MIM, gratings, nanopillars, parameter scans, field export, common modeling recipes | [workflow-recipes.md](references/workflow-recipes.md) |
 | Error signatures and the smallest safe diagnostic | [troubleshooting.md](references/troubleshooting.md) |
 

@@ -3,6 +3,7 @@
 ## Contents
 
 - Ownership and preflight
+- Shared Desktop and attached Server
 - Durable job artifacts
 - Cancellation and recovery
 - Windows load hardening
@@ -31,6 +32,99 @@ Mutation paths require a fresh, complete process inventory. Read-only status may
 use a recent labeled cache with a strict deadline, but it must report cache age
 and incompleteness. Never allow an incomplete/expired inventory to acquire a
 lease, start a worker, refresh ownership, or recover an orphan.
+
+## Shared Desktop and attached Server
+
+Use a protected shared profile only when the user explicitly requests
+collaboration with a user-owned local COMSOL Server and Desktop. Keep it
+default-off. A safe first-release topology is one local user, one manually
+started Server, one connected Desktop window, and one exact server-held model.
+Do not treat a direct `mph.Client(port=...)` connection as equivalent to this
+lifecycle.
+
+For COMSOL 6.4 on Windows, the user can start **COMSOL Multiphysics Server 6.4**
+from COMSOL Launchers. Persistent repeated-client operation can use:
+
+```text
+comsolmphserver -multi on -port 2036
+```
+
+Record the actual listening port from the Server console and leave the console
+running. The usual default is 2036, but an occupied or configured port can
+differ. The protected MCP path must never start or terminate this external
+Server.
+
+In Desktop, use **File > COMSOL Multiphysics Server > Connect to Server**, select
+`localhost`, and enter the exact port. On one accepted Windows installation,
+the dialog automatically populated locally stored username/password fields;
+this is a UX observation, not a portable guarantee. Never put credentials or
+login files in prompts, logs, screenshots, or receipts. The lower-left
+`localhost:<port>` indicator is useful user evidence; if it disappears, Desktop
+is disconnected.
+
+Before constructing an MPh client:
+
+1. discover the default-off shared profile and static feature gate;
+2. restart the MCP host after changing that profile or gate;
+3. perform two bounded process/listener probes;
+4. require the user to confirm that Desktop shows the declared endpoint;
+5. attach non-owningly and enumerate bounded server model metadata;
+6. adopt one exact tag plus available label/path/unsaved expectations;
+7. establish and retain exact server, model, lock, and revision identities.
+
+Accept only the `6.4.0.*` release line for a surface calibrated to that family.
+A final build change, such as another `6.4.0` automatic-update build, can retain
+the release-line conclusion while preserving an exact-build warning. A third
+numeric component change such as `6.4.1.*`, an older release, a mixed
+Desktop/Server family, or unreadable version must fail closed.
+
+State handling must remain explicit:
+
+- no Desktop/Server or a still-starting process is retryable, not attachable;
+- a connected Desktop with no server model needs the user to create, transfer,
+  or open one model while connected;
+- an unsaved blank model may be adopted by exact tag for bounded interactive
+  work, but it has no immutable source-file identity;
+- a standalone-only Desktop model is invisible until explicitly transferred to
+  the Server;
+- multiple Desktop windows, candidate Servers, or ambiguous models require the
+  user to reduce or identify the topology; never choose “the first” item;
+- preserve wildcard listener evidence. Connecting through `localhost` does not
+  turn a `0.0.0.0` or `::` listener into loopback-only exposure.
+
+Use explicit turns. Unlock before a Desktop edit, then re-inventory/relock and
+read back a new revision. During a longer agent mutation or solve, COMSOL may
+lock Desktop editing and show an occupied-model/busy warning. Short writes or
+read-only calls may finish without that warning. The native dialog is a Server-
+busy effect, not proof that MCP identity, revision, evidence, or cleanup guards
+passed.
+
+Keep three file roles separate:
+
+- **immutable source**: caller-owned, readable under an allowed root, exact
+  SHA-256, never overwritten within the formal identity;
+- **open working model**: the mutable in-memory Server model visible in Desktop;
+- **Save Copy snapshot/checkpoint**: a new collision-free file under the owned
+  ASCII artifact root, with size/hash/manifest evidence, that does not change
+  the working model's main path.
+
+COMSOL/Windows may lock an open `.mph`. Save As commonly switches the working
+model to the new file, so it does not automatically create a distinct immutable
+source. Use a true Save Copy or separately preserved source. For an unsaved
+model, create and hash a distinct source before formal durable work.
+
+Long or multi-point attached work must use the existing durable job controls,
+not a foreground loop. Require an `automation_exclusive` lock, immutable source,
+expected revision, and explicit user confirmation. The worker checks revisions
+between points. Cancellation stops only the owned attached worker/client and is
+terminal only after owned cleanup plus preservation of the external Server,
+Desktop, listener, and model.
+
+Normal unlock/detach leaves the user resources running; the user normally does
+not restart the Server between collaboration steps. Only the user closes or
+restarts those resources after evidence is saved. This release is local-only,
+does not support simultaneous editing, and does not turn visible GUI output into
+scientific validation.
 
 ## Durable job artifacts
 

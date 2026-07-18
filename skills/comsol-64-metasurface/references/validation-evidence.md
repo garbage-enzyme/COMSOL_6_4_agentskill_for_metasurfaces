@@ -3,6 +3,7 @@
 ## Contents
 
 - Evidence states and policy separation
+- Default-on formal evidence integrity
 - Polarization
 - Power closure and material loss
 - Wavelength synchronization
@@ -23,6 +24,47 @@ wavelength synchronization, polarization ratio, loss agreement, or mesh gates.
 An evidence collector should not silently embed project thresholds.
 Default one-point audit output to `evidence_only`; a successful collector is not
 a project pass.
+
+## Default-on formal evidence integrity
+
+When the MCP exposes formal evidence guards, inspect their effective state
+before relying on a verified label. Strict checks should be enabled by default;
+only an explicit per-check JSON boolean `false` may disable one. At minimum,
+discover and preserve the effective state of:
+
+- outcome-contract validation;
+- artifact-chain verification;
+- exact summary-claim verification;
+- producer/driver compatibility for resumed work.
+
+Capability/status output should report each check, whether its source is the
+default or explicit settings, a path-redacted settings fingerprint, and whether
+strict verification is fully active. Unknown fields, duplicate keys, malformed
+JSON, wrong types, unreadable settings, and unsupported schemas must fail closed
+rather than disabling protection.
+
+Disabling a check may allow exploration, but the affected response and receipt
+must say `strictly_verified: false`, identify the skipped check, and preserve a
+stable warning. Do not suppress this warning:
+
+> Strict evidence checks are disabled; these results were not fully verified and may contain AI-generated or hallucinated content.
+
+Re-enabling a check requires fresh deterministic verification against unchanged
+artifacts. It cannot upgrade an old unverified receipt in place. If an input,
+model revision, policy, artifact, manifest, producer, or driver changed, create
+a new run identity.
+
+`strictly_verified: true` means that all effective checks were enabled and all
+applicable deterministic checks passed for the exact request and artifact
+bytes. It does not prove that equations, boundary conditions, material data,
+mesh, polarization, convergence, or scientific policy are physically correct.
+Hashes prove consistency/change detection, not physics.
+
+For formal summaries, cite exact artifact IDs, SHA-256 digests, and machine-
+resolvable values such as JSON Pointers. Preserve settings, request, source,
+configuration, producer/driver, and receipt fingerprints. A completed solve,
+plot, screenshot, label, or plausible fitted number cannot replace missing raw
+evidence.
 
 ## Polarization
 
