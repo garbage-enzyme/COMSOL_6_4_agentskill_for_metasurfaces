@@ -37,6 +37,10 @@ feature = physics.feature().create("bc1", "FeatureType", 2)
 ## Java collection and overload traps
 
 - Convert Java tag arrays explicitly: `list(obj.tags())`.
+- Convert Java string wrappers before numeric parsing, for example
+  `float(str(node.getString("oocmemory")))`. Under JPype 1.7,
+  `float(java.lang.String)` can raise `TypeError` even when the value prints as
+  a valid number.
 - Iterate tags and call `.get(tag)`; integer `.get(i)` is commonly unsupported.
 - Use `feature().size()` instead of `len(feature())`.
 - A physics feature may lack `.type()`; use known tags, labels, or exported model
