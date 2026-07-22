@@ -332,6 +332,16 @@ operator launcher that:
 - prints durable log/artifact paths;
 - keeps its console open on exit.
 
+Do not route a long worker's stdout or stderr through an agent-owned tool pipe.
+If that turn, terminal cell, or pipe consumer ends while the worker survives, a
+flushed console write can block even after the latest result row was safely
+flushed and `fsync`ed. Use a user-owned foreground console or redirect output to
+a durable file whose lifetime is independent of the agent. Derive progress from
+durable rows and process telemetry. An orphaned parent together with zero CPU and
+I/O deltas and a missing next log event is evidence of a transport blockage, not
+a failed next solve; stop only the exact owned worker at a durable boundary and
+resume the exact configuration identity.
+
 On legacy Windows PowerShell, avoid non-ASCII literals in UTF-8 scripts without
 a BOM. Derive sibling paths from the script location or emit a verified BOM.
 If a launcher is moved into an archive such as a project `ps1` subdirectory,
