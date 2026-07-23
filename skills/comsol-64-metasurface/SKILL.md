@@ -64,11 +64,12 @@ call the same COMSOL MCP server and cannot overlap its solver lifecycle.
 ## Shared settings contract
 
 The COMSOL MCP project groups startup settings by function in its root
-`settings.json`, with English `_comment`/`_comment_*` fields because standard
-JSON has no comment syntax. Missing entries use safe defaults. An illegal value
-falls back only that entry and is reported through `capabilities` or
-`evidence_integrity_status` as a bounded `settings_errors` item; malformed JSON
-falls back to the complete safe default document and reports the error. Check
+`settings.json`. The checked-in template intentionally contains configuration
+only; keep field meaning, defaults, and accepted values in the settings guide.
+Missing entries use safe defaults. An illegal value falls back only that entry
+and is reported through `capabilities` or `evidence_integrity_status` as a
+bounded `settings_errors` item; malformed JSON falls back to the complete safe
+default document and reports the error. Check
 `project_settings.configuration_state` before relying on a profile or path.
 
 For shared Desktop/Server work, set `profile.name` to `desktop_shared` and
@@ -85,6 +86,7 @@ Read each selected file completely before acting.
 | Task | Read |
 | --- | --- |
 | `ModelClient` overloads, components, geometry probing, electrostatics, heat transfer, study/result basics | [clientapi-core.md](references/clientapi-core.md) |
+| AC/DC magnetic-field interfaces, Coil features, Java-tag conversion, standalone cleanup, and one-point smoke | [magnetic-fields.md](references/magnetic-fields.md) |
 | `PeriodicStructure`, `rdir1`, incidence angles, polarization, periodic mesh, oblique cells | [wave-optics-periodic.md](references/wave-optics-periodic.md) |
 | Drude/loss signs, layered boundaries, dispersive sweeps, PML, manual Floquet | [materials-boundaries.md](references/materials-boundaries.md) |
 | Solver ownership, shared Desktop/attached Server, durable jobs/validation matrices, cancellation, Windows load stability, resource telemetry/admission | [durable-runtime.md](references/durable-runtime.md) |
