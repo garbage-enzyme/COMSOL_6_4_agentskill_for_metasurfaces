@@ -61,6 +61,25 @@ Treat `S`, `P`, `Mixed`, and circular handedness enums as COMSOL labels. Discove
 the exact enum accepted by the installed build, and verify the physical field;
 `rhcp/lhcp` names are not self-validating across observation conventions.
 
+For a coherent equal-phase S/P input, COMSOL 6.4 accepts `LinearPol=Mixed` and
+uses `etaP` as the P-polarization power fraction:
+
+```python
+ps.set("Polarization", "LinearPol")
+ps.set("LinearPol", "Mixed")
+ps.set("etaP", "0.5")
+
+assert str(ps.getString("Polarization")) == "LinearPol"
+assert str(ps.getString("LinearPol")) == "Mixed"
+assert float(str(ps.getString("etaP"))) == 0.5
+```
+
+This supplies a real, equal-phase mixture; it is not an arbitrary relative-phase
+control. Combine it with separate S, P, and one calibrated circular solve when a
+full 2x2 absorptivity/coherency reconstruction is needed. Keep wavelength,
+incidence, geometry, mesh, normalization, and dataset identity identical across
+the basis solves. See `validation-evidence.md` for the reconstruction and gates.
+
 ## Incidence angles
 
 Periodic Structure uses `alpha1_inc` for elevation and `alpha2_inc` for azimuth.

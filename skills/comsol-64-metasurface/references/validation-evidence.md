@@ -94,6 +94,45 @@ azimuth paths, and both polarization labels at sparse normal/intermediate/end
 angles. Match the paper/design incidence plane and physical field direction
 before comparing peak motion.
 
+### Coherent absorptivity and polarization reconstruction
+
+Scalar RHCP/LHCP absorption alone cannot determine a polarization ellipse. For
+one fixed geometry, mesh, wavelength, and incident wave vector, reconstruct a
+Hermitian absorptivity matrix `H` in the Jones basis `[S,P]` from four coherent
+solves. With COMSOL's calibrated incident convention
+`RHCP=(S+iP)/sqrt(2)`, measure `A_S`, `A_P`, `A_Mixed` at
+`LinearPol=Mixed, etaP=0.5`, and `A_RHCP`, then use:
+
+```text
+H_ss = A_S
+H_pp = A_P
+mean = (A_S + A_P)/2
+Re(H_sp) = A_Mixed - mean
+Im(H_sp) = mean - A_RHCP
+H = [[H_ss, H_sp], [conj(H_sp), H_pp]]
+```
+
+If a different circular Jones-vector convention is calibrated, derive and record
+the corresponding sign rather than copying the last equation. An optional LHCP
+solve must satisfy `A_LHCP = mean + Im(H_sp)` within a caller-declared tolerance;
+use it as an independent reconstruction check, not a fifth fitted input.
+
+Persist every basis result independently with raw R/T/A, closure, material Qh,
+requested/applied polarization properties, angle/wavelength readback, mesh
+identity, and artifact hashes. Before interpreting an eigenvector of `H` as a
+polarization state, require finite entries, Hermitian readback, eigenvalues inside
+the caller's passive tolerance of `[0,1]`, and agreement between `A` and summed
+material loss. Treat a materially negative eigenvalue as a failed reconstruction,
+not a plotting artifact.
+
+Extract the dominant eigenvector only after fixing its arbitrary global phase.
+Compute Stokes parameters under the project's declared phasor, propagation, and
+viewer convention; do not reuse a normal-incidence handedness sign at oblique
+incidence without calibration. For reciprocal thermal emission, explicitly apply
+the direction reversal and conjugation/transposition required by the declared
+Kirchhoff/reciprocity convention. An incident absorptivity eigenvector is not by
+itself proof of the displayed far-field radiation handedness.
+
 ## Power closure and material loss
 
 Record raw port R/T/A without clipping. For physical closure, define caller-
