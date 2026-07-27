@@ -228,6 +228,20 @@ cleanup path. After each retry:
 - fail closed after the deadline;
 - clean only owned temporary files.
 
+Use a unique owned temporary name for every atomic write; never share a fixed
+`status.tmp` name across attempts or processes. Flush and `fsync` the temporary,
+retry only recognized sharing violations with bounded backoff, verify that its
+bytes remain unchanged after every failed replace, and read back the exact
+target bytes after success. A reader or monitor should use delete-sharing where
+the platform exposes it and must not hold a status file open between refreshes.
+
+Treat the append-only result journal as the completion authority and a mutable
+status file as a projection. If a point row and all bound artifacts were flushed
+before a status replacement failed, do not rerun that point. Preserve the failed
+status/temp evidence, verify the row and artifacts, then resume under an exact or
+versioned defect-scoped recovery identity. Never lower durable completion to the
+last successfully rendered status counter.
+
 Stress durable state with concurrent readers/writers, injected sharing failures,
 and native exclusive handles. Require valid terminal JSON and zero owned temp or
 lock residue.
