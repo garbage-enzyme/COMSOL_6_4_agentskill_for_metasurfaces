@@ -159,6 +159,34 @@ Resume only rows whose full configuration identity matches. Deduplicate exact
 valid point identities, not filenames or scalar wavelengths. Retry errors and
 partial rows.
 
+### Parameter application and pre-solve readback
+
+A requested parameter in a normalized spec is not evidence that the model used
+it. Explicitly create every solver-facing parameter, set its value and unit, and
+read it back from the derived model before `study.run`. Also read the consuming
+parent feature when the API exposes one. Persist requested/applied values and
+fail before solve on absence, default substitution, unit mismatch, or tolerance
+failure.
+
+When a wrapper reuses a worker designed for a narrower case, audit which
+parameters that worker actually creates. Assigning a wrapper-language global
+does not create a missing COMSOL parameter. Apply the complete parameter set at
+a documented stage before the solve and bind the wrapper and source-worker
+hashes separately.
+
+### Cross-version row adoption
+
+Preserve a failed campaign and create a new spec, worker identity, output root,
+and journal for its correction. Adopt a completed row only when all artifacts
+and hashes verify, its full point/evidence fingerprint matches the new contract,
+and a machine-readable defect-applicability audit proves that the old producer
+defect cannot affect that point. For example, a missing nonzero parameter may be
+irrelevant at an exact zero-parameter anchor, but never at a nonzero point.
+
+Write `adopted_from` evidence containing the old spec, journal, artifact hashes,
+eligibility reason, and defect scope. Never rewrite the old row, silently change
+its producer identity, or adopt from scalar parameter equality alone.
+
 ## Cancellation and recovery
 
 Bind every cancellation request to an exact attempt and worker identity: PID,
@@ -242,6 +270,18 @@ orders, or mesh. Put a mesh-dependent parameter on the outside and reuse one
 verified mesh only across inner parameters that cannot alter it. Persist the
 observed mesh identity under that same dependency key so resume rejects a
 changed mesh without imposing false equality across unrelated mesh states.
+
+When process startup dominates a large map, group inner wavelength,
+polarization, or angle points under one outer geometry/material owner only if
+the worker can validate, append, flush, and `fsync` every inner point before
+continuing. Persist the outer dependency key and observed mesh identity on each
+row. If point callbacks are not durable, declare the whole group as the smallest
+recoverable segment; do not claim point-level crash durability.
+
+Never silently overwrite duplicate scientific keys. Exact byte-identical rows
+may deduplicate under one recorded source. Numerically near duplicates require a
+declared tolerance, both source identities, component-wise spreads, and an
+explicit precedence rule; material conflicts remain separate and block reuse.
 
 Never edit a driver or child script that an active parent process may import or
 spawn later. Stop the owner at a durable boundary, defer the change, or create a

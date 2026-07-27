@@ -273,6 +273,15 @@ and slice normal together. For example, C4 symmetry can imply
 transformed probe geometry. Similar R/T/A under orthogonal polarizations does
 not validate an unrotated field line.
 
+When symmetry supplies uncomputed rows in a scalar spectrum or parameter map,
+label them `derived_from_verified_symmetry`, not `solved`. Bind every derived row
+to the source-row fingerprint and an explicit transform over geometry parameters,
+polarization, incidence/detection coordinates, and sign conventions. Keep solved
+and derived counters separate. Before using the transform for a dense map, verify
+representative paired solves at the relevant material state and at more than one
+mesh/evidence level when feasible. A sign reversal at one point does not validate
+local fields or an unrelated observable.
+
 For line-profile comparisons, report an absolute or normalized error metric
 alongside correlation and preserve the normalization rule. Correlation `1`
 allows an affine amplitude/baseline difference; it does not prove pointwise

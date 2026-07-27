@@ -28,9 +28,10 @@ non-editable, ASCII-path environment; never install a fallback into the project
 source tree:
 
 ```powershell
-py -3.14 -m venv D:\condaenvs\comsol-standalone
-D:\condaenvs\comsol-standalone\Scripts\python.exe -m pip install --upgrade pip
-D:\condaenvs\comsol-standalone\Scripts\python.exe -m pip install "mph==1.3.1" "jpype1==1.7.1"
+$env:COMSOL_STANDALONE_ENV = Join-Path $env:LOCALAPPDATA 'comsol-standalone'
+py -3.14 -m venv $env:COMSOL_STANDALONE_ENV
+& (Join-Path $env:COMSOL_STANDALONE_ENV 'Scripts\python.exe') -m pip install --upgrade pip
+& (Join-Path $env:COMSOL_STANDALONE_ENV 'Scripts\python.exe') -m pip install "mph==1.3.1" "jpype1==1.7.1"
 ```
 
 When discovery cannot find the local COMSOL runtime, set process-local Java
@@ -38,7 +39,8 @@ paths before importing `mph`, using the Java runtime shipped with the installed
 COMSOL version:
 
 ```powershell
-$env:JAVA_HOME = 'D:\COMSOL64\Multiphysics\java\win64\jre'
+$env:COMSOL_ROOT = '<absolute path to the installed COMSOL Multiphysics root>'
+$env:JAVA_HOME = Join-Path $env:COMSOL_ROOT 'java\win64\jre'
 $env:JDK_HOME = $env:JAVA_HOME
 ```
 
@@ -53,6 +55,7 @@ remain reliable.
 
 ```python
 from hashlib import sha256
+import os
 from pathlib import Path
 
 import mph
@@ -66,8 +69,8 @@ def file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
-source = Path(r"D:\approved_models\source.mph").resolve()
-output = Path(r"D:\owned_artifacts\derived_point.mph").resolve()
+source = Path(os.environ["COMSOL_SOURCE_MODEL"]).resolve()
+output = Path(os.environ["COMSOL_OUTPUT_MODEL"]).resolve()
 source_hash = file_hash(source)
 client = mph.Client(version="6.4")
 model = client.load(str(source))
