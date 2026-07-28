@@ -1,8 +1,9 @@
-# COMSOL MCP unavailable fallback
+# Standalone fallback for an unavailable MCP operation
 
-Read this reference only when COMSOL MCP is unavailable. Prefer the MCP server
-whenever it can accept serialized calls; it supplies ownership, containment,
-durable-state, and evidence controls that direct MPh does not recreate.
+Read this reference only when the required COMSOL operation is unavailable
+through the active MCP surface. Prefer the MCP server whenever it can accept the
+exact serialized operation; it supplies ownership, containment, durable-state,
+and evidence controls that direct MPh does not recreate.
 
 ## Gate
 
@@ -10,11 +11,16 @@ Use direct MPh only after one of these terminal conditions:
 
 - no COMSOL MCP client or server is configured on the host;
 - the server executable/import is unavailable; or
-- a serialized startup attempt completed with a terminal failure.
+- a serialized startup attempt completed with a terminal failure; or
+- live capability discovery proves that the required bounded operation, such as
+  native plot-group/image export, is absent from the active profile and no safe
+  generic MCP operation can express it.
 
 Do not use this fallback to bypass a profile, containment rule, input bound, or
-MCP error. Do not use it while `comsol_start` is in flight, after a timeout whose
-original request may still run, or while a healthy MCP session is connected.
+MCP error. An absent operation authorizes only that bounded fallback task, not a
+solver or mutation already exposed by MCP. Do not use it while `comsol_start` is
+in flight, after a timeout whose original request may still run, or while a
+healthy MCP session is connected. Disconnect and verify lease release first.
 
 Before creating a direct client, perform a fresh process inventory and refuse if
 any COMSOL, Java, MPh, solver-worker, or uncertain lease owner exists. Do not

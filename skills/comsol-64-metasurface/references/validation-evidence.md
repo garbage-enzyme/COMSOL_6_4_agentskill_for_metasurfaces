@@ -295,6 +295,13 @@ For paired on/off-resonance evidence:
 - optionally render PNGs in an isolated plotting process rather than relying on
   headless COMSOL image export.
 
+For geometry-aware native field plots, bind the artifact to physical surface
+categories, not only numeric entity IDs. Record adjacent domains, representative
+face centers and normals, exposed-versus-internal classification, and the exact
+selected IDs for each geometry state. Re-probe mirrored or rebuilt geometry;
+an external material-air boundary, an internal material-material interface, and
+a Cut Plane are not interchangeable even when their projections overlap.
+
 For paper-target field maps, read the exact field-export header before choosing
 the wavelength, slice coordinate, grid, or color scale. Different material
 states can use slightly different wavelengths even when the caption gives one
