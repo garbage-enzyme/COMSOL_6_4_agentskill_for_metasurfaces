@@ -11,10 +11,15 @@ Multiphysics 6.4+ 的渐进式技能，覆盖周期 Wave Optics、耐久求解�
 
 | CLI | 入口 |
 | --- | --- |
-| Claude Code | 从 `CLAUDE.md` 导入 `skills/comsol-64-metasurface/SKILL.md`。 |
+| Claude Code | 将完整目录复制到 `~/.claude/skills/comsol-64-metasurface/`；也可保留项目级 `CLAUDE.md` import。 |
 | Codex CLI | 将完整目录安装到 Codex skills 目录，或从 `AGENTS.md` 指向它。 |
 | opencode | 将完整目录复制到 `~/.config/opencode/skills/`。 |
 | Hermes Agent | 安装到 `~/.hermes/skills/`，或通过 `skills.external_dirs` 暴露仓库的 `skills/` 目录。 |
+
+Windows 11 上的 Claude Code 2.1.220 已验证个人安装：完整复制 10 个文件到
+`~/.claude/skills/comsol-64-metasurface/`，逐文件 SHA-256 与来源一致，并可被新 session
+发现。该结论只证明安装和 skill discovery；验收没有启动 COMSOL，也没有执行本文档中的
+建模、求解或证据工作流。
 
 已依据 Hermes Agent 官方
 [Skills System 文档](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/user-guide/features/skills.md)
@@ -62,6 +67,13 @@ mkdir -p ~/.codex/skills
 cp -r skills/comsol-64-metasurface ~/.codex/skills/
 ```
 
+Claude Code 个人安装示例：
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\.claude\skills" | Out-Null
+Copy-Item -Recurse -Force "skills\comsol-64-metasurface" "$HOME\.claude\skills\"
+```
+
 Hermes Agent 可直接从 GitHub 安装：
 
 ```bash
@@ -71,8 +83,8 @@ hermes skills install garbage-enzyme/COMSOL_6_4_agentskill_for_metasurfaces/skil
 也可以把完整目录复制到 `~/.hermes/skills/`，或在 `~/.hermes/config.yaml`
 的 `skills.external_dirs` 中加入本仓库的 `skills/` 目录。
 
-Claude Code 项目级使用时保留 `CLAUDE.md` 和 `skills/` 的相对位置；个人配置可
-从相应 `CLAUDE.md` 导入已安装技能的 `SKILL.md`。
+Claude Code 项目级使用时保留 `CLAUDE.md` 和 `skills/` 的相对位置；个人配置应把
+完整目录安装到 `~/.claude/skills/`，并启动新 session，避免把旧进程缓存误当成 discovery。
 
 ## 目录结构
 

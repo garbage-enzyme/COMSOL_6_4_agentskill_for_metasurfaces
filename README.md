@@ -13,10 +13,16 @@ Agent.
 
 | CLI | Entry |
 | --- | --- |
-| Claude Code | Import `skills/comsol-64-metasurface/SKILL.md` from `CLAUDE.md`. |
+| Claude Code | Copy the complete folder to `~/.claude/skills/comsol-64-metasurface/`; a project-local `CLAUDE.md` import also remains supported. |
 | Codex CLI | Install the folder under the Codex skills directory or point to it from `AGENTS.md`. |
 | opencode | Copy the folder under `~/.config/opencode/skills/`. |
 | Hermes Agent | Install under `~/.hermes/skills/` or expose the repository `skills/` directory through `skills.external_dirs`. |
+
+On Windows 11, Claude Code 2.1.220 was verified to discover a personal install
+under `~/.claude/skills/comsol-64-metasurface/` after all 10 files were copied
+byte-for-byte and their SHA-256 values matched the source. This establishes
+installation and skill discovery only. The acceptance run did not start COMSOL
+or execute the documented modeling, solve, or evidence workflows.
 
 Hermes Agent compatibility was checked against its official
 [Skills System documentation](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/user-guide/features/skills.md).
@@ -69,6 +75,13 @@ mkdir -p ~/.codex/skills
 cp -r skills/comsol-64-metasurface ~/.codex/skills/
 ```
 
+Example for a Claude Code personal install:
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\.claude\skills" | Out-Null
+Copy-Item -Recurse -Force "skills\comsol-64-metasurface" "$HOME\.claude\skills\"
+```
+
 Example for Hermes Agent using its direct GitHub skill installer:
 
 ```bash
@@ -80,8 +93,8 @@ repository's `skills/` directory to `skills.external_dirs` in
 `~/.hermes/config.yaml`.
 
 For Claude Code project use, keep `CLAUDE.md` and `skills/` together. For a
-personal Claude configuration, import the installed `SKILL.md` from the relevant
-`CLAUDE.md`.
+personal configuration, install the complete folder under `~/.claude/skills/`
+and start a fresh session so discovery is not confused with a stale process.
 
 ## Layout
 
