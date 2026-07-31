@@ -430,6 +430,14 @@ one representative geometry does not bound runtime or memory. Use the endpoint
 timings only as an initial bounded estimate and replace them with rolling
 completed-point telemetry.
 
+Calibrate element/DOF refusal caps against the exact caller-accepted mesh profile
+before production. If a mesh-only endpoint exceeds the frozen cap but remains
+inside that accepted profile, classify it as an admission-spec defect rather
+than a physics or solver failure. When no scientific row exists, preserve the
+failed identity and create a versioned spec, output root, and journal with the
+corrected cap. Never relax an admission cap in place after scientific rows have
+been written.
+
 When an operator requires an absolute wall limit, use two clocks. Set a shorter
 worker limit that stops only between flushed point rows, then let the foreground
 launcher enforce the later absolute deadline against the exact owned process
