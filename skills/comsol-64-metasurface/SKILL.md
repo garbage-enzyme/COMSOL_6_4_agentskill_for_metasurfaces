@@ -1,6 +1,6 @@
 ---
 name: comsol-64-metasurface
-description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations through a COMSOL MCP server or standalone/clientapi, shared Desktop/attached-Server collaboration, typed Pressure Acoustics and mathematical PDE construction, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, evidence validation, host-resource recovery, and safe runtime practice. Use when driving COMSOL through an MCP server or mph.Client, building Acoustics or Coefficient/General/Weak Form PDE models, collaborating with a user-owned local Server/Desktop model, debugging clientapi/selection/periodic-mesh/port/material/study failures, recovering a user workflow after resource exhaustion or MCP disconnection, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
+description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations, execution-mode selection, modeling, durable solves, evidence validation, and recovery through COMSOL MCP or standalone/clientapi. Use when choosing interactive, inline, launcher, standalone, or MPH-only execution; driving COMSOL through MCP or mph.Client; building Acoustics, PDE, Wave Optics, or metasurface models; collaborating with local Server/Desktop; debugging clientapi, selection, mesh, port, material, or study failures; recovering after resource exhaustion or MCP disconnection; running resumable sweeps; or auditing polarization, passivity, power closure, wavelength synchronization, convergence, provenance, resource admission, and solver ownership.
 ---
 
 # COMSOL 6.4+ operations
@@ -78,6 +78,38 @@ Evidence-integrity checks remain default-on in
 `evidence_integrity.checks`; only explicit JSON `false` is an exploration opt-out
 and it must propagate `strictly_verified: false`. The old individual environment
 variables are compatibility overrides, not the normal multi-agent configuration.
+
+## Simulation execution modes
+
+Choose the execution mode before starting a run. Mode selection is agent
+workflow guidance, not an MCP operation; do not look for or invent a generic
+mode-recommendation tool.
+
+- Use `interactive` for incremental MCP edits, readback, and short feedback.
+  Ordinary interactive work is distinct from the default-off shared
+  Desktop/Server collaboration path, which requires explicit user intent.
+- Use `inline` for one bounded Python script, dry run, smoke test, or short
+  simulation conservatively estimated below one hour. This boundary is a
+  planning heuristic, not a timeout or success guarantee. Inline has no
+  automatic resume promise.
+- Use `launcher` for long local work, multi-point campaigns, unattended
+  monitoring, or point-boundary pause/resume when local Python is available.
+  The driver must flush and `fsync` each completed point before continuing.
+- Use `standalone` only for a cross-device Windows 10/11 x64 target with
+  installed and licensed COMSOL 6.4 that needs launcher-like behavior without
+  target Python. It still requires COMSOL and its bundled Java runtime.
+- Use `mphonly` when the required handoff is one final portable MPH, commonly
+  for a COMSOL-managed cluster or cloud environment. A COMSOL Job Configuration
+  checkpoint can recover only to its latest checkpoint; do not claim exact
+  per-point durability. One final MPH does not mean zero temporary, log,
+  synchronization, or recovery files during execution.
+
+Default to `interactive`, `inline`, or `launcher`. Before preparing
+`standalone` or `mphonly`, ask for the target operating system and architecture,
+exact COMSOL build/modules, license arrangement, Python and Java constraints,
+scheduler/submission interface, storage and path rules, network access, resource
+limits, and required status/resume/output behavior. Missing target facts require
+a clarification request, not a guessed package.
 
 ## Reference router
 
