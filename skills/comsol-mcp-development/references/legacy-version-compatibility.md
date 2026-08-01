@@ -12,10 +12,17 @@
 
 ## Trigger and scope
 
-Use this workflow only when both conditions hold:
+Use this workflow only when all conditions hold:
 
 1. the exact detected COMSOL release is older than 6.4; and
-2. the user explicitly asks the agent to attempt compatibility with that release.
+2. the user explicitly asks the agent to attempt compatibility with that
+   release; and
+3. the evidence in the next section proves a reproducible conflict caused by a
+   specific difference between that release and the supported reference build.
+
+Until all three conditions hold, diagnose and collect bounded evidence only.
+Do not edit MCP code, dependencies, schemas, settings, or support claims on the
+basis of version age, a generic native exception, or an assumed API difference.
 
 Do not infer authorization from an old model file, an installed executable, or
 a generic request to “make it work.” Do not change the advertised support range,
@@ -40,6 +47,13 @@ Require concrete evidence before editing:
 - reflection, feature/property inventory, official release documentation, or a
   controlled probe showing the legacy API difference.
 
+The evidence must connect the failing operation to one exact incompatibility,
+such as a missing or renamed typed API, a changed overload, a different result
+shape, or a documented behavior change. A failure that merely occurs on an old
+release is correlation, not compatibility evidence. If the causal difference
+cannot be identified, stop without a code change and classify the result as
+unproven.
+
 Distinguish an actual version conflict from licensing, missing modules, wrong
 profile, invalid model topology, stale deployment, solver collision, resource
 exhaustion, or an unrelated code defect. If the same failure occurs on the
@@ -63,7 +77,9 @@ evidence.
 
 ## Implement the narrowest adapter
 
-Patch only the proven conflict. Prefer a small version-gated adapter around an
+Before editing, state the proven conflict, the exact code and contract surfaces
+that may change, the exact requested build, and explicit non-goals. Patch only
+that declared change envelope. Prefer a small version-gated adapter around an
 exact overload, feature type, property name, selection rule, or result shape.
 Keep the 6.4 path unchanged and make the legacy branch explicit and testable.
 
@@ -74,6 +90,8 @@ Do not:
 - weaken validation, rollback, ownership, evidence, or cleanup requirements;
 - expose arbitrary property setters as a compatibility escape hatch;
 - silently substitute another physics interface or numerical meaning;
+- combine the adapter with unrelated refactoring, dependency upgrades, feature
+  work, cleanup, or speculative hardening;
 - expand compatibility to other versions without their own evidence.
 
 If the legacy API cannot represent the public contract faithfully, return an
