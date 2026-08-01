@@ -1,15 +1,17 @@
 # AGENTS.md — cross-tool entry point
 
-This repository ships the `comsol-64-metasurface` agent skill at:
+This repository ships two agent skills:
 
 ```text
 skills/comsol-64-metasurface/SKILL.md
+skills/comsol-mcp-development/SKILL.md
 ```
 
-Read that short routing entry before driving COMSOL 6.4+, using MPh standalone
-or a COMSOL MCP server, or auditing a periodic metasurface model. Then read each
-reference selected by its routing table completely. Do not
-preload every reference module.
+Use `comsol-64-metasurface` for modeling, solver operation, host recovery, and
+scientific evidence. Use `comsol-mcp-development` only for server code, tests,
+CI, packaging, deployment, and review maintenance. Read the selected short
+routing entry, then each routed reference completely. Do not preload every
+reference module.
 
 The progressive-disclosure layout is intentionally portable across Claude Code,
 Codex CLI, and opencode:
@@ -19,9 +21,10 @@ Codex CLI, and opencode:
 - `references/*.md` contains task-specific detail linked with relative paths.
 - No platform-specific tool protocol is required to follow the skill.
 
-The modules cover clientapi overloads, periodic Wave Optics, material/boundary
-formulations, durable jobs, Windows load stability, physical evidence, resource
-admission, common modeling recipes, and troubleshooting.
+The operation modules cover clientapi, Acoustics/PDE, periodic Wave Optics,
+durable solver use, host recovery, evidence, recipes, and troubleshooting. The
+development modules cover public contracts, runtime reliability, test/CI
+policy, release packaging, deployment identity, and review maintenance.
 
 Do not publish usernames, home directories, host-specific thresholds,
 credentials, private result values, or internal project/phase labels in this

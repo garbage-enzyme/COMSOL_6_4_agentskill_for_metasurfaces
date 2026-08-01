@@ -86,6 +86,28 @@ physics or validation.
 The finalization tag `fin` is reserved and appears automatically after geometry
 construction. Do not create it manually.
 
+When replacing an existing geometry, preserve `fin` and move it after every
+new feature before finalization. ClientAPI `feature().move(tag, position)` uses
+a zero-based position, so `feature().size() - 1` is the last position:
+
+```python
+features = geom.feature()
+tags = [str(tag) for tag in list(features.tags())]
+if "fin" not in tags:
+    raise ValueError("geometry is missing its reserved fin feature")
+features.move("fin", int(features.size()) - 1)
+geom.run()
+if [str(tag) for tag in list(features.tags())][-1] != "fin":
+    raise AssertionError("fin is not the final geometry feature")
+```
+
+Do not infer success from the move call alone. After `geom.run()`, read back the
+complete ordered tags and the expected domain/boundary topology before creating
+physics, mesh, or a study. A bounded COMSOL 6.4 no-solve smoke validated the
+transition `[fin]` to `[coil_positive, coil_negative, air, fin]` with three
+domains and twelve boundaries; those counts calibrate that geometry only and
+are not portable defaults.
+
 ```python
 fin = geom.feature().get("fin")
 fin.set("action", "assembly")

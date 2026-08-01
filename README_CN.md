@@ -1,9 +1,11 @@
-# COMSOL 6.4+ Agent Skill
+# COMSOL 6.4+ Agent Skills
 
 [English](README.md)
 
-面向通过 COMSOL MCP server 或 MPh 1.3.1 standalone/clientapi 使用 COMSOL
-Multiphysics 6.4+ 的渐进式技能，覆盖周期 Wave Optics、耐久求解工作流和物理验证。
+本仓库包含两个渐进式技能：
+
+- `comsol-64-metasurface`：用于 COMSOL 建模、求解操作、主机恢复和物理验证；
+- `comsol-mcp-development`：用于 MCP server 开发、测试、CI、打包、部署和审查维护。
 
 ## CLI 兼容性
 
@@ -38,19 +40,31 @@ MPh/clientapi 环境的 terminal。
 
 ## 覆盖范围
 
+使用技能：
+
 - standalone `ModelClient` 重载差异与几何探测；
+- typed Pressure Acoustics、数学 PDE 和命名 selection；
 - 周期端口、入射角、偏振、CopyFace 网格和斜晶格；
 - Drude/损耗符号、层状边界、色散扫描、PML/手动 Floquet；
-- durable jobs、取消、Windows 共享/进程身份稳定性和资源门禁；
+- durable jobs、取消、Windows 共享/进程身份稳定性和主机恢复；
 - R/T/A、物理通量闭合、波长同步、溯源、收敛和场证据；
 - MIM、光栅、纳米柱、参数扫描和场导出配方。
 
+开发技能：
+
+- 公共 tool/profile/schema/settings 契约与有界验证；
+- durable state、进程 ownership、取消、准入和 Windows I/O；
+- solver-free 测试、云端 CI 策略、warning 清理和 gate 诊断；
+- wheel/sdist 边界、non-editable 部署和 installed build identity；
+- 分层审查验证、修复台账、exact-SHA CI 和发布流程。
+
 ## 安装
 
-克隆仓库后复制完整技能目录，不能只复制 `SKILL.md`：
+克隆仓库后复制所需的完整技能目录，不能只复制 `SKILL.md`：
 
 ```text
 skills/comsol-64-metasurface/
+skills/comsol-mcp-development/
 ```
 
 opencode 示例：
@@ -92,13 +106,28 @@ Claude Code 项目级使用时保留 `CLAUDE.md` 和 `skills/` 的相对位置�
 skills/comsol-64-metasurface/
 ├── SKILL.md
 └── references/
+    ├── acoustics-pde.md
     ├── clientapi-core.md
     ├── durable-runtime.md
+    ├── host-resource-recovery.md
+    ├── magnetic-fields.md
     ├── materials-boundaries.md
+    ├── mcp-offline.md
+    ├── plotting.md
     ├── troubleshooting.md
     ├── validation-evidence.md
     ├── wave-optics-periodic.md
     └── workflow-recipes.md
+
+skills/comsol-mcp-development/
+├── SKILL.md
+├── agents/openai.yaml
+└── references/
+    ├── packaging-release.md
+    ├── repository-contracts.md
+    ├── review-maintenance.md
+    ├── runtime-reliability.md
+    └── testing-ci.md
 ```
 
 公开内容不包含用户名、主目录、本机阈值、凭据、私有光谱或内部项目阶段代号。

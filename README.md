@@ -1,10 +1,13 @@
-# COMSOL 6.4+ agent skill
+# COMSOL 6.4+ agent skills
 
 [中文](README_CN.md)
 
-A progressive-disclosure skill for using COMSOL Multiphysics 6.4+ through a
-COMSOL MCP server or MPh 1.3.1 standalone/clientapi, with periodic Wave Optics,
-durable solver workflows, and physical validation.
+Two progressive-disclosure skills:
+
+- `comsol-64-metasurface` for COMSOL modeling, solver operation, host recovery,
+  and physical validation;
+- `comsol-mcp-development` for server engineering, tests, CI, packaging,
+  deployment, and review maintenance.
 
 ## CLI compatibility
 
@@ -46,19 +49,32 @@ when their task area is needed.
 
 ## Coverage
 
+Operational skill:
+
 - standalone `ModelClient` overload and geometry-probing traps;
+- typed Pressure Acoustics, mathematical PDE, and named selections;
 - periodic ports, incidence angles, polarization, CopyFace meshes, oblique cells;
 - Drude/loss signs, layered boundaries, dispersive sweeps, PML/manual Floquet;
-- durable jobs, cancellation, Windows sharing/identity stability, resource gates;
+- durable jobs, cancellation, Windows sharing/identity stability, host recovery;
 - R/T/A, physical flux closure, wavelength sync, provenance, convergence, fields;
 - MIM, grating, nanopillar, parameter-scan, and field-export recipes.
 
+Development skill:
+
+- public tool/profile/schema/settings contracts and bounded validation;
+- durable state, process ownership, cancellation, admission, and Windows I/O;
+- solver-free tests, hosted CI policy, warning cleanup, and gate diagnosis;
+- wheel/sdist boundaries, non-editable deployment, and installed build identity;
+- hierarchical review validation, repair ledgers, exact-SHA CI, and release flow.
+
 ## Install
 
-Clone the repository, then copy the complete skill folder—not only `SKILL.md`:
+Clone the repository, then copy each complete skill folder you need—not only
+its `SKILL.md`:
 
 ```text
 skills/comsol-64-metasurface/
+skills/comsol-mcp-development/
 ```
 
 Example for opencode:
@@ -102,13 +118,28 @@ and start a fresh session so discovery is not confused with a stale process.
 skills/comsol-64-metasurface/
 ├── SKILL.md
 └── references/
+    ├── acoustics-pde.md
     ├── clientapi-core.md
     ├── durable-runtime.md
+    ├── host-resource-recovery.md
+    ├── magnetic-fields.md
     ├── materials-boundaries.md
+    ├── mcp-offline.md
+    ├── plotting.md
     ├── troubleshooting.md
     ├── validation-evidence.md
     ├── wave-optics-periodic.md
     └── workflow-recipes.md
+
+skills/comsol-mcp-development/
+├── SKILL.md
+├── agents/openai.yaml
+└── references/
+    ├── packaging-release.md
+    ├── repository-contracts.md
+    ├── review-maintenance.md
+    ├── runtime-reliability.md
+    └── testing-ci.md
 ```
 
 The published content is portable: it contains no usernames, home directories,

@@ -1,6 +1,6 @@
 ---
 name: comsol-64-metasurface
-description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations through a COMSOL MCP server or standalone/clientapi, shared Desktop/attached-Server collaboration, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, evidence validation, and safe runtime practice. Use when driving COMSOL through an MCP server or mph.Client, collaborating with a user-owned local Server/Desktop model, debugging clientapi/periodic-mesh/port/material/study failures, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
+description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations through a COMSOL MCP server or standalone/clientapi, shared Desktop/attached-Server collaboration, typed Pressure Acoustics and mathematical PDE construction, periodic Wave Optics and metasurface FEM, durable staged solves and bounded validation matrices, evidence validation, host-resource recovery, and safe runtime practice. Use when driving COMSOL through an MCP server or mph.Client, building Acoustics or Coefficient/General/Weak Form PDE models, collaborating with a user-owned local Server/Desktop model, debugging clientapi/selection/periodic-mesh/port/material/study failures, recovering a user workflow after resource exhaustion or MCP disconnection, running resumable sweeps or small durable evidence matrices, or auditing polarization, passivity, power closure, wavelength synchronization, mesh convergence, provenance, resource admission, and solver ownership.
 ---
 
 # COMSOL 6.4+ operations
@@ -86,11 +86,13 @@ Read each selected file completely before acting.
 | Task | Read |
 | --- | --- |
 | `ModelClient` overloads, components, geometry probing, electrostatics, heat transfer, study/result basics | [clientapi-core.md](references/clientapi-core.md) |
+| Named Box/side selections, Pressure Acoustics, Coefficient/General/Weak Form PDE, atomic boundary batches, analytical duct/Poisson validation | [acoustics-pde.md](references/acoustics-pde.md) |
 | AC/DC magnetic-field interfaces, Coil features, Java-tag conversion, standalone cleanup, and one-point smoke | [magnetic-fields.md](references/magnetic-fields.md) |
 | **Only when the required COMSOL operation is unavailable through MCP**: direct `mph` installation and standalone fallback, with manual ownership and evidence guards | [mcp-offline.md](references/mcp-offline.md) |
 | `PeriodicStructure`, `rdir1`, incidence angles, polarization, periodic mesh, oblique cells | [wave-optics-periodic.md](references/wave-optics-periodic.md) |
 | Drude/loss signs, layered boundaries, dispersive sweeps, PML, manual Floquet | [materials-boundaries.md](references/materials-boundaries.md) |
 | Solver ownership, shared Desktop/attached Server, durable jobs/validation matrices, cancellation, Windows load stability, resource telemetry/admission | [durable-runtime.md](references/durable-runtime.md) |
+| Heavy-solve resource exhaustion, vanished MCP transport, durable-progress preservation, safe pause/recovery, and exact resume | [host-resource-recovery.md](references/host-resource-recovery.md) |
 | Default-on evidence integrity, R/T/A, flux closure, polarization evidence, wavelength sync, provenance, convergence, fields | [validation-evidence.md](references/validation-evidence.md) |
 | MIM, gratings, nanopillars, parameter scans, field export, common modeling recipes | [workflow-recipes.md](references/workflow-recipes.md) |
 | Native result plots, boundary-selected surfaces, shared color ranges, camera/view handling, and PNG export | [plotting.md](references/plotting.md) |

@@ -1,0 +1,4 @@
+interface:
+  display_name: "COMSOL MCP Development"
+  short_description: "Develop, test, release, and recover COMSOL MCP"
+  default_prompt: "Use $comsol-mcp-development to make and verify a safe COMSOL MCP repository change."
