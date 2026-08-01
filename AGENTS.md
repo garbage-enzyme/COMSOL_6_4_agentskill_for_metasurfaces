@@ -24,7 +24,8 @@ Codex CLI, and opencode:
 The operation modules cover clientapi, Acoustics/PDE, periodic Wave Optics,
 durable solver use, host recovery, evidence, recipes, and troubleshooting. The
 development modules cover public contracts, runtime reliability, test/CI
-policy, release packaging, deployment identity, and review maintenance.
+policy, release packaging, deployment identity, explicitly requested legacy
+compatibility, and review maintenance.
 
 Do not publish usernames, home directories, host-specific thresholds,
 credentials, private result values, or internal project/phase labels in this

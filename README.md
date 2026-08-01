@@ -65,6 +65,7 @@ Development skill:
 - durable state, process ownership, cancellation, admission, and Windows I/O;
 - solver-free tests, hosted CI policy, warning cleanup, and gate diagnosis;
 - wheel/sdist boundaries, non-editable deployment, and installed build identity;
+- evidence-bound compatibility attempts for explicitly requested pre-6.4 builds;
 - hierarchical review validation, repair ledgers, exact-SHA CI, and release flow.
 
 ## Install
@@ -135,6 +136,7 @@ skills/comsol-mcp-development/
 ├── SKILL.md
 ├── agents/openai.yaml
 └── references/
+    ├── legacy-version-compatibility.md
     ├── packaging-release.md
     ├── repository-contracts.md
     ├── review-maintenance.md

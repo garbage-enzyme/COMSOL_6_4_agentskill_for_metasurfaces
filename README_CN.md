@@ -56,6 +56,7 @@ MPh/clientapi 环境的 terminal。
 - durable state、进程 ownership、取消、准入和 Windows I/O；
 - solver-free 测试、云端 CI 策略、warning 清理和 gate 诊断；
 - wheel/sdist 边界、non-editable 部署和 installed build identity；
+- 对用户明确要求的 6.4 以前版本进行证据约束的兼容尝试；
 - 分层审查验证、修复台账、exact-SHA CI 和发布流程。
 
 ## 安装
@@ -123,6 +124,7 @@ skills/comsol-mcp-development/
 ├── SKILL.md
 ├── agents/openai.yaml
 └── references/
+    ├── legacy-version-compatibility.md
     ├── packaging-release.md
     ├── repository-contracts.md
     ├── review-maintenance.md
