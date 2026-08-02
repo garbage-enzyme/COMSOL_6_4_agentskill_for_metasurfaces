@@ -399,6 +399,21 @@ operator launcher that:
 - prints durable log/artifact paths;
 - keeps its console open on exit.
 
+For the companion durable PowerShell launcher, use exactly one mode switch per
+invocation. Run `-ValidateOnly` first and require its explicit no-client receipt.
+Then use `-Run` to start or resume the driver; `-Run` already enters the monitor
+after startup. Do not combine it with `-Monitor`. Use `-Monitor` by itself only
+to inspect an existing or stopped job and select any offered `resume` command
+explicitly. Treat `-Run`, `-Monitor`, and `-ValidateOnly` as mutually exclusive.
+
+Classify process collisions by role, not a broad executable-name prefix. An idle
+`comsol-mcp.exe` is a solver-free stdio host and is not by itself a solver
+collision. A real COMSOL executable other than that exact host, an MPh server,
+or a Java process whose command line identifies COMSOL/MPh remains a collision.
+Before every start, still require the shared lease and a fresh complete process
+inventory; excluding the idle host is not permission to ignore its actual
+solver child or lease.
+
 Do not route a long worker's stdout or stderr through an agent-owned tool pipe.
 If that turn, terminal cell, or pipe consumer ends while the worker survives, a
 flushed console write can block even after the latest result row was safely

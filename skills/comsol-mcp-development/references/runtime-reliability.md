@@ -22,6 +22,14 @@ Keep one solver owner. Before client creation or lifecycle mutation, require a
 fresh complete process inventory plus lease validation. Read-only status may use
 a labeled recent cache; mutation may not.
 
+Classify collision candidates by exact process role. The installed
+`comsol-mcp.exe` console entry point is a solver-free stdio host until it owns an
+actual COMSOL/MPh/Java solver child, so a broad `^comsol.*` rule is incorrect.
+Exclude only that exact host executable, continue to reject real COMSOL and MPh
+server executables plus COMSOL/MPh Java runtimes, and add deterministic fixtures
+for both accepted and rejected names. The host exclusion never overrides an
+active solver lease or a detected descendant.
+
 Use two bounded clean snapshots when a newly starting external process can race
 with admission. A single clean inventory can become stale before a worker starts.
 
