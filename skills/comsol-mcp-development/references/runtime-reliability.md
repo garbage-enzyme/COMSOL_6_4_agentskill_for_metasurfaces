@@ -4,6 +4,7 @@
 
 - MCP transport and solver ownership
 - Durable state authority
+- External manifests and staged replay
 - Process identity and cancellation
 - Atomic Windows I/O
 - Admission races and status inventories
@@ -42,6 +43,31 @@ rows and replay completed points as skipped.
 Flush and `fsync` each durable append before callbacks, progress publication, or
 the next point. Test the exact descriptor and ordering, not merely that an
 `fsync` call occurred somewhere.
+
+## External manifests and staged replay
+
+Keep public job submission compact when a complete typed specification would
+make core discovery unbounded. Accept only a contained ASCII JSON path plus its
+exact SHA-256, then expand the file through one strict versioned normalizer.
+Reject unknown fields, changed bytes, path escape, excessive size, and an
+incompatible job discriminator before ownership or client construction.
+
+Pin and re-hash the submission file, immutable source, normalized manifest,
+producer, and worker identities before client startup and after execution. The
+external file is transport, not an escape hatch: the expanded manifest must
+remain a complete closed contract with the same schema/runtime valid set.
+
+For a multiphysics replay, persist one hash-chained row per bounded stage. Resume
+only verified complete stages and append a missing row for orphaned complete
+evidence; never repeat an accepted stage merely because projected status lagged.
+Bind every result read to an explicit study and dataset so a default solution
+cannot substitute for the intended stage.
+
+Keep a current-model save distinct from a checkpoint Save Copy. Verify the
+working model path after each operation, preserve caller-owned sources, and
+rehash the source after cleanup. Keep optional native imports and COMSOL product
+checks behind solver-free structural validation so catalog discovery and job
+preview cannot load native libraries or launch processes.
 
 ## Process identity and cancellation
 

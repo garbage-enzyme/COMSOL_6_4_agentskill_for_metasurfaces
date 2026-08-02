@@ -1,6 +1,6 @@
 ---
 name: comsol-64-metasurface
-description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations, execution-mode selection, modeling, durable solves, evidence validation, and recovery through COMSOL MCP or standalone/clientapi. Use when choosing interactive, inline, launcher, standalone, or MPH-only execution; driving COMSOL through MCP or mph.Client; building Acoustics, PDE, Wave Optics, or metasurface models; collaborating with local Server/Desktop; debugging clientapi, selection, mesh, port, material, or study failures; recovering after resource exhaustion or MCP disconnection; running resumable sweeps; or auditing polarization, passivity, power closure, wavelength synchronization, convergence, provenance, resource admission, and solver ownership.
+description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations, execution-mode selection, modeling, durable solves, evidence validation, and recovery through COMSOL MCP or standalone/clientapi. Use when choosing interactive, inline, launcher, standalone, or MPH-only execution; driving COMSOL through MCP or mph.Client; building Acoustics, PDE, Heat Transfer, Solid Mechanics, Wave Optics, thermal-emission, thermo-optomechanical, or metasurface models; collaborating with local Server/Desktop; debugging clientapi, selection, mesh, port, material, or study failures; recovering after resource exhaustion or MCP disconnection; running resumable sweeps; comparing spectral line shapes; or auditing polarization, passivity, power closure, wavelength synchronization, convergence, provenance, resource admission, and solver ownership.
 ---
 
 # COMSOL 6.4+ operations
@@ -126,6 +126,7 @@ Read each selected file completely before acting.
 | Solver ownership, shared Desktop/attached Server, durable jobs/validation matrices, cancellation, Windows load stability, resource telemetry/admission | [durable-runtime.md](references/durable-runtime.md) |
 | Heavy-solve resource exhaustion, vanished MCP transport, durable-progress preservation, safe pause/recovery, and exact resume | [host-resource-recovery.md](references/host-resource-recovery.md) |
 | Default-on evidence integrity, R/T/A, flux closure, polarization evidence, wavelength sync, provenance, convergence, fields | [validation-evidence.md](references/validation-evidence.md) |
+| Solver-free configuration comparison, Lorentzian/Fano line-shape comparison, thermal material/radiation evidence, and thermal-to-optical replay | [thermal-spectral-workflows.md](references/thermal-spectral-workflows.md) |
 | MIM, gratings, nanopillars, parameter scans, field export, common modeling recipes | [workflow-recipes.md](references/workflow-recipes.md) |
 | Native result plots, boundary-selected surfaces, shared color ranges, camera/view handling, and PNG export | [plotting.md](references/plotting.md) |
 | Error signatures and the smallest safe diagnostic | [troubleshooting.md](references/troubleshooting.md) |
