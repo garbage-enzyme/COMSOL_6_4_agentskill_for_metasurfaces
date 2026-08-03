@@ -44,6 +44,21 @@ version with different content, force reinstall and compare installed identities
 the version string alone cannot prove which code is running. Run `pip check`
 and verify the resolved dependency lane.
 
+On Windows, a running console-script process can lock its generated `.exe`.
+Before replacing an installed wheel, prove that no COMSOL client or solver
+owner is active, identify the target-environment launcher and Python child by
+PID, parent PID, command line, and executable path, and stop only that exact
+stdio host under caller-authorized deployment or restart. Never terminate by
+process name or begin replacement while the launcher lock remains.
+
+If an interrupted uninstall leaves the import missing or pip reports a
+`~<distribution>` rollback directory, treat the environment as an incomplete
+transaction. Verify each residual path is bounded inside the exact target
+`site-packages`, complete the exact-wheel force reinstall with `--no-deps`,
+then remove or reversibly quarantine only the verified stale backup paths.
+Recheck import location, distribution metadata, generated entries, and `pip
+check`; `pip check` alone does not prove that the package import survived.
+
 ## Build identity and stdio probe
 
 Discovery should expose redacted identities that distinguish source from
