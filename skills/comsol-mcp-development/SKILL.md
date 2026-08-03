@@ -36,6 +36,7 @@ Read each selected reference completely before acting.
 | Durable jobs, atomic state, ownership, process identity, cancellation, admission races, Windows sharing, resource exhaustion, MCP host recovery | [runtime-reliability.md](references/runtime-reliability.md) |
 | Unit/stress/integration layers, local and hosted pytest policy, warnings, deterministic clocks, CI diagnosis, quality and release gates | [testing-ci.md](references/testing-ci.md) |
 | Package boundaries, `comsol_mcp` namespace, wheel/sdist, non-editable install, build identity, exact-SHA release, production restart | [packaging-release.md](references/packaging-release.md) |
+| Dependency drift, direct/optional/dev/bootstrap classification, paired constraints, dual-lane validation, lock regeneration, and report workflows | [dependency_update.md](references/dependency_update.md) |
 | Explicitly requested COMSOL versions below 6.4, conflict proof, narrow compatibility patches, stop rules, and rollback to a public GitHub version | [legacy-version-compatibility.md](references/legacy-version-compatibility.md) |
 | External-review reconciliation, parent/child verification, dispositions, repair ordering, commit boundaries, TODO and receipt maintenance | [review-maintenance.md](references/review-maintenance.md) |
 
