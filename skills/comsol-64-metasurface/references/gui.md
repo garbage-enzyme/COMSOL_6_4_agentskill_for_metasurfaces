@@ -6,9 +6,8 @@ GUI workflows here rather than expanding the short skill entry point.
 
 ## Open and hand off
 
-When `capabilities.project_settings.setup_required` is true, or the user asks to
-edit startup settings, offer the installed GUI or an agent-edited JSON workflow.
-For the GUI path:
+When `capabilities.project_settings.setup_required` is true, or an ordinary user
+asks to edit startup settings, use the installed GUI as the default workflow:
 
 1. Call the profile-independent solver-free `settings.start` tool once. Treat
    both `launched` and `already_running` as a successful handoff.
@@ -21,6 +20,11 @@ For the GUI path:
 
 Use the installed `comsol-mcp-settings` entry point only as the direct fallback
 when the agent-facing MCP tool is unavailable.
+
+Reserve direct JSON editing for developers, deployment automation, recovery, or
+an explicit user request for agent-managed configuration. Modify only the
+resolved shared writable file, validate it, and request the same owning-client
+restart. Never create per-agent settings files.
 
 ## Profile guidance
 

@@ -35,10 +35,11 @@ Claude Code, Codex CLI, and opencode.
     model adoption, take turns rather than editing simultaneously, preserve the
     user's Server/Desktop/model on detach, and treat GUI visibility as distinct
     from verified scientific evidence.
-11. Use one shared project-root `settings.json` for every agent. Do not create
-    agent-specific copies of profile, runtime, path, Java, shared-server, or
-    evidence settings; pass only `COMSOL_MCP_SETTINGS_PATH` when the host cannot
-    preserve the project path.
+11. Prefer the Settings GUI for ordinary users: call `settings.start` once,
+    pause while the user owns the GUI, and never edit JSON while it is open.
+    Reserve direct JSON editing for developers, automation, recovery, or an
+    explicit user request. Keep one shared settings file for every agent and do
+    not create agent-specific copies.
 12. Serialize every call to one COMSOL MCP stdio server, including read-only
     discovery and status calls. Never use `Promise.all`, concurrent tool batches,
     or overlapping lifecycle polls against the same server.
@@ -63,21 +64,24 @@ call the same COMSOL MCP server and cannot overlap its solver lifecycle.
 
 ## Shared settings contract
 
-The COMSOL MCP project groups startup settings by function in its root
-`settings.json`. The checked-in template intentionally contains configuration
-only; keep field meaning, defaults, and accepted values in the settings guide.
-Missing entries use safe defaults. An illegal value falls back only that entry
-and is reported through `capabilities` or `evidence_integrity_status` as a
-bounded `settings_errors` item; malformed JSON falls back to the complete safe
-default document and reports the error. Check
-`project_settings.configuration_state` before relying on a profile or path.
+Use the installed Settings GUI as the normal user configuration path. It writes
+the same shared settings file used by every agent. Treat the checked-in
+`settings.json` template as an advanced interface for developers, automation,
+recovery, and explicitly authorized agent edits. Missing entries use safe
+defaults. An illegal value falls back only that entry and is reported through
+`capabilities` or `evidence_integrity_status` as a bounded `settings_errors`
+item; malformed JSON falls back to the complete safe default document and
+reports the error. Check `project_settings.configuration_state` before relying
+on a profile or path.
 
-For shared Desktop/Server work, set `profile.name` to `desktop_shared` and
-`shared_server.enabled` to `true` in that same file, then restart the MCP host.
-Evidence-integrity checks remain default-on in
-`evidence_integrity.checks`; only explicit JSON `false` is an exploration opt-out
-and it must propagate `strictly_verified: false`. The old individual environment
-variables are compatibility overrides, not the normal multi-agent configuration.
+For shared Desktop/Server work, choose any valid base profile and enable the
+independent shared-server feature in the GUI Profile tab. The advanced JSON
+equivalent is `shared_server.enabled=true`; no `desktop_shared` profile exists.
+Restart the MCP host after startup-setting changes. Evidence-integrity checks
+remain default-on; only an explicit GUI opt-out or JSON boolean `false` may
+disable a check, and it must propagate `strictly_verified: false`. Treat the old
+individual environment variables as compatibility overrides, not the normal
+multi-agent configuration.
 
 ## Simulation execution modes
 
