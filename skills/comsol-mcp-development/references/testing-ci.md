@@ -48,6 +48,14 @@ is stable. Different hosted jobs have stalled during worker dispatch or
 shutdown. Do not restore hosted xdist until an upstream fix or a new repeated
 stability benchmark justifies it.
 
+When backend, dependency, package, and GUI gates share the same push, pull
+request, permissions, and cancellation policy, keep them as independent jobs in
+one solver-free workflow. This preserves separate required-status points and
+failure localization while producing one workflow run identity per source SHA.
+Use a separate workflow only when triggers, permissions, secrets, lifecycle, or
+licensed side effects genuinely differ. Exact-SHA acceptance must inspect every
+required job in the unified run.
+
 Never start a full local suite or gate while a heavy COMSOL solve is active. A
 heavy solve may exhaust the host alone; overlap only increases the risk.
 
