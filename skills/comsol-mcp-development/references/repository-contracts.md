@@ -47,6 +47,12 @@ When a public tool changes, update together:
 Do not use private framework registries or direct wrapped-function calls as the
 only proof that public MCP dispatch works.
 
+Treat container-level meaning as part of the typed contract. Validate nested
+elements, preserve the distinction between absent, null, empty, and invalid,
+and classify physical/evidence differences from the complete normalized object
+rather than from one convenient scalar. Public responses may be redacted while
+private logs retain diagnostics; tests must verify both boundaries separately.
+
 ## Typed schemas and boundedness
 
 Reject unknown fields, non-finite numbers, booleans where numeric scalars are
@@ -110,3 +116,8 @@ untested or weaken Windows guarantees.
 Use ASCII runtime, cache, build, and artifact roots when native dependencies or
 editable installs are sensitive to non-ASCII user paths. Keep public examples
 portable and free of host-specific drive letters or thresholds.
+
+All test, acceptance, build, and release output must stay below the declared
+test root, including fallback fixtures and run locks. Centralize the root
+policy so individual tests cannot silently fall back to system temp or a
+production runtime directory.

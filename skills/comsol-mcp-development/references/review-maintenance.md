@@ -49,6 +49,18 @@ Use dispositions such as:
 
 Do not mark a claim fixed because code changed or one focused test passed.
 
+A reviewer disposition is evidence to check, not permission to edit. Reproduce
+the exact premise against the current source before every repair. If the path is
+already guarded, unreachable, outside declared support, or correct by design,
+change the disposition to `rejected` and preserve the behavior; never weaken a
+correct contract merely to exhaust a review count.
+
+For test-oracle findings, require the reviewer to name a concrete mutation that
+would still pass while violating the public contract. Direct equality is valid
+for intentional schema, enum, generated-output, and release-identity goldens.
+Reject circular expected values only when expected and actual genuinely share
+the same implementation path.
+
 ## Order repairs
 
 Finish release-blocking summary parents before unrelated standalone findings
@@ -74,6 +86,11 @@ separate final section with disposition and a one-sentence explanation.
 Update the ledger after local verification, after commit/push, after CI, and
 after deployment. Preserve failed runs and superseded receipts rather than
 rewriting history.
+
+Keep review-tool false-positive rules outside the product repository unless
+they are intentionally public project policy. Order specific path rules before
+general fallbacks when the tool uses first-match semantics, then validate JSON
+and representative matches with the tool's own rule-inspection command.
 
 ## Commit and CI boundaries
 

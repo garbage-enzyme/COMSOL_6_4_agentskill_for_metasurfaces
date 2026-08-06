@@ -33,6 +33,12 @@ release.
 Record wheel and sdist SHA-256 values. Validate that every packaged runtime file
 is expected and that repository compatibility layers remain absent.
 
+Treat a version bump as one atomic public-identity change. Update package and
+GUI versions, bilingual docs, deterministic locale outputs, schema-registry
+hashes, release facts, compatibility assertions, and visible header tests
+together. Run the repository generators and their `--check` modes; do not hand
+edit generated PO/MO or release-facts payloads independently.
+
 ## Clean non-editable installation
 
 Install the wheel into a clean environment outside the source checkout. Prefer
@@ -69,6 +75,12 @@ Probe installed stdio from a working directory outside the repository. Perform
 real MCP initialize, tool discovery, and capabilities calls while proving no
 COMSOL client or JVM started. A source-tree import probe is not installed-wheel
 acceptance.
+
+For a protocol-compatibility release, probe the exact installed wheel through
+raw supported protocol revisions, the oldest declared real client SDK, and the
+current configured agent client. Bind every receipt to the same wheel hash and
+source SHA, require clean close and zero solver residue, and preserve the
+caller's configured model/API provider instead of bypassing user configuration.
 
 ## Exact-SHA release sequence
 

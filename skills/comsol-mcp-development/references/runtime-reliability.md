@@ -48,6 +48,11 @@ The append-only journal is completion authority. Mutable status is a projection
 and can lag after a sharing or publication failure. Resume only exact matching
 rows and replay completed points as skipped.
 
+Recovery tests must cover a partial final record, exact truncation to the last
+complete record, and the next hash-chained append. Assert recovered rows and
+chain identity; do not couple the contract to the private lifetime or filename
+of the synchronization lock.
+
 Flush and `fsync` each durable append before callbacks, progress publication, or
 the next point. Test the exact descriptor and ordering, not merely that an
 `fsync` call occurred somewhere.
@@ -86,6 +91,12 @@ restart, missing creation time, and incomplete inventory as uncertainty.
 Cancellation remains nonterminal until the owned worker, descendants, ports,
 leases, state transitions, and cleanup evidence agree. Bind control requests to
 the attempt so a stale request cannot affect a replacement worker.
+
+For child-process acceptance, isolate output per case, retain the exact process
+object, drain redirected streams, apply a bounded wait, and terminate only that
+identity on timeout. A parent test that requires a readiness marker, proves the
+child remains alive, and force-terminates it already covers early-return risk;
+do not add a second assertion that cannot observe a distinct failure.
 
 Retain process-owner objects until children exit. Dropping `Popen` or pipe
 owners while durable children still run can produce warnings, blocked output,
