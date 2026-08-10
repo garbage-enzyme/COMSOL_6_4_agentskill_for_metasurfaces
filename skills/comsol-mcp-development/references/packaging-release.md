@@ -33,6 +33,12 @@ release.
 Record wheel and sdist SHA-256 values. Validate that every packaged runtime file
 is expected and that repository compatibility layers remain absent.
 
+Select deployment artifacts by the accepted SHA-256, not merely by filename or
+the repository `dist` directory. A checkout can retain an older wheel whose
+name still looks plausible. Search release-gate roots for the accepted hash,
+verify it again immediately before installation, and retain the exact prior
+accepted wheel for rollback.
+
 Treat a version bump as one atomic public-identity change. Update package and
 GUI versions, bilingual docs, deterministic locale outputs, schema-registry
 hashes, release facts, compatibility assertions, and visible header tests
@@ -56,6 +62,12 @@ owner is active, identify the target-environment launcher and Python child by
 PID, parent PID, command line, and executable path, and stop only that exact
 stdio host under caller-authorized deployment or restart. Never terminate by
 process name or begin replacement while the launcher lock remains.
+
+Treat a persisted solver-owner lock file as insufficient evidence by itself.
+Also inspect the durable session state, active jobs, live COMSOL/Java inventory,
+and exact launcher process tree. Proceed only when the session is disconnected
+or deactivated, no solver lease is owned, cleanup is complete, and no active
+job can still require the host.
 
 If an interrupted uninstall leaves the import missing or pip reports a
 `~<distribution>` rollback directory, treat the environment as an incomplete
@@ -103,6 +115,13 @@ rerun that used changed source, or a source-only local pass.
 Migrate effective settings intentionally; do not overwrite production with a
 template. Restart every owning stdio client after installation because an
 already-running Python process retains old modules in memory.
+
+After replacing an exact configured launcher, run an outside-checkout installed
+package probe and a real bounded stdio initialize/discovery probe. Require the
+new package version, installed-site-package identity, expected schema/tool
+inventory, `pip check`, `comsol_client_started=false`, and zero launcher,
+COMSOL, or Java residue. A successful import alone does not prove that the
+configured console entry or stdio protocol uses the new installation.
 
 If a host vanished, validate its configured command before restart. A long-lived
 pre-migration host can conceal a stale production command until it exits.

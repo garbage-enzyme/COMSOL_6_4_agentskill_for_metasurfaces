@@ -36,6 +36,7 @@ Read each selected reference completely before acting.
 | Durable jobs, atomic state, ownership, process identity, cancellation, admission races, Windows sharing, resource exhaustion, MCP host recovery | [runtime-reliability.md](references/runtime-reliability.md) |
 | Unit/stress/integration layers, local and hosted pytest policy, warnings, deterministic clocks, CI diagnosis, quality and release gates | [testing-ci.md](references/testing-ci.md) |
 | Package boundaries, `comsol_mcp` namespace, wheel/sdist, non-editable install, build identity, exact-SHA release, production restart | [packaging-release.md](references/packaging-release.md) |
+| Fresh-install disk sizing, package/dependency attribution, optional-extra boundaries, and temporary-space estimates | [deployment-sizing.md](references/deployment-sizing.md) |
 | Dependency drift, direct/optional/dev/bootstrap classification, paired constraints, dual-lane validation, lock regeneration, and report workflows | [dependency_update.md](references/dependency_update.md) |
 | Explicitly requested COMSOL versions below 6.4, conflict proof, narrow compatibility patches, stop rules, and rollback to a public GitHub version | [legacy-version-compatibility.md](references/legacy-version-compatibility.md) |
 | External-review reconciliation, parent/child verification, dispositions, repair ordering, commit boundaries, TODO and receipt maintenance | [review-maintenance.md](references/review-maintenance.md) |
@@ -61,3 +62,38 @@ Use `reproduced`, `deterministic_failure`, `timing_race`, `resource_exhaustion`,
 `rejected`, and `deferred` precisely. A local pass is not exact-SHA CI success;
 a source-tree pass is not production deployment; a restarted MCP host is not a
 successful COMSOL solve.
+
+## Reusable maintenance patterns
+
+- For Windows Settings GUI modal progress views, reserve the action footer as
+  an independent bottom-packed region, bound the dialog to the monitor, and
+  truncate untrusted dynamic source labels for display. High-DPI and long-name
+  Tk scenarios must verify that cancellation remains reachable.
+- When an optional public feature is renamed or split, update its catalog gate,
+  settings migration, environment mapping, profile/feature snapshots, release
+  facts, quality-target inventory, GUI visual golden, and legacy compatibility
+  assertions in the same change. Run the repository quality gate after focused
+  tests because stale counts can survive narrow GUI coverage.
+- For wavelength-controlled one-point evidence, retain and compare all three
+  identities: caller-requested value, evaluated model parameter, and solved
+  frequency-derived wavelength. Equality between only the latter two can hide
+  a study sweep overriding the requested point; use the study's explicit
+  single-point parameter control and fail closed on any requested-value drift.
+- For subprocess protocols carried on stdout, treat every imported dependency
+  as a possible protocol writer. Prefer the dependency's current module entry
+  point over deprecated compatibility imports, keep diagnostics on stderr, and
+  test the child in a fresh optional-dependency environment while parsing every
+  stdout line as the declared protocol.
+- For PDF/manual indexing workers, reserve stdout exclusively for framed JSON
+  events. Duplicate the protocol fd before redirecting native-library stdout
+  to bounded stderr; otherwise native PDF diagnostics can masquerade as invalid
+  JSON and cause a false worker failure. Verify the real corpus, preserve the
+  previous index on cancellation/failure, and record only bounded relative
+  source/page diagnostics.
+- For native COMSOL adjoint adapters, prove the objective can be assembled by
+  the native sensitivity solver. A forward-valid aggregate such as `Ttotal`
+  may be undefined in the adjoint objective scope; use a documented
+  differentiation-aware order expression when required and bind the generated
+  sensitivity solution/dataset identities. Keep raw complex `fsens` evidence
+  separate from the accepted real derivative component, which requires an
+  independent finite-difference check.
