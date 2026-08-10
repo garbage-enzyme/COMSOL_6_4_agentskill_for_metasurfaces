@@ -69,6 +69,17 @@ is stable. Different hosted jobs have stalled during worker dispatch or
 shutdown. Do not restore hosted xdist until an upstream fix or a new repeated
 stability benchmark justifies it.
 
+For real Tk layout tests on GitHub-hosted Windows, do not assume a successful
+`setup-python` step proves that Tcl/Tk payload files are usable. Floating minor
+versions can select a damaged or incomplete hosted toolcache. Keep the action
+on its reviewed current release, pin the GUI job to an exact official Python
+patch artifact known to contain Tcl/Tk, and run a minimal `tk.Tk()` create,
+withdraw, idle-update, and destroy preflight before installing the project. If
+the exact official artifact repeatedly fails that preflight, keep real-window
+layout and DPI acceptance in the local Windows gate; retain non-window GUI
+contracts in CI, and never silently skip the missing runtime as a green layout
+result.
+
 When backend, dependency, package, and GUI gates share the same push, pull
 request, permissions, and cancellation policy, keep them as independent jobs in
 one solver-free workflow. This preserves separate required-status points and
