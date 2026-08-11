@@ -43,6 +43,21 @@ Claude Code, Codex CLI, and opencode.
 12. Serialize every call to one COMSOL MCP stdio server, including read-only
     discovery and status calls. Never use `Promise.all`, concurrent tool batches,
     or overlapping lifecycle polls against the same server.
+13. For fixed-topology native shape sensitivity, do not assume COMSOL's
+    default deformation selections are editable. Create explicit editable
+    free/fixed/patch selections, bind controls to the prescribed displacement,
+    and re-read the mapping after save/reload.
+14. Validate native objectives in the sensitivity solver, not only in forward
+    evaluation. A quantity such as `Ttotal` can be forward-valid yet fail
+    native adjoint assembly; use the supported differentiation-aware
+    diffraction-order expression when appropriate. Treat `fsens(control)` as
+    raw complex evidence and accept a component only after independent central
+    finite-difference and directional checks establish the convention.
+15. When a later native shape-optimizer iteration produces material-coordinate
+    NaNs, do not infer convergence or blame the iteration count. Preserve the
+    accepted trajectory, replay bounded fractions of the proposed next move,
+    audit deformation Jacobians/frame mappings, and run a one-variable causal
+    control. Keep move limits caller-configurable and model-specific.
 
 ## Strict MCP transport sequence
 

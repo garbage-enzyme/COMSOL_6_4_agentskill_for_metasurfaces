@@ -41,6 +41,7 @@
 | CopyFace copies no target | Wrong boundary mapping/partition or missing congruence; re-probe centers, normals, adjacency, and translation. |
 | Periodic port selects several faces | Cell-side classification used normals only and included internal faces; add bounding-plane coordinate tests. |
 | A valid solve fails a fixed-mesh identity gate after changing wavelength or geometry | Audit which parameters drive diffraction orders, geometry, and physics-controlled meshing. Key identity by those axes, reorder the sweep accordingly, and preserve the old row under a versioned diagnostic output. |
+| A later GCMMA/MMA shape step fails with NaN/Inf material coordinates | Do not classify the last accepted point as optimal or assume the iteration count is the cause. Save the accepted control/objective trajectory, replay fractions of the proposed next step in fresh forward solves, and audit relative element volume/Jacobian or frame-mapping validity. A candidate can improve the objective while already crossing into negative deformation Jacobians before a larger fraction produces NaNs. Test a smaller explicit caller-owned move limit as a causal control; do not silently shrink it, hard-code a model/host value, or use automatic method fallback. |
 
 ## Ports and physics
 

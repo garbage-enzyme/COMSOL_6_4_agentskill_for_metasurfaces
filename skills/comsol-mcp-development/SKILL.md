@@ -97,3 +97,11 @@ successful COMSOL solve.
   sensitivity solution/dataset identities. Keep raw complex `fsens` evidence
   separate from the accepted real derivative component, which requires an
   independent finite-difference check.
+- For licensed native optimizer gates, bind the resource iteration cap, exact
+  solver iteration request, method, and move limit as separate caller-owned
+  inputs and verify solver readback. If a later shape step produces deformation
+  or material-coordinate NaNs, preserve the accepted trajectory and failed
+  evidence, replay bounded next-step fractions with fresh forward solves, and
+  audit frame/Jacobian feasibility before changing policy. A smaller move-limit
+  causal pass is model evidence, not a universal default; never hide an
+  automatic reduction, iteration truncation, or method fallback.
