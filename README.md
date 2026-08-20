@@ -65,6 +65,8 @@ Development skill:
 - durable state, process ownership, cancellation, admission, and Windows I/O;
 - solver-free tests, hosted CI policy, warning cleanup, and gate diagnosis;
 - wheel/sdist boundaries, non-editable deployment, and installed build identity;
+- optional DeepSeek Harness stdio compatibility bridge, serialized ownership,
+  durable-job mirroring, and settings-change boundaries;
 - evidence-bound compatibility attempts for explicitly requested pre-6.4 builds;
 - hierarchical review validation, repair ledgers, exact-SHA CI, and release flow.
 
@@ -136,6 +138,7 @@ skills/comsol-mcp-development/
 ├── SKILL.md
 ├── agents/openai.yaml
 └── references/
+    ├── deepseek-harness-bridge.md
     ├── legacy-version-compatibility.md
     ├── packaging-release.md
     ├── repository-contracts.md

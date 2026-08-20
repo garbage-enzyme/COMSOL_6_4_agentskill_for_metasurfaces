@@ -1,6 +1,6 @@
 ---
 name: comsol-mcp-development
-description: Develop, review, test, package, release, deploy, and recover the Windows-only COMSOL Multiphysics MCP server. Use when editing the COMSOL MCP repository or its tools, schemas, profiles, settings, durable jobs, evidence contracts, tests, CI workflows, recipes, packaging, wheel installation, production stdio host, or when diagnosing Windows races, process leaks, resource exhaustion, CI stalls, installed-source mismatches, and release-gate failures. Do not use for ordinary COMSOL modeling or scientific result validation; use the COMSOL operations skill for those tasks.
+description: Develop, review, test, package, release, deploy, and recover the Windows-only COMSOL Multiphysics MCP server, including the optional DeepSeek Harness stdio compatibility bridge. Use when editing the COMSOL MCP repository or its tools, schemas, profiles, settings, durable jobs, evidence contracts, tests, CI workflows, recipes, packaging, wheel installation, production stdio host, DSH bridge, or when diagnosing Windows races, process leaks, resource exhaustion, CI stalls, installed-source mismatches, and release-gate failures. Do not use for ordinary COMSOL modeling or scientific result validation; use the COMSOL operations skill for those tasks.
 ---
 
 # COMSOL MCP development
@@ -40,6 +40,7 @@ Read each selected reference completely before acting.
 | Dependency drift, direct/optional/dev/bootstrap classification, paired constraints, dual-lane validation, lock regeneration, and report workflows | [dependency_update.md](references/dependency_update.md) |
 | Explicitly requested COMSOL versions below 6.4, conflict proof, narrow compatibility patches, stop rules, and rollback to a public GitHub version | [legacy-version-compatibility.md](references/legacy-version-compatibility.md) |
 | External-review reconciliation, parent/child verification, dispositions, repair ordering, commit boundaries, TODO and receipt maintenance | [review-maintenance.md](references/review-maintenance.md) |
+| Optional DeepSeek Harness bridge, DSH installation, single-connection ownership, durable-job mirroring, settings-change verification, and bridge evidence boundaries | [deepseek-harness-bridge.md](references/deepseek-harness-bridge.md) |
 
 ## Default change sequence
 
