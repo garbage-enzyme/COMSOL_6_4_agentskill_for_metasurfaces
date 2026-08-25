@@ -1,56 +1,83 @@
-# DeepSeek Harness bridge
+# DeepSeek Harness bridge development
 
 ## Current version boundary
 
-The companion COMSOL MCP alpha7.2 release line is Python package `0.7.2`.
-Its optional repository component is `@local/dsh-comsol-bridge` `0.1.0`,
-requires Node.js `>=20`, and has no npm dependencies. Production may remain on
-`0.7.1`; a bridge push or source release is not production deployment.
+COMSOL MCP alpha7.2 uses Python package version `0.7.2`. The optional repository
+component `dsh_bridge/` is `@local/dsh-comsol-bridge` version `0.1.0`, requires
+Node.js 20 or newer, and has no npm dependencies. Production installation may
+remain on `0.7.1`; do not describe a source release or bridge push as production
+deployment.
 
-The bridge is repository-only and excluded from the Python wheel and sdist. It
-must not become a Python server feature, public server schema, shared
-`settings.json` field, COMSOL Settings GUI Boolean, solver-owner path, or
-COMSOL compatibility-matrix entry.
+The bridge is repo-only and excluded from both Python wheel and sdist. It must
+not modify or be represented as part of the Python server, public server
+schemas, shared `settings.json`, COMSOL Settings GUI, solver ownership, or
+COMSOL compatibility matrix.
 
-## Contract
+## Required repository synchronization
 
-The DSH Cordis plugin owns one MCP stdio connection and serializes tool calls,
-status/tail polling, and cancellation through one single-flight queue. Do not
-configure a second COMSOL entry through `dsh-mcp-client` in the same DSH
-session.
+For bridge behavior or compatibility changes, inspect and update together:
 
-The Python server remains authoritative for durable journals, leases, process
-identity, source immutability, cleanup, resume, and scientific evidence. A DSH
-completion notice is not an independent solve receipt. `config.enabled` is a
-DSH plugin switch, not a server or Settings GUI setting.
+- `dsh_bridge/package.json`, implementation, tests, and smoke script;
+- `dsh_bridge/README.md` and `dsh_bridge/DEEPSEEK_COMPATIBILITY.md`;
+- root `README.md`, `README_CN.md`, and `DEPLOYMENT.md` when user-visible;
+- `development_kit/docs/layout.md` for added, removed, or renamed files;
+- `pyproject.toml` and release-engineering assertions if package exclusion
+  changes.
 
-## Required synchronization
+Keep the adapted upstream acknowledgement for commit `99172f8f43c6753c2442c406cd5c6055ea8c5bef`
+in public release documentation.
 
-For a bridge change, inspect and update the bridge implementation, tests, smoke
-script, `package.json`, and `README.md`, plus the companion server's user docs
-and layout inventory when the user-visible contract changes. Keep the detailed
-contract in the companion server's `dsh_bridge/DEEPSEEK_COMPATIBILITY.md`.
+## Connection and ownership contract
 
-Retain the adapted upstream acknowledgement for commit
-`99172f8f43c6753c2442c406cd5c6055ea8c5bef` in public documentation.
+The bridge owns exactly one MCP stdio connection and serializes tool calls,
+status polling, tail polling, and cancellation through one single-flight queue.
+Do not configure a second `dsh-mcp-client` COMSOL entry in the same DSH session.
+
+The Python server remains authoritative for durable state, journal rows, solver
+lease, process identity, source immutability, cleanup, resume, and scientific
+evidence. A DSH completion notification is not an independent solve receipt.
+
+`config.enabled` is a DSH Cordis plugin Boolean. Never add it to the COMSOL
+Settings GUI or server settings schema. Server profile/settings changes still
+require the owning DSH/MCP host lifecycle to restart and capabilities to be
+read back. The current user's settings-change route has been independently
+accepted, but this does not establish a universal production deployment claim.
 
 ## Verification
 
-Run from the companion server repository root:
+Run from the repository root:
 
 ```powershell
 npm test --prefix dsh_bridge
 npm run smoke --prefix dsh_bridge
 ```
 
-The accepted solver-free bridge baseline is 37 Node tests plus fake-server
-smoke. Separately verify live DSH discovery, capabilities, solver ownership,
-durable job state, and settings-change host restart. The user has independently
-accepted the settings-change path; this does not establish production
-cancellation or licensed COMSOL solve acceptance.
+The accepted solver-free bridge baseline is 37 Node tests plus the fake-server
+smoke. Also run repository release-engineering/layout/package-boundary tests and
+the exact-SHA hosted workflow after an authorized push.
 
-Never promote fake-server behavior into production or licensed evidence. A lost
-bridge process does not prove the durable job stopped: reconnect, inspect
-`job_status`, and use the server's exact `job_resume` contract. Cancellation is
-terminal only after server terminal state and cleanup/lease evidence are
-available.
+For real DSH checks, verify live discovery and `capabilities`, then ownership
+status before any solver call. Compare mirrored progress and completion against
+the server's durable job state. Report separately:
+
+- fake-server protocol and mirror behavior;
+- installed-server transport/discovery behavior;
+- settings-change and host-restart behavior;
+- production cancellation behavior;
+- licensed COMSOL solve behavior.
+
+Never promote one category into another. In particular, 37/37 fake tests do not
+prove production cancellation or a licensed solve.
+
+## Failure and recovery
+
+Missing executable, unsupported protocol, malformed discovery, or exhausted
+reconnect budget must fail closed. Loss of the bridge process or stdio channel
+does not prove that a durable worker stopped. Reconnect, inspect `job_status`,
+and use the server's exact `job_resume` contract.
+
+Cancellation is terminal only after the server reports terminal state and the
+required cleanup and lease evidence is available. Never replace or restart the
+installed server while an active job, lease, COMSOL process, Java owner, or
+cleanup uncertainty remains. Preserve bridge state and server receipts; never
+rewrite evidence to match a client-side notification.

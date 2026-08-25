@@ -50,9 +50,10 @@ Claude Code, Codex CLI, and opencode.
 14. Validate native objectives in the sensitivity solver, not only in forward
     evaluation. A quantity such as `Ttotal` can be forward-valid yet fail
     native adjoint assembly; use the supported differentiation-aware
-    diffraction-order expression when appropriate. Treat `fsens(control)` as
-    raw complex evidence and accept a component only after independent central
-    finite-difference and directional checks establish the convention.
+    diffraction-order expression (for example `comp1.ewfd.Torder_0_0`) when
+    appropriate. Treat `fsens(control)` as raw complex evidence and accept a
+    component only after independent central finite-difference and directional
+    checks establish the convention.
 15. When a later native shape-optimizer iteration produces material-coordinate
     NaNs, do not infer convergence or blame the iteration count. Preserve the
     accepted trajectory, replay bounded fractions of the proposed next move,
@@ -130,6 +131,25 @@ scheduler/submission interface, storage and path rules, network access, resource
 limits, and required status/resume/output behavior. Missing target facts require
 a clarification request, not a guessed package.
 
+## Offline inspection and long-task review
+
+- On hosts without COMSOL, or whenever a caller asks about a saved `.mph`,
+  use `mph_inspect`, `mph_diff`, `model_identity`,
+  `runtime_compatibility_status`, and `offline_export_validate` with COMSOL
+  closed. They are read-only and never import or start COMSOL/Java/MPh/JPype.
+- Report file/source/derived/checkpoint identity from
+  `model_identity`; live session identity is structured-unavailable unless the
+  caller explicitly requests it from an already-connected session.
+- Treat bounded-step receipts (`bounded_step_receipt`) as the review record:
+  pre/post state hashes, checkpoint identity, numerical checks, and separated
+  transport/execution/evidence/cleanup/scientific outcomes. A checkpoint is
+  usable only when its bytes plus source/model/revision identities all match
+  the receipt; otherwise decide restart.
+- For long tasks, distinguish observer timeout, transport disconnect,
+  worker failure, and verified solver terminal state; cleanup is proven only
+  by exact owned-identity absence, never by name matching or monitor silence.
+- Integrity evidence from these tools is never FEM validation.
+
 ## Reference router
 
 Read each selected file completely before acting.
@@ -150,6 +170,7 @@ Read each selected file completely before acting.
 | MIM, gratings, nanopillars, parameter scans, field export, common modeling recipes | [workflow-recipes.md](references/workflow-recipes.md) |
 | Native result plots, boundary-selected surfaces, shared color ranges, camera/view handling, and PNG export | [plotting.md](references/plotting.md) |
 | Error signatures and the smallest safe diagnostic | [troubleshooting.md](references/troubleshooting.md) |
+| Hosts without COMSOL, offline `.mph` probing/export validation, and the frozen five-tool read-only profile | [comsolless-read-only.md](references/comsolless-read-only.md) |
 
 For a task spanning several areas, read only their union. Examples:
 
