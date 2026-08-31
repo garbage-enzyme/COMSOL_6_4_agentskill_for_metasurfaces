@@ -137,6 +137,10 @@ a clarification request, not a guessed package.
   use `mph_inspect`, `mph_diff`, `model_identity`,
   `runtime_compatibility_status`, and `offline_export_validate` with COMSOL
   closed. They are read-only and never import or start COMSOL/Java/MPh/JPype.
+- When the request is inspection-only and does not ask to edit, save, solve, or
+  otherwise mutate a model, route to the offline tools first even if COMSOL is
+  installed or currently available. Start COMSOL only when the offline result
+  is insufficient and the caller explicitly requests a live-session check.
 - Report file/source/derived/checkpoint identity from
   `model_identity`; live session identity is structured-unavailable unless the
   caller explicitly requests it from an already-connected session.
