@@ -6,6 +6,7 @@
 - Java collection and overload traps
 - Geometry probing and finalization
 - Electrostatics
+- Electrochemistry profile routing
 - Heat transfer
 - Study, mesh, results, and saving
 
@@ -157,6 +158,14 @@ and block, build geometry, add electrostatics plus ChargeConservation/material,
 probe and assign Ground/ElectricPotential to opposite faces, create/build a
 FreeTet mesh, solve a Stationary study, and compare the evaluated capacitance
 against `eps0*eps_r*area/separation`.
+
+## Electrochemistry profile routing
+
+For the isolated electrochemistry surface, read
+[electro-chemistry.md](electro-chemistry.md) before creating a physics
+interface or feature. It records the exact COMSOL 6.4 interface/property names,
+the string-versus-integer dimension rule, module availability findings, and
+the boundary between API smoke evidence and scientific validation.
 
 ## Heat transfer
 

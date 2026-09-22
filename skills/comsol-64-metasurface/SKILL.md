@@ -161,6 +161,7 @@ Read each selected file completely before acting.
 | Task | Read |
 | --- | --- |
 | `ModelClient` overloads, components, geometry probing, electrostatics, heat transfer, study/result basics | [clientapi-core.md](references/clientapi-core.md) |
+| Isolated `electro_chemistry` profile, COMSOL 6.4 electrochemistry interfaces/features, bounded live probe, and evidence limits | [electro-chemistry.md](references/electro-chemistry.md) |
 | Named Box/side selections, Pressure Acoustics, Coefficient/General/Weak Form PDE, atomic boundary batches, analytical duct/Poisson validation | [acoustics-pde.md](references/acoustics-pde.md) |
 | AC/DC magnetic-field interfaces, Coil features, Java-tag conversion, standalone cleanup, and one-point smoke | [magnetic-fields.md](references/magnetic-fields.md) |
 | **Only when the required COMSOL operation is unavailable through MCP**: direct `mph` installation and standalone fallback, with manual ownership and evidence guards | [mcp-offline.md](references/mcp-offline.md) |

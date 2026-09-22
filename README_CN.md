@@ -43,6 +43,7 @@ MPh/clientapi 环境的 terminal。
 使用技能：
 
 - standalone `ModelClient` 重载差异与几何探测；
+- 独立的 COMSOL 6.4 电化学模块 profile、接口/属性探测、有界修改和证据边界；
 - typed Pressure Acoustics、数学 PDE 和命名 selection；
 - 周期端口、入射角、偏振、CopyFace 网格和斜晶格；
 - Drude/损耗符号、层状边界、色散扫描、PML/手动 Floquet；
@@ -109,6 +110,7 @@ skills/comsol-64-metasurface/
 └── references/
     ├── acoustics-pde.md
     ├── clientapi-core.md
+    ├── electro-chemistry.md
     ├── durable-runtime.md
     ├── host-resource-recovery.md
     ├── magnetic-fields.md

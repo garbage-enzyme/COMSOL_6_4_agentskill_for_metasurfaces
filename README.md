@@ -52,6 +52,8 @@ when their task area is needed.
 Operational skill:
 
 - standalone `ModelClient` overload and geometry-probing traps;
+- isolated COMSOL 6.4 Electrochemistry Module profile, interface/property
+  probing, bounded mutations, and evidence limits;
 - typed Pressure Acoustics, mathematical PDE, and named selections;
 - periodic ports, incidence angles, polarization, CopyFace meshes, oblique cells;
 - Drude/loss signs, layered boundaries, dispersive sweeps, PML/manual Floquet;
@@ -123,6 +125,7 @@ skills/comsol-64-metasurface/
 └── references/
     ├── acoustics-pde.md
     ├── clientapi-core.md
+    ├── electro-chemistry.md
     ├── durable-runtime.md
     ├── host-resource-recovery.md
     ├── magnetic-fields.md
