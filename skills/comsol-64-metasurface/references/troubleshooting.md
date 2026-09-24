@@ -42,6 +42,45 @@
 | Periodic port selects several faces | Cell-side classification used normals only and included internal faces; add bounding-plane coordinate tests. |
 | A valid solve fails a fixed-mesh identity gate after changing wavelength or geometry | Audit which parameters drive diffraction orders, geometry, and physics-controlled meshing. Key identity by those axes, reorder the sweep accordingly, and preserve the old row under a versioned diagnostic output. |
 | A later GCMMA/MMA shape step fails with NaN/Inf material coordinates | Do not classify the last accepted point as optimal or assume the iteration count is the cause. Save the accepted control/objective trajectory, replay fractions of the proposed next step in fresh forward solves, and audit relative element volume/Jacobian or frame-mapping validity. A candidate can improve the objective while already crossing into negative deformation Jacobians before a larger fraction produces NaNs. Test a smaller explicit caller-owned move limit as a causal control; do not silently shrink it, hard-code a model/host value, or use automatic method fallback. |
+| `mesh.feature().remove("size")` fails with "cannot remove feature" | The default size feature is structural and cannot be removed, like the geometry `fin` feature. Keep it and add further `Size` features instead. Adding a restricted selection to the default feature itself also fails with "entity has no selection", because its type is `MeshSizeDefault` and it has no selection to restrict. Prefer creating a new `Size` feature over reconfiguring the default. |
+| No vertex/coordinate accessor on the mesh stat object (COMSOL 6.4) | On the version verified here the stat object exposes only counts; vertex and connectivity arrays live on the mesh sequence. Use the mesh sequence accessors for arrays. Verify the accessor exists on your build rather than assuming a symmetric API between the mesh and its stat object. |
+| Mesh-array shape or emptiness assertion fails unexpectedly (COMSOL 6.4) | On the version verified here the vertex accessor returns a component-major 3-by-N array rather than N-by-3, and the tetrahedral connectivity accessor returns fewer than two dimensions when no volume elements were generated. Inspect the actual shape and guard the empty case before transposing or indexing. |
+| A domain-restricted `Size` alone generates no elements | A `Size` feature controls element size but does not create volume elements; a volume mesher covering the same domains is still required. Without it the tetrahedral element count is zero. |
+| Two configurations are expected to share a mesh, but element counts differ | Do not conclude the geometry differs. Prove the sub-geometry is identical by evaluating its position and size expressions under both configurations, and test mesh reproducibility as a separate question. |
+| A hash or equality check reports a match for arrays that may be absent | A `getattr`-guarded accessor probe can yield `None`, and comparing `None` to `None` reports a match. Assert the arrays are non-null and non-empty before hashing; an absent accessor is not evidence. |
+
+### Comparing configurations with the mesh held fixed
+
+Holding the mesh fixed is a common way to isolate one variable. Do not assume it
+is attainable: verify it, and be prepared to replace the exact freeze with a
+bounded discretisation estimate.
+
+Verified behaviour to design around:
+
+- The mesher is not guaranteed to reproduce the same elements for a sub-region
+  across two different model states, even when that sub-region's geometry is
+  exactly identical. In a controlled case, sub-region extents agreed to near
+  machine precision, yet the sub-region mesh differed in vertex count and
+  coordinates.
+- Restricting the meshing features to the sub-region does not by itself restore
+  reproducibility. Neither does removing boundary and copy features so that a
+  bare volume mesher acts on the sub-region alone.
+- Mesh reproducibility and geometry identity are therefore **independent**
+  properties. Establish them with separate tests, and only the second is a
+  statement about geometry.
+
+Practical consequences:
+
+- Do not adopt a sub-region coordinate hash as the success criterion for "the mesh
+  is frozen". Prefer criteria tied to the observable being measured.
+- When an exact freeze is unavailable, bound the discretisation contribution
+  instead of eliminating it: refine both configurations over the same resolution
+  levels, compare only within a level, and treat a between-configuration effect as
+  resolved only if it exceeds the measured within-configuration mesh sensitivity.
+  Otherwise report the quantity as unresolved.
+- Report an unattainable freeze as a negative result, with the physical-versus-
+  discretisation hypotheses stated separately. Do not present a refinement bound
+  as proof that the mesh was frozen.
 
 ## Ports and physics
 
