@@ -380,6 +380,43 @@ Rules:
 - When two or more supposedly distinct quantities come back identical, suspect
   this trap before suspecting the physics.
 
+### Comparing oscillatory signed fields between two runs
+
+A Poynting component or any other signed, oscillatory field cannot be compared
+between two configurations by taking a per-region **mean and dividing**. Where
+the mean sits near zero, the ratio is unbounded noise: a verified attempt produced
+per-bin ratios of −16.5, −14.9, −10.4 and +5.2, and a physical flux ratio cannot be
+negative. The median of that noise happened to look plausible (1.297) and nearly
+became a finding.
+
+Well-conditioned substitutes, in order of preference:
+
+1. **A proper surface integral** over a real internal face, via a COMSOL
+   integration operator. This is the only route to a power.
+2. **Magnitude statistics** when only nodal values are available:
+   `sqrt(mean(S^2))` or `mean(|S|)` per region. These stay positive and bounded.
+   Report the ratio's median **and** its quartiles, and state the fraction of
+   regions whose ratio falls outside a sane interval — a well-conditioned
+   comparison should have none.
+3. **Cross-resolution consistency.** Repeat the comparison at two mesh
+   resolutions. A statistic that disagrees between them, or disagrees with an
+   independently measured integral, is not usable no matter how plausible its
+   median looks.
+
+Two further cautions:
+
+- A **nodal sum is not a surface integral** unless the mesh is uniform. Node
+  density varies with the local mesh size, so an unweighted sum over-represents
+  densely meshed regions. Do not report watts from one.
+- **Check the cancellation level before trusting a signed sum.** If the positive
+  and negative contributions nearly cancel, the residual is dominated by
+  cancellation error. A verified case had a cancellation fraction of about 0.99,
+  which made the signed split unusable for distinguishing two runs even though
+  each run's own numbers were reproducible.
+- If every available statistic fails, report the **diagnostic failure** and state
+  what evidence would be required, rather than proposing a mechanism the data
+  cannot support.
+
 When a Q changes between two configurations, `Q ~ W / P` decomposes the change
 into a stored-energy factor and an outflow factor. Measure both, plus a
 shape-invariant check, before proposing a mechanism:
