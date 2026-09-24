@@ -350,6 +350,33 @@ through an interior probe plane mismatches the two and produces a discrepancy
 that is bookkeeping, not physics. Keep the flux sign; do not take absolute values
 before comparing, since opposite-signed contributions are part of the evidence.
 
+### Attributing a loss difference to outflow versus stored energy
+
+When a Q changes between two configurations, `Q ~ W / P` decomposes the change
+into a stored-energy factor and an outflow factor. Measure both, plus a
+shape-invariant check, before proposing a mechanism:
+
+- **Energy partition ratios** (for example the active-material fraction of the
+  control-volume energy, and the magnetic-to-electric ratio) identify whether the
+  mode itself changed. If these agree to several significant figures, the
+  configuration did not swap or re-partition the mode, and the change must live
+  in the outflow.
+- **Compare the relative movement of the two factors.** Whichever moves further
+  dominates; reporting only the Q change cannot distinguish "more energy stored"
+  from "more power leaving".
+- **Check the sign against the proposed mechanism.** A mechanism that predicts a
+  smaller absorbed fraction *and* a smaller outflow is refuted if the outflow
+  rises instead. Record the refutation rather than fitting the number to the
+  story.
+- **Fluxes through paired probe planes may add rather than cancel.** If both
+  planes are oriented outward, the net outflow equals the sum of the magnitudes
+  and there is no catastrophic cancellation. Verify this rather than assuming a
+  small-difference measurement is ill-conditioned: compute the ratio of the net
+  to the sum of magnitudes and report it.
+- **Two configurations cannot establish a trend.** With two values, monotonic,
+  saturating, and non-monotonic behaviour are indistinguishable. State the
+  dependence as undetermined unless a third configuration is available.
+
 ## Field artifacts and visual review
 
 Evaluate field values and coordinates from a solved dataset, validate finite
