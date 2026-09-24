@@ -368,6 +368,28 @@ Label unavailable metrics explicitly. If a required metric is unavailable, fail
 closed. Disk activity alone is not paging or progress evidence; correlate commit,
 memory, working set, pagefile I/O, CPU time, and durable timestamps.
 
+### Distinguishing a slow solve from a stalled one
+
+A long eigenfrequency solve can look stalled when only wall time is watched. Use
+accumulating CPU time together with a flat working set:
+
+- Sample the solver process CPU-time and working set repeatedly. Steadily rising
+  CPU time with a flat or slowly drifting working set is progress.
+- A perfectly static working set *and* static CPU time is the stall signature.
+- Do not infer progress from disk activity, and do not restart a solve merely
+  because it exceeded an estimate.
+
+Cost does not always track element count. Meshing to a finer target increased the
+tetrahedral count by well under a factor of two in one verified case, while the
+shift-invert eigenvalue solve went from about a minute to several hours. When a
+refinement step is expected, budget for a possible superlinear jump in solver
+time rather than assuming cubic mesh scaling governs runtime, and consider
+whether the refinement crosses a threshold in an absorber or boundary-layer
+region before committing to a large sweep.
+
+Persist each point durably before starting the next, so a long point cannot cost
+the completed ones.
+
 Use green/warning/red decisions:
 
 - green: allow;

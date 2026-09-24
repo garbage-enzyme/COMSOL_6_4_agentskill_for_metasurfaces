@@ -274,11 +274,81 @@ residual status. Do not add another mesh level in a reproduction task unless
 the caller expands the requested evidence scope.
 
 A fixed-wavelength amplitude difference is a diagnostic, not convergence proof.
-Adding positive loss cannot increase total Q; if simulated Q is already low,
-audit geometry, radiation coupling, mesh, mode assignment, and fit definition.
+
+Q and extra loss (S02): under a *fixed mode and fixed coupling*, adding positive
+material loss cannot increase that mode's pole Q. This is not a universal law
+for every reported Q:
+
+- Distinguish pole Q (complex-frequency pole), spectral-fit Q (Lorentzian/Fano
+  linewidth), and branch-switching that changes which peak is labeled.
+- A passive two-mode system can show a fitted Q that does not monotonically
+  decrease with loss when modes hybridize or the fit window/definition changes.
+- If simulated Q is already low, audit geometry, radiation coupling, mesh, mode
+  assignment, and fit definition before blaming material loss alone.
+- Do not use a Q-rise argument to override a verified FEM result without the
+  fixed-mode fixed-coupling premise and matching Q definition.
 
 Run mesh bridges at normal, intermediate, and endpoint angles before generating
 a dense angle-wavelength map.
+
+### Bounding discretisation when the mesh cannot be frozen
+
+To attribute a between-configuration difference to physics rather than
+discretisation, the natural design is to hold the mesh fixed. That may not be
+attainable; see `troubleshooting.md`. When it is not, bound the contribution
+instead of assuming it away:
+
+1. Solve every configuration at two resolution levels.
+2. Mesh sensitivity per configuration = relative change of the quantity between
+   the two levels.
+3. Between-configuration effect per resolution level = relative difference of the
+   quantity across configurations at that level.
+4. Call the effect resolved only if it exceeds the mesh sensitivity at **both**
+   configurations **and** both resolutions.
+
+Report this as a bound, never as proof that the mesh was frozen. A large,
+resolution-stable effect with a small mesh sensitivity is strong evidence it is
+not discretisation; it does not by itself identify the physical mechanism, and
+the mechanism should be reported as open unless separately established.
+
+An effect can also contradict the mechanism you expected. If a quantity moves in
+the direction opposite to the proposed explanation, record the refutation rather
+than fitting the observation to the hypothesis.
+
+### Mode identity and overlap diagnostics
+
+Frequency continuity alone is a weak branch identifier; pair it with a field
+overlap against a reference mode, and report the runner-up and the separation.
+
+- Take the modulus **after** summing over vector components:
+  `|sum_c <Ea_c, Eb_c>|`. Taking the modulus per component and then summing loses
+  the relative phase and can report a degenerate rival as a near-match.
+- An unweighted common-node evaluation is a diagnostic, not a formal modal inner
+  product. A formal inner product needs a fixed physical sampling or interpolation
+  scheme, or the FEM mass matrix, and a stated Bloch-phase convention.
+- Confirm the two field exports share coordinates, units, and point ordering
+  before comparing. When configurations differ in extent, the exported point sets
+  may not coincide: intersect on coordinates to recover a common-node diagnostic
+  and record explicitly that this fallback was used.
+- Near degeneracy: compare the subspace and assign candidates one-to-one rather
+  than relying on a single pointwise maximum.
+- Mode indices from the installed `mph` bindings are 1-based; index 0 selects the
+  last mode, which silently shifts the whole spectrum if used as "the first".
+- Read the returned solution count from the evaluation result. Do not assume the
+  requested count was returned.
+
+### Eigenvalue quantities
+
+`ewfd.freq` exposes only the real part, so `imag(ewfd.freq)` is identically zero.
+Take the decay from the complex eigenvalue or from the reported Q factor, and
+cross-check the two against each other. Keep the raw complex eigenvalue in the
+record so a later reader can recompute rather than trust a derived scalar.
+
+When comparing an eigenvalue-derived Q with an energy/flux-derived Q, both must
+use the **same** control volume. Using a total-domain energy against a flux
+through an interior probe plane mismatches the two and produces a discrepancy
+that is bookkeeping, not physics. Keep the flux sign; do not take absolute values
+before comparing, since opposite-signed contributions are part of the evidence.
 
 ## Field artifacts and visual review
 

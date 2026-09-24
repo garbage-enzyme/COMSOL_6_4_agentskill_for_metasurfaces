@@ -134,7 +134,11 @@ tet = mesh.feature().create("tet1", "FreeTet")
 mesh.run()
 ```
 
-- Reuse the default `size` node; creating another feature with tag `size` fails.
+- The default `size` node cannot be removed and cannot be given a restricted
+  selection (its type is `MeshSizeDefault` and it has no selection). Create
+  additional `Size` features with distinct tags instead; only a second feature
+  reusing the tag `size` fails. COMSOL applies the last applicable `Size` to a
+  domain, so an added Size can override the default for chosen domains.
 - `CopyFace` source/destination selections normally inherit the geometry context.
 - Do not add `.geom(...)` to CopyFace selections unless the installed API
   requires it and the exact overload was verified.
@@ -147,6 +151,22 @@ mesh.run()
   delete the clone and verify the source hash.
 - FormUnion or FormAssembly does not make a FreeTet-only periodic mesh compatible;
   corresponding face partitions and copied source meshes are still required.
+- Reading a built mesh back: counts come from `mesh.getNumElem(type)` and
+  `mesh.getNumVertex()`; arrays come from `mesh.getVertex()` and
+  `mesh.getElem("tet")` on the mesh sequence. The `mesh.stat()` object has counts
+  but no vertex or connectivity accessor, so a `getattr`-guarded probe against it
+  yields `None` rather than raising.
+- Verify array orientation and emptiness before use. On the version verified here
+  the vertex accessor is component-major (3-by-N), and the connectivity accessor
+  can return an empty array with fewer than two dimensions when no volume
+  elements exist (for example, a domain-restricted `Size` with no volume mesher).
+- A `Size` feature constrains element size but creates no elements; a `FreeTet`
+  covering the same domains is required, otherwise the tet count is zero.
+- Two runs that differ only in a remote parameter are not guaranteed to produce
+  the same mesh for a sub-region, even when that sub-region's geometry is exactly
+  identical. Do not treat a sub-region mesh hash as stable without testing it;
+  see `troubleshooting.md` for the controlled observation and how to bound the
+  discretisation contribution when an exact freeze is unavailable.
 
 ## Oblique primitive cells
 
