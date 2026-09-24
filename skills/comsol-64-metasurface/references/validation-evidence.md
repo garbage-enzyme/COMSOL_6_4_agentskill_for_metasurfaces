@@ -350,7 +350,35 @@ through an interior probe plane mismatches the two and produces a discrepancy
 that is bookkeeping, not physics. Keep the flux sign; do not take absolute values
 before comparing, since opposite-signed contributions are part of the evidence.
 
-### Attributing a loss difference to outflow versus stored energy
+### Reading batched evaluations safely
+
+`model.evaluate(list_of_expressions)` does **not** always return a flat,
+one-value-per-expression array. The return shape depends on the expressions:
+
+- A batch of **scalar-only** expressions returns a 1-D array with one entry per
+  expression, in the order requested.
+- Adding even **one field expression** (one that evaluates per mesh node, such as
+  a field norm) changes the whole batch to a 2-D array of shape
+  `(n_expressions, n_points)`, where the scalar rows are broadcast across the
+  point axis.
+
+The failure mode is silent and severe. Flattening a mixed batch and indexing it
+positionally returns the **first nodes of the first field expression**, not the
+expressions requested — so several different variables can appear to hold the
+same value. In a verified case, a flattened mixed batch reported the frequency
+for the Q factor, an energy integral, and a PML energy simultaneously.
+
+Rules:
+
+- Prefer **scalar-only** batches and assert `result.ndim == 1` and
+  `result.size == len(expressions)` before indexing. This converts the trap into
+  a loud assertion.
+- If a field must be read, read it in a **separate** call, or index the 2-D
+  result by row (`result[i]` for expression `i`) rather than flattening.
+- Never rely on `.reshape(-1)` followed by positional indexing for a batch whose
+  shape you have not asserted.
+- When two or more supposedly distinct quantities come back identical, suspect
+  this trap before suspecting the physics.
 
 When a Q changes between two configurations, `Q ~ W / P` decomposes the change
 into a stored-energy factor and an outflow factor. Measure both, plus a
