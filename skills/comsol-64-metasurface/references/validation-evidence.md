@@ -2111,6 +2111,32 @@ Finally, state that **tracking is not causation** and that a clustered ranking p
 nothing. Recording "no candidate promoted, mechanism undiscriminated" is a real result;
 inventing a winner from a 1.14-times gap is not.
 
+### Across independently meshed configurations, compare INTEGRALS not nodes
+
+Comparing fields node by node requires the two configurations to share a discretisation.
+Independently meshed ones do not. In a verified case two configurations of the same
+structure produced node counts differing by about 15 per cent, with only **383 of some
+19 000 coordinates coinciding** — far too few to form an overlap, so a per-node field
+comparison across them was **not possible** with the persisted data, whatever way the
+comparison was written.
+
+The practical consequence:
+
+- **prefer region integrals for cross-configuration comparison.** A volume integral over a
+  named region does not require shared nodes, so it remains valid when the meshes differ.
+  In the same case the fractional energy per region was computable and showed the solid
+  holding about 88 per cent of the energy with a fractional movement of order `2e-4`
+  between configurations — an interpretable answer that the node-wise test could not give;
+- **measure the obstruction and report it**, rather than letting a test return nothing.
+  Count the shared coordinates and compare against the node total, so "not comparable" is
+  a stated measurement;
+- **distinguish "files missing" from "files present but not comparable."** These are
+  different facts and send a reader to different places. A first version of this check
+  reported the second as the first, which would have prompted a hunt for absent data that
+  was in fact on disk;
+- **do not let a structural impossibility look like a negative result.** "The test could
+  not be performed" and "the test found no change" are opposite conclusions.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
