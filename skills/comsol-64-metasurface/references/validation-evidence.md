@@ -2467,6 +2467,38 @@ energy exponent was nearly identical in every field-bearing region **despite** t
 volumes scaling completely differently, which located the effect in the **amplitude**
 rather than the **volume** — and matched the fixed-shape result already established.
 
+### A sweep must test USE, not MENTION, or it flags everything and gets ignored
+
+After hand-catching an indexing blunder, sweeping the codebase for the same defect is the
+right instinct — but the first threshold chosen was **"the file mentions a raw dump"**,
+which is not the same as **"the file takes a column from one"**. That produced **19
+findings, 18 of them false**: the scripts merely referenced dumps in paths, comments or
+schemas and never extracted a value.
+
+**The sweep's own failure mode had the same shape as the defect it hunts** — a
+plausible-looking number that dissolves once the test is checked. A detector that flags a
+whole codebase **gets ignored**, which is worse than no detector.
+
+Retuning the threshold to **"takes a column from a per-mode row"** gave **1 finding in 185
+scripts**, and it was the **known-bad file** — a true positive.
+
+That outcome is what validates the sweep:
+
+- **finding nothing** would have been suspicious;
+- **finding nineteen** was the threshold being crude;
+- **finding precisely the known case** is the result that carries information.
+
+Practise:
+
+- **distinguish reading a value from referring to a file** when writing a static check;
+- **special-case mode-independent rows.** A per-region volume, or any row constant across
+  modes, needs no branch lookup — flagging it is a false positive;
+- **judge the sweep by where the known-bad case lands.** A detector is validated by
+  finding the instance you already know about, and only that one;
+- **state the limit**: a static check cannot prove a column **is** the tracked mode, only
+  that the script **has the information needed** to be correct. The dynamic equivalent is
+  recomputing a value from the tracked mode and comparing it with the stored one.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
