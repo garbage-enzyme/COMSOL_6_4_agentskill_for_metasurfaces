@@ -562,6 +562,46 @@ State explicitly when the comparison **cannot** be made. If one dataset records
 only a single frequency per case, no local spacing exists for it and the statistic
 must be reported as unavailable rather than estimated.
 
+### Maximising overlap alone can worsen frequency continuity
+
+When a stored tracking result includes a full overlap matrix, the assignment can be
+improved offline by solving it globally instead of choosing greedily step by step.
+Test whether that actually helps before reporting it as a repair.
+
+A verified case, over a 25-point path with 16 modes per point:
+
+| assignment | min overlap | median overlap | max step / local spacing | steps >2× |
+| --- | ---: | ---: | ---: | ---: |
+| greedy diagonal (original) | 0.0015 | 0.955 | 3.06 | 2 |
+| optimal on overlap alone | **0.763** | 0.990 | **5.48** | **3** |
+| optimal on overlap + jump penalty | 0.0021 | 0.995 | 3.06 | 2 |
+
+Three lessons:
+
+- **The greedy choice can be badly wrong.** Maximising total overlap raised the
+  worst overlap along the path by a factor of ~500 and changed the selected mode at
+  16 of 25 positions. A large fraction of the original assignment was simply
+  incorrect, which the per-step overlap threshold had shown only as scattered
+  failures.
+- **Overlap and continuity are competing objectives.** The overlap-optimal chain
+  was *worse* on frequency than the greedy one — a larger maximum step and more
+  oversized steps. Optimising similarity buys similarity at the cost of
+  continuity, so a repair must be scored on both criteria.
+- **Neither single cost produced a usable chain.** The continuity-preserving
+  variant restored the step size but left the worst overlap at ~2e-3. Report that
+  as an unresolved outcome rather than presenting the best number from either
+  method as a fix.
+
+Also verify the stored matrix interpretation before relying on it: check that each
+pair is square in the mode counts, and that its diagonal reproduces the
+independently recorded per-assignment overlaps. A 90th-percentile ratio of best
+off-diagonal to diagonal near 400 is a useful diagnostic that the existing
+tracking left a lot of matching quality unused.
+
+Re-assignment is a **re-analysis of already-solved modes**: it performs no solve,
+must not overwrite the landed result, and produces a *different* tracking that
+needs its own review. It never converts a registered failure into a pass.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
