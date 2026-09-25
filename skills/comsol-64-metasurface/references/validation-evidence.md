@@ -417,6 +417,30 @@ Two further cautions:
   what evidence would be required, rather than proposing a mechanism the data
   cannot support.
 
+### Fitting a band curvature at a symmetry point
+
+At a band extremum the dispersion is even in the wavevector, so the natural model
+is `f(k) = f0 + a*k^2`, optionally with a `b*k^4` term. Three rules keep such a
+fit honest:
+
+- **A fit with as many free parameters as data points is not a test.** Two points
+  fitted with a two-coefficient model give a residual of exactly zero by
+  construction. Report the degrees of freedom (`n_points - n_free_parameters`)
+  and exclude zero-residual-by-construction fits from any "best fit" verdict;
+  otherwise the reported minimum is a meaningless 0.
+- **Do not extrapolate a fit past a known channel-opening threshold.** A new
+  propagating order changes the physics at a computable normalised frequency; a
+  fit established below that threshold says nothing above it.
+- **Report the margin, not just pass/fail.** A fit whose residual meets a
+  tolerance by only a small factor is weak evidence, and a higher-order model
+  fitting almost exactly usually means it is absorbing the data rather than
+  testing it.
+- **Label fit windows with their true point counts**, derived from the data
+  rather than hard-coded, and state which window the headline number came from.
+- **Report a boundary-condition variant as a control column only.** Two different
+  boundary-value problems are not required to agree, so never present agreement
+  between them as validation or disagreement as a failure.
+
 When a Q changes between two configurations, `Q ~ W / P` decomposes the change
 into a stored-energy factor and an outflow factor. Measure both, plus a
 shape-invariant check, before proposing a mechanism:
