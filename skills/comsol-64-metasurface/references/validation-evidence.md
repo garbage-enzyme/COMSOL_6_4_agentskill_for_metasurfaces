@@ -851,6 +851,35 @@ Neither method is a formal modal inner product; state that, along with the fact 
 a shared-region boundary taken from the model geometry is not re-derived by the
 comparison itself.
 
+### Reconcile mixed provenance in one result set
+
+A result set assembled from more than one source will not share one schema. In a
+verified package, two of four points were adopted from earlier checkpoints and two
+were solved in the current run, and the two groups recorded **disjoint field sets**:
+the adopted ones carried geometry, physics, materials and a control-volume
+description; the solved ones carried the swept parameter, geometry read-backs and
+domain-selection audits. Neither group's fields were a subset of the other's.
+
+Two consequences:
+
+- **An audit against a single key list will report false gaps.** A field genuinely
+  present in one provenance group may be absent from the other, and vice versa.
+  Determine the schema per group before concluding anything is missing, and say
+  which group lacks it.
+- **The same physical quantity may be stored with different types.** In that case
+  the gap distance appeared as a bare number in one group and as a unit-bearing
+  string such as `"2400[nm]"` in the other. Comparing them directly returned a null
+  agreement, which reads like a disagreement but was an extraction artefact. Parse
+  to a common numeric type before comparing, and keep the raw value and its type in
+  the record so the conversion is auditable.
+
+Then verify the schema difference is only a **recording** difference by pairing the
+equivalent quantities and checking they agree. The strongest such checks are the
+configuration invariants the analysis depends on: the control-volume domain list
+and the probed face identifiers should be identical across every point if the
+comparison is to be meaningful. In the verified case both were identical at all four
+points while the schemas differed, which is what allowed the comparison to stand.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
