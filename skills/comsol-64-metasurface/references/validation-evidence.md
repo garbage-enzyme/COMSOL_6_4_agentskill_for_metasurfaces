@@ -2172,6 +2172,37 @@ Once corrected, the same recomputation became a **coherence confirmation**: the 
 change matched the registered metric to within 1.6 per cent at both levels, and it
 discriminated between hypotheses the earlier clustering could not separate.
 
+### A measurement must clear the bound at EVERY level, not on average
+
+A localisation test can look decisive at one resolution and evaporate at another. Compare
+each candidate difference against the discretisation bound at **every** level, and require
+the same direction each time.
+
+In a verified case two probe planes were compared to decide whether a change acted
+collectively or at one interface:
+
+| level | plane changing more | difference | within bound? |
+| --- | --- | --- | --- |
+| one resolution | top | one value | yes |
+| second resolution | **bottom** | another value | yes |
+
+The two levels **disagreed on which side responded more**, and both differences were
+within the bound. Had only the first been run, it would have reported a one-sided
+localisation the second does not support. The correct conclusion was collective, because
+**neither** difference cleared the bound.
+
+Practise:
+
+- **compare every candidate difference against the bound at each level**, and require
+  agreement in direction, not merely that both are "small";
+- **treat a sign flip between levels as evidence of no effect**, not as a weak effect. A
+  real localisation would point the same way at both;
+- **state the conclusion the joint test supports**, which may be the collective one;
+- **say what the test does and does not add.** Here it ruled out a one-interface
+  mechanism but still did not distinguish between altered near-field coupling, changed
+  interference between the two regions, or a modified radiation pattern;
+- **report the bound used**, so a reader can see the margin each difference had.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
