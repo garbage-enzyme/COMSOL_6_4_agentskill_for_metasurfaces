@@ -2359,6 +2359,34 @@ Practise:
   it. The wrong version's conclusion may already have been read; hiding it loses the fact
   that the error happened.
 
+### A file that looks like new data may be the same data re-serialised
+
+Searching the wider workspace for missing data can turn up a file that looks like an
+independent dataset — a different directory, a different name, more columns — and is
+actually **the same measurements written twice**.
+
+In a verified case two dumps appeared to be a third independent dataset at an existing
+parameter point. Comparing **every shared key mode by mode** settled it: the largest
+absolute difference across all shared keys was about `2e-18`, and the largest **relative**
+difference about `3e-16`. That is floating-point round-trip noise, not a distinct
+measurement.
+
+Practise:
+
+- **compare values, not filenames.** A different path and a different column count prove
+  nothing about independence;
+- **judge the difference RELATIVELY**, against each quantity's own scale. An absolute
+  difference looks alarming on a small quantity and trivial on a large one; the relative
+  figure is what classifies it;
+- **treat a match at the last-bit level as a duplicate, not as corroboration.** Counting
+  it as independent would have doubled the apparent evidence for a relation, which is
+  exactly the false corroboration an independence map exists to catch;
+- **record the exclusion**, with the measured difference, so a later reader does not
+  re-count the same file as new evidence;
+- **note extra columns without being swayed by them.** The duplicate carried additional
+  per-region rows that no open question needed; their presence did not make it
+  independent.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
