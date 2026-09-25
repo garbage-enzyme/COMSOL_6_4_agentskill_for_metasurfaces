@@ -2243,6 +2243,35 @@ Then state the claim exactly:
   numbers: a single power law forces the levels to yield the same exponent, so the test
   can fail, and only then is a pass informative.
 
+### Generate the prose conclusion FROM the verdict object, or it will overclaim
+
+A structured verdict and a written conclusion can disagree, and the written one is what a
+reader remembers. When the conclusion is a hand-written branch it can claim coverage the
+verdict denies.
+
+In a verified case a test was written to check whether an observed relation extended to a
+second point in parameter space. The data for that second point was **not present**, and
+the verdict correctly recorded that no second parameter was covered — while the
+hand-written conclusion asserted the relation held *"including the checkpoints where a
+second parameter differs"*. The two statements were in the same file, and the sentence was
+false.
+
+Fixes that work:
+
+- **build the conclusion from the verdict's own fields**, with a branch per combination, so
+  a claim of coverage can only appear when the coverage flag is set;
+- **record WHY the extra coverage is absent**, as a field, so a later reader knows it is a
+  data limitation rather than an oversight;
+- **state what the tested settings actually are.** Here the two passing cases were the
+  **same** parameter point at two mesh resolutions, so they demonstrate mesh robustness and
+  **not** generality;
+- **audit the conclusion for overclaiming phrases** — "is general", "demonstrated law",
+  "confirms the mechanism" — as a mechanical check, since prose is where this error lives.
+
+A relation that holds across resolutions is a robustness result. It becomes a candidate
+law only when a second independent parameter has been varied, and that has to be tested,
+not assumed.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
