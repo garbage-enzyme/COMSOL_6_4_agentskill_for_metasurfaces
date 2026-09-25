@@ -1127,6 +1127,34 @@ Keep the three outcomes separate — agreed, naming difference, value disagreeme
 so a clean result is distinguishable from a check that matched nothing. A check that
 reports zero comparisons is not a pass.
 
+### Compute figure annotations from the data, and expect the text to grow
+
+Figure titles and axis labels are read more casually than prose, so a number typed
+into one is a high-risk place for a stale or invented value — the same class of
+defect as a fabricated percentage in text.
+
+In a verified case one figure title carried hand-typed mesh-sensitivity numbers while
+every other annotation read from the artifact. The hand-typed values happened to be
+**correct**, which is precisely why the pattern is dangerous: the same habit produced
+a wrong value elsewhere. Both were changed to compute their text at run time, and the
+computed titles then reproduced the artifact exactly.
+
+Practise:
+
+- **Derive annotations from the artifact**, using an f-string over the same variable
+  the plot uses. A number that cannot drift is better than one that happens not to
+  have drifted yet.
+- **Audit which annotations are computed and which are literals.** Parse the plotting
+  script and classify each title and label. Two categories are acceptable as
+  literals: **registered thresholds** (fixed parameters, which should still be
+  cross-checked against the preregistration) and non-numeric text.
+- **Re-render after switching to computed text.** Derived values are longer than the
+  approximations they replace: a title that fitted as `~15 %` overflowed the axes
+  once it became `14.9 % / 15.2 %`, clipping the conclusion. Wrapping to two lines
+  fixed it — but only looking at the rendered image revealed it.
+- **Check the figure, not just the script.** A successful render with clipped text
+  passes every programmatic assertion.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
