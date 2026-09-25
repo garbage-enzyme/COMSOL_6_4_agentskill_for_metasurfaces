@@ -1491,6 +1491,42 @@ Practise:
 - **Demote the previous favourite explicitly.** A reversal should be recorded as a
   reversal, naming what was withdrawn, rather than quietly restating the conclusion.
 
+### Check whether a ratio's tracking comes from its denominator
+
+A ratio can appear to track an observable when only its **denominator** is doing anything.
+Always decompose a candidate ratio into its parts before treating its tracking as
+evidence about the numerator.
+
+A verified case found a boundary-region energy **fraction** tracking a quality-factor
+change to within `1.1` and `7.2` per cent. Taken at face value this promoted the boundary
+region as the likely mechanism. Decomposing it:
+
+| quantity | change, setting 1 | change, setting 2 |
+| --- | --- | --- |
+| quality factor | 14.94 % | 15.25 % |
+| boundary-region **energy** | **0.277 %** | **0.208 %** |
+| total energy | 17.66 % | 16.74 % |
+| boundary-region **fraction** | 14.78 % | 14.16 % |
+
+The numerator was essentially **constant**; the fraction's tracking was inherited
+entirely from the denominator. Reported correctly, the finding says nothing about the
+absorber at all — the total stored energy carries the change.
+
+What exposed it was ranking **every** gap-varying quantity rather than a hand-picked
+list, which placed the boundary-region energy at `98.4` per cent mismatch and the
+fraction at `4.1` per cent. Practise:
+
+- **Rank all candidate quantities**, not a selected few, so the candidate list cannot be
+  accused of being chosen after seeing the numbers.
+- **Decompose any ratio that ranks well** into numerator and denominator and report each
+  separately.
+- **Exclude circular candidates.** Two routes to the same quantity will track each other
+  by construction; a quality factor computed from a flux will top any ranking against a
+  quality factor computed from an eigenvalue. Name the exclusion explicitly.
+- **Keep a group-level statement when the individual promotion fails.** In that case the
+  energies as a *group* genuinely tracked the observable far better than the surface
+  powers did (which were off by `135`–`162` per cent), and that survived the correction.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
