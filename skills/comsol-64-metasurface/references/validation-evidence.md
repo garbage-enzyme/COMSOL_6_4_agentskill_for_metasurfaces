@@ -2568,6 +2568,33 @@ Practise:
 - **withdraw in place and keep the wrong version visible.** Its headline was reported, so
   deleting it would hide that an error happened.
 
+### A re-derivation of a registered failure is a consistency check, not a finding
+
+Before presenting something as newly discovered, check whether the delivered artifact
+**already reports it** — as a failure count, a gate result, or a diagnostic number.
+
+In a verified case an independent sweep flagged **19** problem cases out of 384 and was
+about to be written up as a finding. The delivered package's own gate record showed
+**384 assignments, 365 meeting the margin gate, result FAIL**. The arithmetic
+`384 - 365 = 19` is the same set. The sweep had **re-derived a delivered failure**.
+
+Two things are worth taking from that:
+
+- **the direction of a verdict is fixed.** A **FAIL cannot be promoted to a PASS** by
+  finding more problems with the same data. Additional analysis of that kind can only add
+  reasons; it can never remove the one on record. Say so, so a reader does not expect the
+  work to change the verdict;
+- **the agreement is still worth reporting** — as a **consistency check that passed**,
+  since an independent count matching the registered one is real, if modest, evidence.
+
+**Also check whether the obvious remedy actually remedies.** A larger window was hoped to
+repair the tracking; in fact **both** windows failed their gate, so enlarging the window is
+**not** the remedy, and saying so prevents a wasted next attempt in that direction.
+
+**Separate what is genuinely new from what is not.** Here one structural detail was new —
+an index field that did not resolve to a record for some cases — and it was recorded as an
+observation **without acting on it**, because the package was landed and unmodified.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
