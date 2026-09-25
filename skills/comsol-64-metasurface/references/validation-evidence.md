@@ -1291,6 +1291,44 @@ the conclusion, and state the surviving and weakened claims separately. When a
 conclusion rests on one point, say so and quote the parameter with that sensitivity
 attached rather than to spurious precision.
 
+### Leverage sits on the endpoint, so trimming the range does not remove it
+
+A tempting remedy for "one point dominates the fit" is to drop that point and refit the
+narrower range. It usually does not work, and the reason is structural.
+
+In a verified case the full five-point set had its maximum leverage at the largest
+wavenumber (`0.955`), and leave-one-out showed the fitted coefficient moving `7.4` per
+cent when that point was removed. Dropping it should have helped. It did not: the
+narrower subset had a **higher** condition number (`2.48e2` against `6.60e1`).
+
+Leverage per point showed why:
+
+| point | leverage, narrow subset | leverage, full set |
+| --- | --- | --- |
+| smallest | 0.41 | 0.30 |
+| … | 0.37, 0.26 | 0.29, 0.26, 0.20 |
+| **endpoint** | **0.958** | **0.955** |
+
+The `0.95`-plus leverage sits on **whichever point is at the end of the range**.
+Removing the far point does not remove the leverage; it transfers it to the new
+endpoint. And the full set is nevertheless **better** conditioned, because conditioning
+depends on the **spread** of the design across the range, not only on the number of
+points — the endpoint extends the span even though it carries the leverage.
+
+Practise:
+
+- **Attribute leverage to the point that carries it**, by reading the diagonal of the
+  hat matrix per point, rather than to the point whose removal changed the fit. In the
+  verified case these were different questions with different answers.
+- **Report both the condition number and the maximum leverage** for each range
+  considered; the two can move in opposite directions.
+- **Do not present a narrower range as a fix** unless its conditioning is actually
+  better. State the coefficient for each range together with its single-point
+  sensitivity, and let the difference between ranges speak.
+- Remember that a **true observation can support a wrong inference**. The
+  leave-one-out fact was correct; the remedy drawn from it was not, and only the
+  follow-up measurement exposed that.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
