@@ -602,6 +602,53 @@ Re-assignment is a **re-analysis of already-solved modes**: it performs no solve
 must not overwrite the landed result, and produces a *different* tracking that
 needs its own review. It never converts a registered failure into a pass.
 
+### Separate a degeneracy failure from a threshold failure
+
+Two tracking steps can both fail the same overlap threshold for entirely different
+reasons, and the remedies do not overlap.
+
+Inspect the **whole overlap row** for the source mode, not just the chosen value:
+
+- **Threshold failure on a well-posed assignment.** The chosen mode has the largest
+  overlap by a clear factor (a verified case: 0.79 against a runner-up of 0.21), and
+  only one mode sits in a near-degenerate cluster around it. The choice is correct;
+  the mode simply changed appreciably across the step. No assignment rule will fix
+  this, and only a justified change to the threshold would.
+- **Genuine degeneracy.** The top two candidates are close in frequency AND close
+  in overlap (a verified case: 0.086 THz apart with overlaps 0.671 and 0.640, plus a
+  third appreciably overlapping mode). Selecting one-to-one is ill posed here, and
+  the correct treatment is to compare the 2-D subspace spanned by the pair.
+
+Diagnostics that make the distinction mechanical:
+
+- Count how many modes lie within a stated frequency tolerance of the best
+  candidate **and** carry overlap above a stated support level. Two or more means
+  the one-to-one assignment is ill posed.
+- Report the runner-up ratio for the well-posed cases, so "the right mode was
+  chosen" is quantified rather than asserted.
+- Report the top-two overlap gap and frequency separation for the degenerate cases.
+
+Do not merge the two into one "tracking failed" statement: a repair strategy that
+addresses only one of them will look ineffective against the other.
+
+### Verify which row of a stored matrix you are reading
+
+Mode indices in stored tracking records are a specific convention — commonly
+**0-based** — and mixing conventions silently examines the wrong mode.
+
+A verified case hardcoded a 1-based index and then subtracted one, so it read row 8
+while reporting mode 9, and printed an implausibly clean overlap (0.9988 where the
+recorded value for the intended mode was 0.7905). The clean number was the tell.
+
+- Do not hardcode a mode index. **Select the row by a physical quantity** — for
+  example the recorded source frequency nearest the tracked band — and assert that
+  exactly one row qualifies.
+- **Cross-check against an independently recorded value.** If the record stores the
+  chosen overlap for that step, require it to equal the matrix element you read,
+  within tolerance. Both steps checked this way agreed exactly.
+- Treat an implausibly good derived number as a prompt to verify the indexing, not
+  as a result.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
