@@ -738,6 +738,45 @@ Practise:
   string, the reason, the corrected form, and state explicitly that no value, gate
   or gate result changed.
 
+### Check the cancellation caveat before trusting an error-bound discriminator
+
+A common way to argue that an observed difference is physical rather than numerical
+is to show it greatly exceeds the numerical sensitivity measured elsewhere. That
+argument has a subtle gap and is worth stating rather than glossing.
+
+Write each measured value as `Q(setting, mesh) = Q_true(setting) + e(setting, mesh)`.
+Then
+
+- the difference between two settings at fixed mesh contains
+  `e(A) - e(B)` — a **difference of errors between settings**;
+- the mesh sensitivity measured at one setting bounds `|e|` **at that setting**.
+
+Those are not the same quantity. The relevant contaminant is the difference of
+errors *between* the two settings, which can be smaller (making the comparison
+conservative) or larger (making it optimistic) than the sensitivity measured within
+one setting.
+
+What can still be checked, and is worth reporting:
+
+- **Sign and size of the mesh-induced shift at each setting.** A numerical artefact
+  capable of explaining the between-setting difference would generally have to
+  change sign between the settings. In a verified case the shifts were +90.4 and
+  +48.0 — same sign, similar size — while the between-setting difference was about
+  1370.
+- **Stability of the between-setting difference under refinement.** A
+  discretisation-driven difference should shrink towards zero as the mesh is
+  refined. A verified case went from 1369.8 to 1412.2, i.e. it did not shrink, and
+  the relative value moved only from 14.94 to 15.25 per cent.
+- **Report the ratio** of the largest within-setting shift to the smallest
+  between-setting difference, so the margin is quantified (about 6.6 per cent in
+  that case) rather than asserted.
+
+Then state plainly what remains untestable: the exact decomposition of the measured
+value into a true part and an error is generally **not identifiable** from a small
+number of points. The conclusion supported is *consistency with* the claimed origin,
+not an absolute proof of it, and the possible cancellation of errors between
+settings is **not bounded** by this argument.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
