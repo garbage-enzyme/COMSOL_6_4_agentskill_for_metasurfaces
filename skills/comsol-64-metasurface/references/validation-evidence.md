@@ -2533,6 +2533,41 @@ Practise:
   definition-correct subspace test needs the vectors themselves, to project the source onto
   the subspace of a near-degenerate cluster.
 
+### Validate the JOIN KEY across two runs before drawing any conclusion from the join
+
+Comparing two runs by an index is only meaningful if that index denotes **the same thing**
+in both. Requesting a different number of eigenvalues can return modes in a **different
+order**, so a mode index is **not** a stable identifier across runs.
+
+In a verified case two runs of the same tracking — one with a **16-mode** window and one
+with **28** — were compared by mode index and produced a confident headline. A frequency
+check run **afterwards** destroyed it:
+
+- **0 of 384** index-matched pairs compared the same physical mode;
+- **283 of 384** compared modes differing by **2 to 9 per cent** in frequency, far outside
+  the registered `1e-3` gate.
+
+Every number in that comparison was withdrawn, including a headline count and a described
+"reversal" that was simply a mode compared against a different mode.
+
+Practise:
+
+- **validate the key first, then join.** Take a branch invariant — frequency, energy, a
+  symmetry label — and require the two records agree on it **within a registered gate**
+  before using the pair;
+- **match by the invariant, not by position.** Here the correct join was nearest frequency
+  within the gate, with everything unmatched **excluded and counted**;
+- **fix the adequacy criterion before seeing the result.** Pre-registering "at least N
+  matched cases" is what turned this into an **inconclusive** verdict instead of an
+  over-read `4 of 12`;
+- **be careful that "unchanged" is not "unhelpful".** Eight of the twelve matched cases had
+  **identical** overlap and margin in both windows — the expected outcome when the mode did
+  not move, not evidence that the larger window failed;
+- **treat an index that cannot be resolved to a record as a structural finding.** Seven
+  cases had no track entry for the stated source index, which is worth reporting on its own;
+- **withdraw in place and keep the wrong version visible.** Its headline was reported, so
+  deleting it would hide that an error happened.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
