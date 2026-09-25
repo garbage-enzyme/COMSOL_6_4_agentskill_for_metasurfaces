@@ -1103,6 +1103,30 @@ A useful sanity property: a sweep whose hit count is implausibly high, or whose
 "mismatches" are all quantities of similar size but different meaning, should be
 treated as a broken test rather than a finding.
 
+### Cross-check tabular summaries against the structured files they restate
+
+A package commonly restates the same results twice: once as structured records and
+once as CSV tables. If the two are produced by different code paths they can drift,
+and the CSV is often what a reader or a downstream script actually consumes.
+
+Verify each table row against the record it summarises, field by field, from the
+authority rather than by eye. A verified case compared 48 values across a per-point
+table and two derived tables with **0 disagreements**.
+
+Two differences are **not** defects, and should be reported as such rather than
+counted as mismatches or silently coerced:
+
+- **Presentation rounding**, where the table carries fewer digits than the record.
+  Compare with a stated relative tolerance rather than exact equality, and record the
+  tolerance used.
+- **Flattening**, where a nested record field becomes a differently named column.
+  Map the names explicitly; an unmapped pair is a naming difference, not a
+  disagreement.
+
+Keep the three outcomes separate — agreed, naming difference, value disagreement —
+so a clean result is distinguishable from a check that matched nothing. A check that
+reports zero comparisons is not a pass.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
