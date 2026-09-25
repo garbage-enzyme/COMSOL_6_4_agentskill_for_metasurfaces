@@ -1454,6 +1454,43 @@ the absolute values that produced it. When the same fall appeared at both mesh
 resolutions, the **direction and rough size** became the reportable result, while the
 individual values remained subject to the unresolved convergence question.
 
+### Rank candidate mechanisms by what tracks the observable, not by what moves most
+
+When several quantities all change under a parameter sweep, the largest change is not the
+driver. The question is which quantity the observable **tracks**.
+
+A verified case had a quality factor falling about 15 per cent across a sweep. Three
+candidate quantities also changed: a boundary-region energy fraction (`14.8` / `14.2` per
+cent), a control-volume energy (`17.6` / `16.7` per cent) and a net outflow power
+(`38.4` / `36.2` per cent). The largest mover was the outflow, and an earlier round had
+named it the driver on that basis alone. Comparing **fractional changes against the
+observable's fractional change** gave:
+
+| candidate | mismatch, setting 1 | mismatch, setting 2 |
+| --- | --- | --- |
+| boundary-region energy fraction | **1.1 %** | **7.2 %** |
+| control-volume energy | 18.0 % | 9.5 % |
+| net outflow power | 157 % | 137 % |
+
+The **smallest** mover tracked the observable best, and the largest mover tracked it
+worst. Moving most is not evidence of driving.
+
+Practise:
+
+- **Score candidates by agreement with the observable's change**, not by the size of
+  their own change.
+- **Include control quantities that should NOT track it.** In the verified case a
+  composition fraction and an energy ratio were both gap-independent, so their mismatch
+  to the observable was about `99.9` per cent. That they *failed* to match is what gives
+  the comparison discriminating power; without such controls, "everything matches
+  everything" cannot be excluded when all candidates are of similar magnitude.
+- **Report rank correlation across all points** in addition to the endpoint comparison,
+  and say that an endpoint-only match is not a trend.
+- **Show the raw numbers next to any mismatch metric**, so the metric is not doing the
+  work unexamined.
+- **Demote the previous favourite explicitly.** A reversal should be recorded as a
+  reversal, naming what was withdrawn, rather than quietly restating the conclusion.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
