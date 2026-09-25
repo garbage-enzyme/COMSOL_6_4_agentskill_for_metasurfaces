@@ -1395,6 +1395,38 @@ Record the reasoning explicitly:
 - Correlations are especially vulnerable to single-point control, so apply the same
   leave-one-out discipline used for fitted parameters.
 
+### Establish the orientation of a batched evaluation array before indexing it
+
+A batch of expressions evaluated over many solutions is stored as a **2-D array**, and
+whether it is expression-major or solution-major decides which number you read. Getting
+it wrong can return zeros rather than an error.
+
+A verified case stored 25 expressions over 32 eigenmodes. The array was
+**expression-major** — 25 rows of 32 — so `stored[expression_index][solution_index]`.
+A first script assumed solution-major and indexed `stored[solution_index]`; an
+assertion comparing the slice length against the expression count **failed immediately**
+with a `32`-versus-`25` mismatch. Without that assertion the wrong slice would have been
+read silently, because a length-32 row is a perfectly valid array.
+
+The dangerous part is the **imaginary** component. In that data only one of the 25
+expressions — the complex eigenvalue — has a nonzero imaginary part; the other 24 are
+real-valued and their imaginary rows are identically zero. So an index or orientation
+error lands on zeros and produces a damping of zero, which looks like a lossless result
+rather than a bug.
+
+Practise:
+
+- **Print the shape and both dimensions** before extracting anything, and assert them
+  against the known counts.
+- **State the layout explicitly** in the script and in the artifact.
+- **Check which components are structurally zero** and record it, so an accidental
+  zero is recognisable as an error rather than as a result.
+- **Then verify the recovered convention across every mode, not just the working one.**
+  In the verified case the relation between the stored eigenvalue and the reported
+  frequency and quality factor held for all `128` mode slots with a maximum relative
+  error of `2.2e-16` — machine precision — which is far stronger evidence than
+  agreement at one selected mode.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
