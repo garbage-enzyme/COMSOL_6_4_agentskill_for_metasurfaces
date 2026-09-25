@@ -1837,6 +1837,33 @@ Practise:
   maximum of a set was recomputed as the maximum of the per-gap values, which verifies
   the registered bound instead of copying it.
 
+### Tune a whole-repository scan until its noise is suppressed, or it will be ignored
+
+A pattern-based scan tuned on one document produces mostly false positives when applied
+to a whole repository. In a verified case a structural scan of 31 markdown files gave 45
+findings; inspected one by one they were **0 real leaks, 8 review items and 37 false
+positives** — documented tool names, error codes, a standard-library function name, and
+intentional repository URLs. Acting on those would have damaged correct documentation,
+and a scanner whose false positives outnumber its true findings gets ignored.
+
+Classify rather than delete, and encode the rules:
+
+- **published API and error-code identifiers are surface, not private data**, so tokens
+  beginning with a documented prefix belong to the noise class;
+- **standard-library names** such as a hash function are not private identifiers;
+- **a repository URL that is documented or cited** is intentional; only an unlisted
+  remote warrants review;
+- **published acceptance values in a validation reference are reference data.** They are
+  correctly labelled as validating one build rather than promising portable accuracy, so
+  keep them for human review instead of treating them as a leak.
+
+Keep the strict classes genuinely strict — filesystem paths, home directories, e-mail
+addresses — and defer everything else to review rather than asserting.
+
+Then state the limit precisely: **absence of leaks by shape is not absence of leaks in
+content.** A private value written as a round number, or a private fact stated in prose,
+matches no pattern. Shape scanning complements reading the text; it does not replace it.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
