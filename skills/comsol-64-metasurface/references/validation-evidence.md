@@ -880,6 +880,42 @@ and the probed face identifiers should be identical across every point if the
 comparison is to be meaningful. In the verified case both were identical at all four
 points while the schemas differed, which is what allowed the comparison to stand.
 
+### Confirm an integration operator covers the same region at every compared point
+
+When a cross-configuration comparison integrates energy over a volume or flux over a
+face, the result is only comparable if the operator covers the same region in every
+configuration. This is easy to leave implicit, because the operator works and
+returns a number.
+
+Record, per point:
+
+- the **domain identifiers** each operator family covers, not merely the operator
+  **tags** that exist in the model;
+- the **face identifiers** used as probes, with a uniqueness check that each probe
+  selection resolves to exactly one face;
+- an explicit **expectation-versus-actual** record for each probe selection, so a
+  selection that silently resolves to several faces is visible rather than averaged
+  into the result.
+
+Then verify across points that the control-volume domain list and the probe face
+identifiers are **byte-identical**. If they are, the comparison stands on a verified
+invariant rather than an assumption.
+
+A verified package illustrated a subtlety: only some of its point files recorded the
+operator-to-domain mapping, because they came from different provenance (some
+adopted from earlier checkpoints, some solved in the run). The remaining checks —
+that every operator family named in one schema has a corresponding operator in the
+other, that the control volume agrees across both schemas, and that the probe faces
+agree — all passed, but the adopted files simply did not record operator domain
+coverage.
+
+**State that as a documentation gap rather than papering over it.** The honest
+statement is that everything both schemas record agrees, that the missing mapping is
+not recoverable from the point files, and that the comparison is unaffected because
+it consumes values the operators already produced. If the mapping matters, the
+adopted checkpoint itself must be inspected. Do not claim coverage matches when the
+record cannot show it.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
