@@ -1217,7 +1217,7 @@ Practise:
 - **Exclude zero-degree-of-freedom fits from the judgement**, and count them
   explicitly, since they have zero residual by construction.
 - **Beware a tolerance tighter than float representation.** Comparing a stored `0.1`
-  (actually `0.1000000000000000055…`) with a `1e-12` tolerance matched **nothing** and
+  (actually a value slightly above it in binary floating point) with a `1e-12` tolerance matched **nothing** and
   silently returned nulls; the resulting empty result looked like "no windows found"
   rather than a filter bug. Assert that a selection is non-empty.
 
@@ -1336,11 +1336,11 @@ actually is**. The two cases look identical in a plot and have opposite implicat
 for conditioning.
 
 A verified case had two probe planes carrying opposite-signed powers of nearly equal
-size — for example `+0.0075245` and `-0.0076572`. The natural reading was "the net is a
-small difference of large numbers, so the derived quantity is numerically fragile".
-That reading was **wrong**: the stored net equalled the **sum of the magnitudes**
-(`0.0151817`) to machine precision at every point, so the derived quantity was well
-conditioned and reproduced from its definition exactly.
+size. The natural reading was "the net is a small difference of large numbers, so the
+derived quantity is numerically fragile". That reading was **wrong**: the stored net
+equalled the **sum of the magnitudes** of the two planes to machine precision at every
+point, so the derived quantity was well conditioned and reproduced from its definition
+exactly.
 
 Include the explicit test in the record:
 
