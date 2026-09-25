@@ -1075,6 +1075,34 @@ Practise:
 Keep the sweep in the package as an artifact, so the check is repeatable rather than
 a one-off review.
 
+### Route a numeric consistency check by field name, never by magnitude
+
+Checking that restated numbers agree across artifacts looks like a job for "compare
+every number in file A against every headline value". It is not, and a first attempt
+at it produced **31 false positives out of 31 reported hits**.
+
+The reason is that magnitudes collide. In a verified case a swept parameter near
+`0.1` fell within 50 per cent of a gap effect near `0.15`, and the two gap effects
+(`0.149` and `0.152`) fell within 50 per cent of each other. Every one was flagged as
+a suspicious near miss, and none was a defect.
+
+What works instead:
+
+- **Route each field to the one authority its NAME restates.** Map a JSON path leaf
+  (`gap_effect_h300`, `mesh_sensitivity_bound`, and so on) to the single source that
+  defines it, then compare only that pair. The same data then yields **8 comparisons
+  and 0 disagreements** — a result a reader can act on.
+- **Compare magnitudes only as a fallback for unnamed values**, and expect that
+  fallback to be noisy. If a check reports mostly false positives, the check is
+  wrong, not the data.
+- **Record why the naive version failed**, in the artifact itself. A future reader who
+  sees only the corrected output cannot tell whether the quiet result means agreement
+  or an over-broad filter that matched nothing.
+
+A useful sanity property: a sweep whose hit count is implausibly high, or whose
+"mismatches" are all quantities of similar size but different meaning, should be
+treated as a broken test rather than a finding.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
