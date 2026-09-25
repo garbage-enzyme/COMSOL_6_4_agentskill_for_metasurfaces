@@ -2420,6 +2420,53 @@ Also confirm the regions **nest** as intended — a child summing into its paren
 control volume sitting inside the whole — since that tests that the selections defining
 them are what the analysis believes.
 
+### Read the tracked mode from its own field, never assume an index
+
+Raw eigenmode dumps are stored for many modes at once, and the **tracked branch is not the
+first one**. Using mode 1 produced exponents that were nonsense — one region came out at
+`-0.71` where the correct answer was `-0.007` — because the two configurations had the
+tracked mode at **different indices** (15 at one, 14 at the other), so the comparison
+pitted two different physical modes against each other.
+
+Those numbers were **real outputs of a wrong test**, and the mistake is invisible in the
+exponents themselves: nothing about `-0.71` looks like an indexing error.
+
+Practise:
+
+- **read the tracked index from the record that stores it** — a dedicated branch field,
+  not a position in the dump — and take it **per configuration**, since the index can
+  differ between settings;
+- **confirm the two configurations tracked the same physical branch** before comparing
+  anything, using a branch invariant such as frequency. A relative frequency difference
+  far below the gate is what licenses the comparison;
+- **expect a plausible-looking wrong answer, not an error**, so validate an index before
+  trusting any per-mode number;
+- **record the corrected test separately rather than overwriting the first**, so the
+  mistake stays visible and an amended result cannot be confused with a fitted one.
+
+### A control that cannot separate the hypothesis from its alternative is not a control
+
+A control was added to show the measure was sensitive: fixed-volume regions were asserted
+to have density **moving** with energy. It reported **not discriminating**, because a
+fixed-volume region whose energy is *itself* flat has flat density **by construction** —
+the control could not tell a sensitive measure from a dead one.
+
+The comparison that **did** discriminate was **between** regions: if a volume effect were
+operating, regions whose volumes scale very differently would show **different** energy
+exponents. Their volumes spanned `0.000` to `0.852` while their energy exponents sat
+within about **one per cent** of each other — which both refuted the volume reading and
+supported a different one.
+
+**Check that a control can fail in the direction that matters**, and prefer a contrast
+**between** groups over an expectation **within** one.
+
+### Look for a quantity that is the SAME across regions, not just across settings
+
+Comparing exponents between regions is what turned a weak result into a strong one. The
+energy exponent was nearly identical in every field-bearing region **despite** their
+volumes scaling completely differently, which located the effect in the **amplitude**
+rather than the **volume** — and matched the fixed-shape result already established.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
