@@ -172,6 +172,35 @@ before interpreting spectra.
 
 ## Provenance and source integrity
 
+### Numbers in reports must be read, never recalled
+
+A derived number written into reporting prose from memory or from a plausible
+recollection is not evidence, and it is the hardest kind of error to notice
+because it sits next to correct numbers and usually does not change the
+conclusion.
+
+A verified case: a plan document quoted a gate margin of 0.0755 per cent while the
+durable artifact recorded 1.545e-05, i.e. 0.001545 per cent. The quoted figure
+matched nothing in the data and overstated the margin by roughly a factor of
+forty-nine. The pass/fail conclusion was unaffected, which is exactly why it
+survived review for several rounds.
+
+Rules:
+
+- Every derived figure in a report must be **read from an artifact or recomputed
+  at the moment of writing**. Never restate one from memory.
+- Prefer having the report generated from the artifact mechanically, or at least
+  cite the artifact field name next to the number.
+- When a unit or scale is involved (fraction versus per cent, relative versus
+  absolute), state it explicitly beside the value.
+- Keep a **supersession register**: when a previously reported value is corrected,
+  record the superseded value, the reason, the corrected value, and whether the
+  conclusion changed. Never silently overwrite a wrong number, and never delete
+  it — a reader must be able to see what changed.
+- A corrected value whose conclusion is unchanged is still worth recording: it
+  tells the reader which conclusions were never actually supported by the number
+  that was quoted.
+
 Every row or artifact should include:
 
 - source model relative identity and SHA-256;
