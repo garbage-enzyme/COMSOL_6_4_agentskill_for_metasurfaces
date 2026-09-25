@@ -1221,6 +1221,38 @@ Practise:
   silently returned nulls; the resulting empty result looked like "no windows found"
   rather than a filter bug. Assert that a selection is non-empty.
 
+### Distinguish "fits better" from "predicts better" when comparing model forms
+
+Adding parameters always improves a fit, so a residual comparison between forms of
+different size proves nothing on its own. Two checks make the comparison meaningful.
+
+**Compare at equal parameter count.** If one family beats another at the *same* number
+of parameters, the advantage is the functional form, not extra freedom. A verified
+case compared even-power forms against a form linear in the absolute value of the
+coordinate: the even-power family won at 2 parameters, at 3 parameters, and at 4 — a
+consistent, like-for-like result establishing that the underlying feature is
+**smooth and symmetric** rather than having a cusp.
+
+**Test held-out prediction.** A form that merely interpolates cannot predict a point it
+has not seen. Leave-one-out is the decisive check. In that case the simpler registered
+form had a maximum held-out error of `7.2e-03`, while adding one even-power term
+reduced it to `1.9e-03` — a factor of about `3.8` from **one** extra parameter, which a
+form whose only advantage is freedom cannot buy.
+
+**Then apply the same dof reasoning to the test itself.** Leave-one-out has a trap: a
+form with as many parameters as the remaining training points has **zero degrees of
+freedom** in every fit and therefore reproduces each held-out point *exactly*. That
+looks like perfect prediction and is pure interpolation. In the verified case the
+four-parameter form showed the best held-out error of all (`1.5e-04`) yet had
+`dof = 0` per fit; excluding it left the three-parameter form as the genuine winner.
+Compute and report `dof` per held-out fit and exclude the zero-dof forms from the
+ranking explicitly.
+
+Report the robust statements and the unresolved ones separately: that the simpler form
+is inadequate over the full range, and that one family beats another at equal
+parameter count, can both survive while the *precise* number of terms needed remains
+undetermined by the available points.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
