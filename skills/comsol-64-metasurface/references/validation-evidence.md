@@ -2387,6 +2387,39 @@ Practise:
   per-region rows that no open question needed; their presence did not make it
   independent.
 
+### An unused column can still check the premise everything rests on
+
+Columns set aside as "not needed" were never examined, and an examination can turn them
+into an independent check on an assumption the whole analysis relies on — here, that the
+geometry away from the varied parameter is identical.
+
+**Region volume** is ideal for this because it is **completely independent of the field
+solution**. In a verified case the volumes split exactly as the geometry demands:
+
+| region contains the varied gap? | volume change |
+| --- | --- |
+| no | **1.000000** (bit-identical) |
+| yes | 1.17 to 1.41 times |
+
+That directly confirms the premise from a quantity no solver setting can influence.
+
+**But expect the first framing of such a sweep to be wrong.** A naive stability check
+flagged **four** regions as unstable; on inspection they were exactly the ones that
+**should** change, because they enclose the varied gap. Only a **gap-free** region that
+changed would be a defect, and none did. The test must partition regions by whether they
+contain the varied feature **before** judging stability, or it reports the geometry as a
+fault.
+
+**Then read the exponents against each other.** The volume that encloses the gap scaled
+with exponent `+0.384`, and the stored energy with `+0.401` and `+0.381` — so the energy
+grew **in step with the enclosing volume**, at essentially fixed energy density, rather
+than by the field intensifying. Report that as **one observation at one pair of settings**,
+consistent with the fixed-shape result, and **not** promoted to a mechanism.
+
+Also confirm the regions **nest** as intended — a child summing into its parent and the
+control volume sitting inside the whole — since that tests that the selections defining
+them are what the analysis believes.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
