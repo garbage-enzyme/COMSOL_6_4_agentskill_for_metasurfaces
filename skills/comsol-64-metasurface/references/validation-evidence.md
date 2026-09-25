@@ -2079,6 +2079,38 @@ Practise:
 - **correct a coarse first reading explicitly**, recording why it was incomplete rather
   than silently replacing it.
 
+### Rank a tracker sweep on its WORST case, then check the separation
+
+When several quantities are scored for how well each tracks a target, the ranking metric
+decides the answer, and a plausible-looking metric can produce a ranking that does not
+mean what it says.
+
+In a verified case candidates were scored by how closely each one's relative change
+matched the target's at **two** resolutions, and the list was sorted by the first
+resolution alone. The reported best candidate then had a **worse** mismatch at the second
+resolution than the runner-up — the two entries were not comparable, and the top of the
+list was an artefact of the sort key. Ranking by the **worst** resolution fixed it.
+
+Then measure the **separation** before interpreting the order:
+
+- after the fix, best-to-second separation was about **1.14 times**, and the top entries
+  clustered within roughly 5 to 6 per cent of one another;
+- with separation that small there is **no discriminating winner**. The honest output is
+  "these quantities cluster", not "this one tracks best".
+
+Also check whether the ranking agrees with related evidence:
+
+- here the region flagged as anomalous elsewhere turned out to be among the **worst**
+  trackers — its energy moved by 0.28 per cent while the target moved by 15 per cent. The
+  same region being anomalous in **both** directions is consistent, and strengthens the
+  conclusion that it is an artefact region rather than a driver;
+- a region can also **exceed** the target's change, which rules it out as a sole driver
+  and is worth reporting explicitly.
+
+Finally, state that **tracking is not causation** and that a clustered ranking promotes
+nothing. Recording "no candidate promoted, mechanism undiscriminated" is a real result;
+inventing a winner from a 1.14-times gap is not.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
