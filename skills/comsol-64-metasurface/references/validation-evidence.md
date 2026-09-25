@@ -1014,6 +1014,35 @@ This generalises the earlier rule about supersessions: a correction is not compl
 until every place that restates the corrected claim has been updated, and any
 generated restatement must be fixed at its source.
 
+### Sweep for every restatement before calling a correction complete
+
+Correcting a headline verdict in its detailed artifact is not the whole job. A
+package routes the same headline into several summaries — a claim-status file, a
+manifest, a run receipt, a prose README — and each is a place the old value can
+survive.
+
+A verified case corrected a two-part verdict in the detailed artifact and registered
+the supersession, then fixed the claim-status summary. A **sweep for the old string
+across the whole package** still found it presented as a *current* verdict in the
+manifest, the run receipt, and the README. A reader opening any of those would have
+seen the superseded claim.
+
+Practise:
+
+- **Grep the superseded value across every artifact**, not just the one you edited.
+  Then classify each hit: an intentional retention under a clearly named
+  `*_superseded` key is fine; a hit presented as the current value is a defect.
+- **Fix generated summaries in their generators** so the correction survives a
+  rebuild.
+- **Make the verifier cross-check summaries against the source artifact.** After
+  this change the verifier asserts the manifest's verdict equals the correction
+  artifact's. That is what turns "I fixed it" into "a rebuild cannot silently undo
+  it".
+- **Expect your own schema change to break consumers.** Turning a headline field
+  from a string into an object broke the verifier that read it, and the break was
+  only visible by running it. Re-run every consumer of a field whose shape you
+  change.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
