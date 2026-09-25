@@ -2499,6 +2499,40 @@ Practise:
   that the script **has the information needed** to be correct. The dynamic equivalent is
   recomputing a value from the tracked mode and comparing it with the stored one.
 
+### Re-running with a larger window both repairs AND can reverse a good-looking match
+
+When a mode-matching ambiguity cannot be settled from the stored artifacts, re-running the
+same matching with a **larger mode window** is a cheap proxy for the subspace question: if
+an assignment is an artefact of a truncated set, giving the matcher more modes changes it.
+
+In a verified case the same tracking was available at **16 and 28 modes**. Of 19 ambiguous
+assignments, **16 cleared** at the larger window — and the repair was **specific**: the
+flagged cases gained a mean overlap of **+0.44** while the other 365 gained a median of
+**exactly zero** (mean slightly negative). Without that control, a window that simply
+scores higher everywhere would look like an explanation.
+
+**But do not conclude that all ambiguity is truncation noise.** Three cases did not
+resolve, and one of them is the instructive one:
+
+- it looked like a **good** match in the small window — overlap `0.888`, barely inside the
+  threshold;
+- at the larger window the **same** assignment collapsed to **`0.003`**.
+
+So a truncated window does not merely produce **ambiguous** matches; it can produce
+**spuriously high** ones. That is a failure in the **opposite** direction, and it means the
+count of "ambiguous" cases can **understate** the problem.
+
+Practise:
+
+- **report the control**: how much do the *unflagged* cases change? If they change as much,
+  the larger window proves nothing;
+- **report every exception individually** rather than folding them into the headline;
+- **classify the exceptions by direction**: genuinely unresolved (near-zero overlap in
+  both), improved-but-still-marginal, and **reversed**;
+- **say what a full test would need.** A window comparison is a **stability** test; a
+  definition-correct subspace test needs the vectors themselves, to project the source onto
+  the subspace of a near-degenerate cluster.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
