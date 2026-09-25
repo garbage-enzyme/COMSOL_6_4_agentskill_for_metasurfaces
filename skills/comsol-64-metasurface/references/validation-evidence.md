@@ -1781,6 +1781,36 @@ Verify the classifier on an injected case:
 A plotting script whose data is traceable end to end, with the traceability itself
 checked, is what makes a figure safe to regenerate.
 
+### Map every column, and watch for a near-miss field name
+
+A tabular export is what an external reader consumes, so it must be checked against the
+structured authority — not spot-checked. Two failure modes appeared in one verified case.
+
+**Narrow coverage that passes is not coverage.** A first version verified 3 of a table's
+18 columns and reported clean. Extending to every column that had a structured
+counterpart raised the count from `16` to `72` checks and immediately surfaced a problem.
+
+**A near-miss field name looks exactly like a data divergence.** The extension then
+reported four disagreements — the same column, all four rows, table saying `polynomial`
+and authority saying `Cartesian`. Four consistent disagreements across every row read as
+a systematic divergence and would have been escalated as one. Both values were correct:
+the structured record carried **two similarly named properties**
+(`stretchingType = "polynomial"` and `ScalingType = "Cartesian"`), and the check had been
+pointed at the wrong one. The column mapped to the first.
+
+Practise:
+
+- **Map every column to a named authority**, and list the columns you could not map, so
+  the unchecked surface is explicit rather than implied.
+- **When a whole column disagrees row after row, suspect the mapping first.** Random data
+  errors do not usually affect every row identically; a systematic mismatch usually means
+  the comparison itself is wrong.
+- **Print the available fields before choosing one**, rather than picking the name that
+  looks closest. This is the same trap as the null lookup: a plausible-looking name that
+  is not the intended one.
+- **Record near misses.** A false alarm that was resolved teaches the next reader where
+  the ambiguity lives; deleting it hides the hazard.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
