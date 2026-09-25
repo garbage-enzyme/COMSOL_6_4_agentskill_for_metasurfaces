@@ -454,6 +454,39 @@ Rules:
 - Report the counts explicitly — `checked`, `mismatched`, `missing` — so a zero
   loop is visible instead of looking like a clean pass.
 
+### Telling a mode swap from a merely weak match
+
+When tracking fails at a step, the remedy depends on *which kind* of failure it is,
+and the overlap value alone does not distinguish them.
+
+- A step with a low overlap but a **clearly beaten runner-up** is a correct
+  assignment of a rapidly changing mode. It fails a strict overlap threshold but
+  it is not an error.
+- A step with a low overlap and a **near-tied runner-up** is a probable **mode
+  swap**: the tracker had no decisive preference and picked one of two comparable
+  candidates.
+
+The sharpest additional discriminator is the **frequency step relative to the
+track's own typical step**. Compute the median absolute step along the track and
+express each suspect step as a multiple of it. In a verified case one failing step
+was 6.6× the median (a smooth, if large, change) while another was **66×** the
+median, jumping about 2.1 THz between adjacent samples — the signature of a swap.
+
+Two cautions:
+
+- **Mode indices are not comparable between different runs.** Indices are positions
+  within each run's own mode list, so an index change between two window widths
+  means nothing by itself. Overlap values are geometric properties of the fields
+  and *are* comparable; in the same verified case they agreed between windows to
+  about 1e-10 while the indices differed. Use the overlaps, not the indices, to
+  establish reproducibility.
+- **Report the baseline you compare against.** "A large jump" is only meaningful
+  as a multiple of the track's own median step, and the median must be computed
+  from the track, not assumed.
+
+Finally, localising a failure to a specific branch is not the same as clearing it.
+State the failing steps, their kind, and what remains untested.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
