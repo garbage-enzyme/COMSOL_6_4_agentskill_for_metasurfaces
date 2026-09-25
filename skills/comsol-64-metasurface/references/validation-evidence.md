@@ -1685,6 +1685,41 @@ Practise:
   result that makes the recomputation worth having: it converts "the package says" into
   "the package and an independent reading agree".
 
+### Verify a sweep's own matcher before trusting its findings — or its silence
+
+A source-scanning sweep reports both the defects it finds and, when it finds none, a clean
+result. Both outputs depend on the matcher working, and a broken matcher produces the
+**clean** result. Four successive versions of one sweep were wrong before it was right:
+
+| version | defect in the sweep | reported |
+| --- | --- | --- |
+| 1 | tested every path against one file | 83 of 98 "missing" |
+| 2 | global handle→file table, but handle *names are reused across scripts* | 13 of 88 "missing" |
+| 3 | patterns anchored with `^` compiled **without the multiline flag**, so nothing after line 1 matched | **0 checked, 0 found** |
+| 4 | counted write targets (`d["k"] = ...`) as missing reads | 1 false finding |
+
+Only the fourth version was correct, and it needed an assertion to get there.
+Lessons, each earned by a wrong run:
+
+- **Assert the sweep actually inspected something.** `assert checked > 50` turned the
+  version-3 silence into a loud failure instead of a clean report. A sweep that examines
+  nothing must never report clean.
+- **Anchor patterns with the multiline flag when scanning whole files.** Without it, `^`
+  matches only the first line and every subsequent match is silently lost.
+- **Resolve names in the scope they belong to.** A handle name is not bound to a file:
+  the same short name may be reused by many scripts for different documents, so a global
+  lookup table tests paths against the wrong document.
+- **Separate reads from writes.** An assignment target `d["k"] = ...` creates the key and
+  can never be "missing".
+- **Verify against a known-bad input.** Inject a deliberate typo and confirm the sweep
+  reports it. Do this *after* the sweep reports clean, since that is the result at risk.
+- **State the coverage limit the self-test reveals.** The injection here was **not**
+  detected, because handles assigned from templated filenames are skipped — and those are
+  the majority. The honest conclusion is "every literal-named handle resolves", not
+  "every read path resolves".
+- A sweep whose false positives outnumber its true findings is worse than no sweep: it
+  manufactures work and, if acted on, would have "fixed" correct code.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
