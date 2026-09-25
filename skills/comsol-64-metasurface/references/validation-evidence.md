@@ -986,6 +986,34 @@ Finally, be clear about scope: excluding one cause is **not** discharging the
 obligation. The weak rows remained outstanding, and their justification still needed
 the assignment cost, which the data did not carry.
 
+### Fix generated summaries in the generator, not the generated file
+
+When a package carries a hand-written summary alongside detailed artifacts, the
+summary can go stale after a detailed correction. A verified case corrected a
+two-part verdict in the detailed artifact and registered the supersession, but the
+package's `claim_status` summary still carried the **old** conflated string, so the
+two disagreed — and a reader who opens only the summary would be misled.
+
+The first repair attempt overwrote the summary file directly. The edit **silently
+disappeared** on the next build, because a consolidation script **regenerated** that
+file from the detailed artifact every run.
+
+- **Find out whether a file is generated before editing it.** If a script writes it,
+  the correction belongs in the script; editing the output is temporary by
+  construction.
+- **Assert consistency in the generator** rather than trusting it. Refuse to write
+  the summary if the recorded supersession and the artifact it summarises have
+  drifted apart; a loud refusal is better than a quietly self-contradictory package.
+- **Retain the superseded value under a clearly named key** instead of deleting it,
+  so the change is auditable.
+- **After regenerating, verify the corrected value is actually present.** The
+  failure mode here is not a wrong value but a right value that got overwritten, so
+  a check on the input alone would have missed it.
+
+This generalises the earlier rule about supersessions: a correction is not complete
+until every place that restates the corrected claim has been updated, and any
+generated restatement must be fixed at its source.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
