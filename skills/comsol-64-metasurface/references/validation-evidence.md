@@ -526,6 +526,42 @@ whether they are constant, rather than assuming either. Record the shared count:
 a constant element count along a path is worth stating explicitly, because it means
 the sweep result is not contaminated by a changing discretisation.
 
+### Judge a tracking step against the local mode spacing
+
+An overlap threshold cannot tell you whether a tracked band moved plausibly,
+because overlap says how similar two fields are, not how far the frequency moved
+relative to what the spectrum allows.
+
+Compute, for each case along the path, the **median nearest-neighbour spacing** of
+that case's own mode list. Then express each consecutive frequency step as a
+multiple of the spacing at that k:
+
+- a step **well below** the local spacing is unambiguous — no competing mode is
+  close enough to be confused with it;
+- a step **comparable to or above** the spacing is a candidate hop, because a band
+  does not move several mode spacings between adjacent samples while remaining the
+  same band.
+
+A verified case had a median spacing of about 0.52 THz with a median step of about
+0.031 THz, so most steps were safe by a factor of ~17 — while a single step reached
+**9.5×** the spacing, identifying it as a hop that the overlap value alone had only
+hinted at.
+
+Two extensions worth computing:
+
+- **Count oversized steps across all tracked bands**, not just the one of
+  interest, and note how many distinct k locations they occupy. If many bands have
+  one and they are spread widely, the difficulty is a property of tracking a
+  crowded discrete spectrum rather than an isolated defect — which changes the
+  remedy from fixing one track to reviewing the method.
+- **A closed (conducting) termination concentrates the spectrum**, since there is
+  no radiation channel, so tracking is hardest there. Do not transfer conclusions
+  about tracking quality from a closed-termination path to an open one.
+
+State explicitly when the comparison **cannot** be made. If one dataset records
+only a single frequency per case, no local spacing exists for it and the statistic
+must be reported as unavailable rather than estimated.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
