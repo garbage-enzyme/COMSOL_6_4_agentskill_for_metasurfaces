@@ -2046,6 +2046,39 @@ Practise:
 - **state that route agreement is not convergence.** Both routes can agree while the
   quantity is unconverged, and the gate still failed at both resolutions here.
 
+### Do not pool an absorbing region with physical regions in a robustness sweep
+
+A quantity computed over a user-drawn control volume depends on where the volume is
+drawn. Sweeping candidate volumes is the right test — but if the candidate set mixes
+**physical** regions with an **absorbing** one, the pooled spread is dominated by the
+absorber and hides the behaviour of the physical region.
+
+In a verified case six nested volumes from one raw dump gave a pooled spread of about
+**46 per cent**, which initially read as "the quantity is a property of the drawn volume".
+Splitting the set changed the conclusion:
+
+| volume set | spread | note |
+| --- | --- | --- |
+| five physical volumes | **~1.2 to 1.6 per cent** | comparable to the mesh bound, so stable |
+| absorbing region | **~1.83 times the physical maximum** | the whole spread came from here |
+
+So the physical result was stable, and the absorber was the anomaly. The absorber being
+the anomaly is itself corroborating evidence: an independent earlier finding had shown
+that this region's stored energy tracks the observable only through its denominator. Two
+different observables pointing at the same region is stronger than either alone.
+
+Practise:
+
+- **sweep candidate volumes** rather than trusting the one you drew;
+- **partition the sweep by physical role before interpreting the spread** — pooling
+  hides which member drives it;
+- **report the spread within each partition**, not a single pooled number;
+- **check whether the verdict survives the whole sweep.** Here the effect exceeded the
+  registered limit on *every* volume at both resolutions, so the gate outcome did not
+  depend on the choice even though the magnitude did;
+- **correct a coarse first reading explicitly**, recording why it was incomplete rather
+  than silently replacing it.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
