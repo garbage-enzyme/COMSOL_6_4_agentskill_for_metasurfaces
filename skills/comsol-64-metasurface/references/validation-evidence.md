@@ -1329,6 +1329,39 @@ Practise:
   leave-one-out fact was correct; the remedy drawn from it was not, and only the
   follow-up measurement exposed that.
 
+### Establish whether a surface-flux sum is a difference or a sum of magnitudes
+
+Before treating a net flux through a control volume as a cancellation, **compute what it
+actually is**. The two cases look identical in a plot and have opposite implications
+for conditioning.
+
+A verified case had two probe planes carrying opposite-signed powers of nearly equal
+size — for example `+0.0075245` and `-0.0076572`. The natural reading was "the net is a
+small difference of large numbers, so the derived quantity is numerically fragile".
+That reading was **wrong**: the stored net equalled the **sum of the magnitudes**
+(`0.0151817`) to machine precision at every point, so the derived quantity was well
+conditioned and reproduced from its definition exactly.
+
+Include the explicit test in the record:
+
+- compare the stored net against `|plane_1| + |plane_2|` and against
+  `|plane_1 - plane_2|`, and state which it matches;
+- report the **normalised imbalance** `(p1 + p2) / (|p1| + |p2|)`, which is the
+  meaningful small quantity when the planes oppose — in that case between `0.24` and
+  `0.87` per cent.
+
+The imbalance is also physically informative, and reporting it changes an
+interpretation. Across a configuration change the individual planes moved by `36`–`39`
+per cent while the imbalance moved by only `0.27`–`0.52` percentage points, **and not in
+the same direction at the two resolutions**. The quantities that move are dominated by
+the **common** part of the two planes; the imbalance, which distinguishes a closed from
+an open mode, barely moves. That is consistent with the change altering how much flux
+*circulates* rather than how closed the mode is — a different statement from the one
+the raw plane change suggests.
+
+Report a trend that disagrees between resolutions as an unresolved observation rather
+than picking the resolution whose direction you prefer.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
