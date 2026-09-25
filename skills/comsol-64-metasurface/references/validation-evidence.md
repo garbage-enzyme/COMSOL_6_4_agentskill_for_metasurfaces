@@ -1362,6 +1362,39 @@ the raw plane change suggests.
 Report a trend that disagrees between resolutions as an unresolved observation rather
 than picking the resolution whose direction you prefer.
 
+### Design a check that could fail, then report it as failed-to-falsify
+
+An interpretation that cannot be contradicted by any measurement is not carrying weight.
+Before building on a physical picture, state a prediction it makes and test it — even
+with very few points, because a **falsification** needs far less data than a
+confirmation.
+
+A verified case had an interpretation ("the configuration change is dominated by
+circulating flux rather than by how closed the mode is") and derived a prediction from
+it: the disagreement between two independent evaluation routes should **grow** with the
+flux imbalance. On four points the correlation came out `+0.70`.
+
+That number means almost nothing on its own, so the check was itself checked:
+
+- **leave-one-out on the correlation**: dropping each point in turn gave `+0.57`,
+  `+0.98`, `+0.44`, `+0.71` — always the same sign, so the correlation is not carried
+  by one sample;
+- the honest label is therefore **"survived the test"**, not "supported". With four
+  points, a correlation spanning `0.44` to `0.98` under point removal carries no
+  mechanism and should not be used quantitatively.
+
+Record the reasoning explicitly:
+
+- **State what a failure would have looked like** — here, an anti-correlation would
+  have undermined the interpretation before anything was built on it. A check whose
+  failure mode is unstated is usually a check that cannot fail.
+- **Separate "not contradicted" from "supported".** The value of the exercise is that
+  the picture was exposed to a real chance of being wrong, not that it survived.
+- **Do not promote a small-sample correlation to a mechanism.** Report the sample size,
+  the leave-one-out spread and the resulting limit on the claim, in the same record.
+- Correlations are especially vulnerable to single-point control, so apply the same
+  leave-one-out discipline used for fitted parameters.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
