@@ -1590,6 +1590,35 @@ Generalisations:
 - A check that was just edited deserves the control most, since the edit is what could
   have broken it.
 
+### Read a manifest's container type before concluding it is empty
+
+A manifest keyed by path is a JSON **object**; one keyed by position is an **array**. The
+two look alike in a listing and behave completely differently under a shell.
+
+In a verified case a shell probe of a package manifest reported **0 declared files**, and
+a follow-up listing reported several analysis artifacts as "outside the manifest". Both
+were **wrong, and produced by the same mis-parse**: the field was an object with one
+entry per path, so counting it as a list returned a small number and iterating it as a
+list yielded nothing. Read correctly, the manifest declared every file, and the only
+undeclared items were the two outputs that **cannot declare themselves** — the manifest
+and a receipt written after it is finalised.
+
+Practise:
+
+- **Check the container type explicitly** (`isinstance(..., dict)` versus `list`) and
+  branch on it, rather than assuming one shape.
+- **Assert the undeclared set is exactly what you expect**, naming the self-referential
+  exemptions, so a real omission fails instead of blending into the exemptions. A
+  manifest and any receipt finalised after it legitimately exclude themselves.
+- **Prefer the artifact's own count field** as a cross-check on your parse: if the stored
+  count and your parsed count disagree, suspect the parse before the data.
+- **Record an apparent gap once it is explained**, so it is not re-investigated by the
+  next reader — and state the reading that was wrong, since the wrong reading is what
+  invites the repeat.
+- A shell tool that silently coerces a single-element collection is a recurring source of
+  this error; when a count looks impossibly small or impossibly complete, re-derive it in
+  the same language that wrote the file.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
