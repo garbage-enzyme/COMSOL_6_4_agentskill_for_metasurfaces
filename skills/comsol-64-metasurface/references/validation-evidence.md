@@ -1934,6 +1934,36 @@ Two practical notes:
 Also state the limit: this searches long strings in structured artifacts. A superseded
 **numeric** value, or wording in a table export or figure, needs its own check.
 
+### Map the data flow before calling a check independent
+
+Two checks that read the same upstream artifact cannot corroborate each other. Their
+agreement is **agreement by construction**, and citing it as independent verification
+overstates the evidence while every number remains correct.
+
+Build the map mechanically: for each script, collect the artifacts it **writes** and the
+artifacts it **reads**, then report every pair where one reads what another writes. In a
+verified case this produced **83 dependency edges across 107 scripts**, including:
+
+- a gate re-evaluation and a tabular recomputation that **both** read the same analysis
+  artifact and the same point files, so their shared fields corroborate nothing;
+- a CSV-versus-structure check that read the re-evaluation's own output, making its gate
+  rows an **echo** rather than a re-derivation;
+- many consumers of two central finding artifacts, each inheriting rather than
+  recomputing.
+
+Classify honestly, then cite accordingly:
+
+- **independent** — reads the raw source or the primary data directly, so it re-derives
+  rather than echoes. A raw-integral cross-check, a convention recomputed across every
+  mode, an additivity check against raw regions, and a byte-level hash verification are
+  independent legs.
+- **agreement by construction** — inherits an upstream artifact. Still worth running, as
+  a consistency check, but it must not be described as independent confirmation.
+
+Reclassify **strength of evidence**, never the measured values. State explicitly that no
+gate or value changes as a result: the point is to stop claiming more corroboration than
+the structure supports, not to revise a finding.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
