@@ -777,6 +777,51 @@ number of points. The conclusion supported is *consistency with* the claimed ori
 not an absolute proof of it, and the possible cancellation of errors between
 settings is **not bounded** by this argument.
 
+### Verify a two-configuration comparison directly, not through a third reference
+
+When a quantity is compared between two configurations, the comparison is only
+meaningful if the same physical mode was selected in both. Two weak ways to argue
+this, and one strong way:
+
+- **Weak: the index is the same.** Mode ordering changes between configurations, so
+  an index match proves nothing, and an index *mismatch* does not disprove identity
+  either (a verified case selected index 15 in one configuration and 14 in the
+  other for the same mode).
+- **Weak: each configuration matches a third reference.** This is indirect: both
+  could match a reference while the reference itself is only loosely related to
+  either.
+- **Strong: compare the two configurations to each other.** Intersect their
+  coordinate sets and compute the overlap directly, then scan a range of mode-index
+  offsets so the true partner can be found wherever it sits.
+
+In a verified case the direct comparison gave 0.9989 and 0.9988 at the selected
+indices while every other offset fell below 0.09 — a separation of about 0.92, a
+factor of 12 to 14. The contrast, not the absolute value, is what makes the result
+decisive.
+
+State the limit of the method. Intersecting coordinate sets is necessary when the
+two configurations have different meshes, and the intersection can be a small
+fraction of each field (a few per cent in that case). The overlap is therefore a
+**branch diagnostic, not a formal modal inner product**; a formal inner product
+needs a fixed physical interpolation or the mass matrix.
+
+### Comparing dict entries: exclude by value, not by identity
+
+Selecting "the best, and then the rest" from a list of dicts is easy to get wrong
+in a way that produces a suspiciously clean result.
+
+A verified bug used an identity test to drop the best entry from a pool before
+taking the maximum of the remainder. Because `max()` returns an equal but *distinct*
+object, the intended exclusion silently failed and the "next best" came out equal to
+the best, giving a separation of exactly **0.0**. Sorting by value and taking the
+tail fixes it.
+
+- Exclude entries by **value or index**, never by object identity, when the entries
+  are dicts or tuples rebuilt during the operation.
+- **Assert the aggregation agrees with the recorded best** before writing it out.
+- Treat a separation of exactly zero, or any other suspiciously round result, as a
+  prompt to check the selection logic rather than as a finding.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
