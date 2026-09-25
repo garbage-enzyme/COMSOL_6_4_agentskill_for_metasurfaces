@@ -1811,6 +1811,32 @@ Practise:
 - **Record near misses.** A false alarm that was resolved teaches the next reader where
   the ambiguity lives; deleting it hides the hazard.
 
+### Derive the comparison tolerance from the precision the artifact carries
+
+A fixed tight tolerance applied to a rounded column produces a false defect; loosening it
+by hand until the check passes hides *which* column is coarse. Derive the tolerance from
+the digits actually present.
+
+In a verified case a column of tabulated counts and ratios was checked with a `1e-9`
+relative tolerance. Two rows were flagged: the table carried `1.836686` where the source
+had `1.8366862305969573`. The values agreed — the column simply carried **7 significant
+figures while its neighbours carried 10 to 13**, so the tolerance demanded digits that
+were never written.
+
+Practise:
+
+- **Compute the significant digits in the stored value** and set the tolerance from them:
+  for `s` digits, accept `10^-((s-1))`. That is the honest statement of what the artifact
+  can support.
+- **Record the derived tolerance per cell**, so a reader can see which columns are coarse
+  instead of inferring it from failures.
+- **Do not tune a tolerance to make a check pass.** If a value fails, decide first whether
+  the disagreement is in the data or in the comparison; only then adjust, and justify the
+  adjustment from the artifact's precision rather than from a desire for green.
+- **Re-derive headline constants rather than echoing them.** A summary row giving the
+  maximum of a set was recomputed as the maximum of the per-gap values, which verifies
+  the registered bound instead of copying it.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
