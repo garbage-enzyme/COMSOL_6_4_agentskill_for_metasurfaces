@@ -394,6 +394,37 @@ six of nine nearby tracks were in fact window-limited, not none.
 - Record which field names were actually used, so a later reader can check the
   extraction instead of re-deriving it.
 
+### Localising a tracking failure instead of reporting a pass rate
+
+A branch-tracking gate is usually reported as a rate: how many consecutive
+assignments met the overlap and margin thresholds. A rate alone cannot tell you
+whether the tracker is diffusely unreliable or fails on one specific segment, and
+those two cases call for completely different responses. Three cheap breakdowns
+separate them.
+
+- **Break the failures down by segment of the path**, and normalise by the number
+  of assignments each segment contributes. In a verified case the bad fraction was
+  roughly 16 per cent on one leg, 12 per cent on another, and 3 per cent on a
+  finely sampled region near the symmetry point — a 3–5× concentration that a
+  single aggregate rate hid completely.
+- **Check whether the runner-up beat the chosen match.** If the stored
+  per-assignment data carries a runner-up score, count the assignments where it
+  exceeds the selected one. Those steps are outright **mis-assignments**, not
+  weak-but-correct matches, and they warrant a different remedy. A verified case
+  had steps where the chosen overlap was ~4e-04 against a runner-up of ~3e-01.
+- **Repeat the breakdown at a second window width** if one exists. A failure that
+  keeps the same per-segment fraction when the window changes is a property of the
+  tracking; one that moves with the window is an artefact.
+
+Report the original gate verdict unchanged alongside the breakdown. Localising a
+failure explains it; it does not convert it into a pass, and it does not license a
+narrower gate. Whether to re-register a gate against a subset of the path is an
+authority decision.
+
+Also state plainly what the breakdown does **not** cover: whether any failing step
+lies on the specific branch you intend to report. Localising failures across the
+path is not the same as clearing the branch of interest.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
