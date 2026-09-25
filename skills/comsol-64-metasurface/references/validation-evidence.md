@@ -2327,6 +2327,38 @@ ignored; a zero from an unvalidated classifier is not reportable.
 **State what still is not covered**: wording matching no listed pattern, and figure text
 compared at the level of the **call arguments** rather than the rendered strings.
 
+### Search beyond the current working package before declaring data unavailable
+
+"This cannot be tested, the data is not present" is a claim about a **search**, and it is
+wrong whenever the search was narrower than the data. Say which directory was searched and
+what the search covered, or the conclusion outruns the search.
+
+In a verified case a test was declared impossible because the required quantity had no raw
+dump **in the package being worked on**. An earlier package, from a different phase of the
+same study, held the dump with an **identical key structure** — the quantity was fully
+extractable after all.
+
+The distinction that mattered:
+
+- the limitation recorded was *"the parameter point has no data"*;
+- the limitation that actually existed was *"only one gap of that parameter point has
+  data, so the cross-gap comparison cannot be formed"*.
+
+Those permit different future work, so conflating them is not a wording quibble.
+
+Practise:
+
+- **search the broader workspace** — earlier phases, checkpoint directories, sibling
+  packages — before concluding a quantity is absent;
+- **check the schema of anything found**, since a dump from another phase may need a
+  different index key; here the mode-count field was named differently between the two
+  packages;
+- **record what WAS found and why it still does not permit the test**, so the obstruction
+  is precise and the route to clearing it is visible;
+- **correct the earlier statement in place and mark it superseded**, rather than deleting
+  it. The wrong version's conclusion may already have been read; hiding it loses the fact
+  that the error happened.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
