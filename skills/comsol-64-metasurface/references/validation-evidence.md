@@ -1720,6 +1720,39 @@ Lessons, each earned by a wrong run:
 - A sweep whose false positives outnumber its true findings is worse than no sweep: it
   manufactures work and, if acted on, would have "fixed" correct code.
 
+### Expand a filename template from the labels the code uses, not from a disk pattern
+
+To check reads written as `OUT / f"case_{label}.json"`, the obvious approach is to match
+the template against filenames present. It over-matches. In a verified case the pattern
+`a case-numbered pattern` also matched `case_A_raw_suffix.json`, because the
+non-greedy group simply swallowed the extra suffix, producing **56 spurious findings** of
+the form "a point-file field is missing from a raw-integrals file" — true, and entirely
+meaningless, since no handle reads a raw-integrals file under that name.
+
+Expand from the labels the script **actually iterates** (its `for` loops and label lists)
+and confirm each resolved file exists. That removes the guesswork about which files a
+handle could refer to.
+
+### Treat a shadowed variable name as a latent result change
+
+A name rebound to a different object mid-function can make a comparison read the wrong
+dictionary. Whether it currently *works* depends on whether the two objects happen to
+share keys — which is exactly what makes it dangerous.
+
+In a verified case a summary loop rebound `b` from a loaded artifact to a row of its own
+output dict, and a later comparison read `row["plane_power"]` from the rebinding. It ran,
+because the row carried the same key. Before touching it:
+
+- **Re-derive every affected value from the source data** and confirm it reproduces. In
+  that case all four values matched to 12 decimal places, establishing a code-clarity
+  defect rather than a data defect.
+- **Fix the name, then re-run and diff against the pre-fix artifact.** Here the output was
+  byte-identical, which converts "the fix is safe" from an expectation into evidence.
+- **Establish correctness before refactoring**, so the fix cannot quietly change a result.
+
+A shadowed name that happens to work is a trap for the next edit, not a wrong answer
+today — and both facts deserve recording.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
