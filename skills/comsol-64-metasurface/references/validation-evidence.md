@@ -2595,6 +2595,39 @@ repair the tracking; in fact **both** windows failed their gate, so enlarging th
 an index field that did not resolve to a record for some cases — and it was recorded as an
 observation **without acting on it**, because the package was landed and unmodified.
 
+### A running ledger of open items decays — re-read the artifact before carrying it
+
+An entry saying something is **unresolved** is a claim about the **state of the evidence**,
+and it goes stale the moment the evidence lands. A stale entry is not harmless: the ledger
+is what directs the next round, so an answered question carried as open **sends effort at
+work already done**.
+
+In a verified case a ledger carried two gate results as unresolved across many rounds.
+Reading the delivered readme showed both were **resolved and explained**, in sections
+headed by their own findings, and had been since the package existed.
+
+The two entries were worth keeping precisely because they are **informative failures**, not
+loose ends:
+
+- one gate failed because a truncation parameter had **not converged** — the widths grew
+  **monotonically** with truncation order and had not levelled off. **A failure that is
+  monotone in the truncation parameter is the signature of a real convergence problem,
+  not numerical noise**, which is what makes the FAIL a finding;
+- the other failed because the quantity was **independent** of a parameter to about the
+  **eighth significant figure** across a 25-fold change. The registered margin was not met
+  **because there was no dependence to measure**, and the readme named the likely cause in
+  the model rather than concluding the source was wrong.
+
+Practise:
+
+- **re-read the delivered artifact before carrying an item as open**, and date the entry;
+- **distinguish "failed" from "unresolved".** A gate that FAILED with a recorded
+  explanation is **closed**, not open, and treating it as open invites redoing it;
+- **keep the signature of a real failure** — monotonicity in the convergence parameter,
+  independence to many figures — since that is what separates a finding from noise;
+- **note that this error and a premature "data unavailable" claim have the same shape**:
+  both assert something about the evidence **from memory rather than from a fresh read**.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
