@@ -1043,6 +1043,38 @@ Practise:
   only visible by running it. Re-run every consumer of a field whose shape you
   change.
 
+### Sweep the numbers, not just the strings
+
+A correction that fixes a *label* does not fix a *value*. A package can state a
+fabricated or stale number in one artifact while correctly reporting it in another,
+and a reader of the wrong file is misled.
+
+A verified case had already recorded a fabricated percentage as a supersession and
+corrected it **in the plan**, but the same fabricated figure survived in the
+package's README and was still presented as fact there. It overstated the true value
+by about **49×**. It was found only by extracting every percentage from the prose and
+comparing against the durable artifacts.
+
+Practise:
+
+- **Extract every numeric claim from prose and check it against an artifact.**
+  Percentages and quoted frequencies are the highest-yield targets. Read the
+  authoritative value from the artifact — a gate-evaluation table or a results file —
+  **never** from memory or from a neighbouring sentence.
+- **Flag near misses, not only exact mismatches.** A number within a few per cent of
+  a headline but not equal to it is the signature of a recalled rather than a read
+  value. In that case the flagged figure was 0.0755 against a true 0.001545 — a
+  discrepancy no human skim would catch, because both look like plausible small
+  percentages.
+- **Quote the superseded value only inside a correction note**, and say explicitly
+  that it is the old text. Then a later sweep can tell intentional retention from a
+  live defect.
+- **Re-run the sweep after fixing**, and confirm the corrected value is present and
+  the old one survives only in the correction note.
+
+Keep the sweep in the package as an artifact, so the check is repeatable rather than
+a one-off review.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
