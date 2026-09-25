@@ -710,7 +710,7 @@ single verdict label can silently answer the wrong one.
 A verified case registered the question *"is the two-configuration disagreement
 mesh or physics?"* — a **binary discrimination** question — alongside a numeric
 gate requiring the two configurations to agree within 10 per cent. The delivered
-verdict read `NOT_CONVERGED_gap_effect_is_real_not_discretisation`, which answers
+verdict read `NOT_CONVERGED_effect_is_real_not_discretisation`, which answers
 both at once.
 
 Both underlying statements were true and independent:
@@ -1089,7 +1089,7 @@ a suspicious near miss, and none was a defect.
 What works instead:
 
 - **Route each field to the one authority its NAME restates.** Map a JSON path leaf
-  (`gap_effect_h300`, `mesh_sensitivity_bound`, and so on) to the single source that
+  (`effect_low_res`, `sensitivity_bound`, and so on) to the single source that
   defines it, then compare only that pair. The same data then yields **8 comparisons
   and 0 disagreements** — a result a reader can act on.
 - **Compare magnitudes only as a fallback for unnamed values**, and expect that
@@ -1818,8 +1818,8 @@ by hand until the check passes hides *which* column is coarse. Derive the tolera
 the digits actually present.
 
 In a verified case a column of tabulated counts and ratios was checked with a `1e-9`
-relative tolerance. Two rows were flagged: the table carried `1.836686` where the source
-had `1.8366862305969573`. The values agreed — the column simply carried **7 significant
+relative tolerance. Two rows were flagged: the table carried a seven-figure value where the source
+had a thirteen-figure value. The values agreed — the column simply carried **7 significant
 figures while its neighbours carried 10 to 13**, so the tolerance demanded digits that
 were never written.
 
