@@ -1253,6 +1253,44 @@ is inadequate over the full range, and that one family beats another at equal
 parameter count, can both survive while the *precise* number of terms needed remains
 undetermined by the available points.
 
+### Check whether one point carries the whole fit
+
+Before reporting that a richer model form is "needed", establish that the improvement
+is not carried by a single sample. A small, unevenly spaced grid can make one point
+decisive without any hint in the aggregate residual.
+
+Leave-one-out on the **parameter of interest** — not on the fitted values — is the
+direct test. A verified case found:
+
+| point removed | shift in the fitted coefficient |
+| --- | --- |
+| smallest wavenumber | +0.0071 |
+| second smallest | +0.0057 |
+| middle | −0.00004 |
+| second largest | −0.0008 |
+| **largest** | **−0.184** |
+
+The largest-wavenumber point moved the coefficient by **7.4 per cent**, while removing
+any other point moved it by at most **0.29 per cent** — a dominance ratio of about
+**26**. The design also degraded fast with model size: the condition number rose from
+`6.6e1` for the base form to `8.8e3` with one extra term and `3.9e6` with two, and the
+base form already had a maximum leverage of `0.955`.
+
+That does not invalidate the finding, but it **changes what may be claimed**:
+
+- **Survives:** statements about *residuals* ("the simple form does not reach the
+  accuracy over the full range that it reaches over the narrow range") and comparisons
+  made **at equal parameter count** — the same points appear on both sides, so one
+  influential point affects both families and cannot manufacture the difference.
+- **Weakened:** any claim that a *specific extra term is required*. A real missing term
+  and one point's influence are both consistent with the data, and the available points
+  cannot separate them.
+
+Report the dominance ratio, the condition numbers, and the maximum leverage alongside
+the conclusion, and state the surviving and weakened claims separately. When a
+conclusion rests on one point, say so and quote the parameter with that sensitivity
+attached rather than to spurious precision.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
