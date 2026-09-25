@@ -2298,6 +2298,35 @@ a README, in tables, and in figure text is not**, and a claim can outrun its evi
 wording matching no pattern at all. Clean wording is a statement about wording, not about
 correctness.
 
+### Check the surfaces a reader actually sees first, and split the test in two levels
+
+A wording sweep over structured artifacts leaves out exactly the surfaces a reader meets
+first: the **readme**, the **table cells**, and the **figure text**. Closing that gap
+changed the design of the check in a way worth copying.
+
+**Split the test by level.**
+
+- a **per-unit** function reports claim words in a single sentence and is deliberately
+  **not** qualifier-aware, so a sentence carrying both a claim and its own qualifier still
+  returns a hit;
+- the **flag decision happens per artifact**, comparing the total qualifier count against
+  the claim count.
+
+Without that split, a thoroughly-qualified document gets flagged section by section. In a
+verified case the readme had **11 sections containing claim words** and carried **40
+qualifiers overall** — correctly not flagged.
+
+**Treat a table cell as a label, not a sentence.** Zero cells contained claim words at all
+here; cells shorter than a handful of words are labels and should be excluded rather than
+parsed as prose.
+
+**Validate on every newly covered surface**, with a constructed bad shape per surface, and
+record the probe results. Three probes were detected and a question probe was correctly
+ignored; a zero from an unvalidated classifier is not reportable.
+
+**State what still is not covered**: wording matching no listed pattern, and figure text
+compared at the level of the **call arguments** rather than the rendered strings.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
