@@ -1964,6 +1964,34 @@ Reclassify **strength of evidence**, never the measured values. State explicitly
 gate or value changes as a result: the point is to stop claiming more corroboration than
 the structure supports, not to revise a finding.
 
+### When the map shows everything is downstream, build a primary-evidence leg
+
+Mapping the data flow can reveal that **every** verification reads a derived artifact, so
+nothing corroborates the headline conclusion. The remedy is not to relabel the checks but
+to add one that reads primary data.
+
+In a verified case the strongest available source was a **raw integral dump** written
+directly by the collection step — every quantity as a complex value per expression per
+mode, with the expression list stored beside the numbers so the layout is self-describing
+rather than assumed. Re-deriving the headline quantity from it reproduced the reported
+values exactly.
+
+What such a leg needs:
+
+- **read the raw dump and nothing derived from it.** Take the complex eigenvalue and the
+  selected mode index from the run record if the dump does not carry them, and **state
+  that partial dependency explicitly** rather than describing the check as fully
+  independent.
+- **derive the headline quantity from first principles**, applying the convention already
+  verified elsewhere, rather than re-reading a stored result.
+- **recompute the comparison quantities too** — both the effect size and the sensitivity
+  bound — so the gate outcome follows from the raw numbers rather than being inherited.
+- **compare against the package and report agreement or mismatch**, with a mismatch
+  meaning the package values are unconfirmed.
+- **state that reproducing a gate does not pass it.** The gate failed at both levels
+  before and after; a successful reproduction changes the strength of the evidence, not
+  the verdict.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
