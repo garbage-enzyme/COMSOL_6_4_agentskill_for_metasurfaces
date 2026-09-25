@@ -1992,6 +1992,29 @@ What such a leg needs:
   before and after; a successful reproduction changes the strength of the evidence, not
   the verdict.
 
+### A self-describing dump must have its self-description checked
+
+Storing the expression list beside the numbers makes a raw dump self-describing — but the
+labels are then load-bearing. A row labelled as one region while integrating another
+still yields finite numbers, and if a later check and the dump share the mislabelling
+they will agree while both are wrong. So the self-description needs its own audit:
+
+- **each expression names the operator its key's region requires**, so a solid-region key
+  cannot carry the air-region operator;
+- **keys are unique**, or the lookup is ambiguous;
+- **every configured region and every quantity a downstream check reads is present**;
+- **distinguish region integrals from global entries.** Surface integrals and scalar
+  readbacks belong to a global category and correctly carry **no** region operator — a
+  plane power is a surface quantity, not a domain one.
+
+That last point cost a full round: an audit that expected surface keys as region keys
+reported 12 findings, **all of which were its own wrong assumption about the schema**.
+Read the real key list before writing the expectations, and if a whole family of rows
+"fails" identically, suspect the audit first.
+
+Then prove the operator check fires: construct a solid-region key carrying the air-region
+operator and assert it is caught.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
