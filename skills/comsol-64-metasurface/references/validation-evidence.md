@@ -1427,6 +1427,33 @@ Practise:
   error of `2.2e-16` — machine precision — which is far stronger evidence than
   agreement at one selected mode.
 
+### Label a trend from the sweep variable, not from the array order
+
+A trend label is easy to invert, and an inverted label is worse than no label because it
+reads as a finding. Check the printed numbers against the stated direction every time.
+
+In a verified case a quantity was sampled at two values of a sweep variable, giving
+`7.72e-05` and `6.58e-05`. The comparison was written as "rises when the first is less
+than the second", which labelled a **fall** as a **rise**. The numbers were correct; only
+the word was wrong, and the word is what a reader carries away.
+
+Practise:
+
+- **Name the endpoints in the artifact**, not the indices — store `value_at_start`,
+  `value_at_end`, and `change_from_start_to_end`, so the direction is unambiguous.
+- **Say which way the sweep variable moves** when naming the change, e.g.
+  `direction_as_sweep_increases`, since "the change" alone does not define a sign.
+- **Cross-read the printed table against the label** before believing either. In that
+  case `7.72e-05 → 6.58e-05` plainly falls, which is what exposed the error.
+- Distinguish **the direction of a ratio from the direction of the underlying
+  quantities**: a falling energy fraction is not the same statement as a falling
+  absorbed power, and a mechanism argument must use the quantity it actually invokes.
+
+A related caution: a trend that reproduces across an independent axis is worth more than
+the absolute values that produced it. When the same fall appeared at both mesh
+resolutions, the **direction and rough size** became the reportable result, while the
+individual values remained subject to the unresolved convergence question.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
