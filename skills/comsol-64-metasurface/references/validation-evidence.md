@@ -1619,6 +1619,41 @@ Practise:
   this error; when a count looks impossibly small or impossibly complete, re-derive it in
   the same language that wrote the file.
 
+### Reconcile the acquire and release receipts, and explain any imbalance
+
+Counting resource-acquisition records against release records is a cheap check that finds
+one specific failure: a lease or handle left held because a run died. Do it by comparing
+matched name sets rather than by counting, so you learn **which** acquisition is
+unmatched.
+
+A verified case had eighteen acquisition receipts and seventeen release receipts. That
+imbalance is exactly the signature of a held lease, so it was explained from artifacts
+rather than noted:
+
+- the unmatched acquisition was a diagnostic whose console log **stops mid-way through
+  its case list** — one case header printed, no result after it;
+- its lease record named a process that has since exited;
+- the run receipt recorded that an orphan was encountered, that identity was confirmed by
+  command line and lease record, that the process was terminated, and that the lease was
+  reclaimed **through the sanctioned recovery path rather than by deleting a lock**;
+- no external solver processes remained, and no live lease was present.
+
+Therefore the imbalance was the known abort, and the recovery was documented.
+
+Practise:
+
+- **Compare matched sets, not totals.** "18 versus 17" tells you something is wrong;
+  "the unmatched one is the aborted run" tells you what.
+- **Assert the imbalance equals the known exception.** A future imbalance of the same
+  shape must fail the check rather than be absorbed into the explanation. Name the
+  expected unmatched entry explicitly.
+- **Cross-check the abort from at least two independent places** — here the truncated
+  console log and the cleanup block of the run receipt agreed.
+- **Confirm the end state, not just the action**: no live lease file and no remaining
+  processes, so the recovery is verified rather than merely logged.
+- **Prefer the sanctioned recovery path** over manually removing a lock file, and say so
+  in the record — the mechanism matters when the same situation recurs.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
