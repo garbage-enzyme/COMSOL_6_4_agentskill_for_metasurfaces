@@ -1558,6 +1558,38 @@ never tested is a guard that may not fire.
 This applies to every generated summary: claim ledgers, READMEs, manifests, figure
 titles. Any of them can silently reassert a withdrawn conclusion.
 
+### Prove a passing check can still fail
+
+After fixing a defect that a check detects, the check reports clean. That clean result is
+worthless unless the check can still **fail** — otherwise "zero findings" may mean the
+check was quietly weakened into always passing.
+
+This applies with force after you edit a detector. In a verified case a sweep for stale
+claims reported zero after a fix, but the sweep's own backing test had just been
+rewritten (its first version produced false positives by matching a string prefix). The
+same pass that fixed the false positives could in principle have made everything match.
+So the detector was tested directly:
+
+- **sabotage a copy**, not the real artifact — reintroduce the exact string the
+  corrections withdrew, in a temporary copy;
+- **run the detection logic** against the copy and confirm it reports the finding;
+- **assert the real artifact's hash is unchanged** afterwards, so the self-test cannot
+  itself have altered the thing it verifies;
+- **delete the copy and assert deletion**, and record all of this in the artifact.
+
+The result: the detector fired on the withdrawn string, so the clean result on the real
+generator was a genuine pass. Had it not fired, the clean result would have been
+discarded rather than reported.
+
+Generalisations:
+
+- **Every "no findings" result depends on the detector working.** For a check whose
+  output is the basis of a claim, include a positive control.
+- **Keep the control in the artifact**, not in your head, including whether the real
+  input was left untouched.
+- A check that was just edited deserves the control most, since the edit is what could
+  have broken it.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
