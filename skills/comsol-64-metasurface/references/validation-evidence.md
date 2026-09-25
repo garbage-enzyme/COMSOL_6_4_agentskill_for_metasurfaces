@@ -2203,6 +2203,46 @@ Practise:
   interference between the two regions, or a modified radiation pattern;
 - **report the bound used**, so a reader can see the margin each difference had.
 
+### Look for a relation between EXPONENTS, then state how strong the claim is
+
+When a parameter is varied between two settings, expressing each quantity's change as an
+implied exponent of that parameter turns a set of unrelated numbers into a testable
+structure. Ratios between exponents are then meaningful, and a simple ratio that
+reproduces at every level is far less likely to be coincidence than a single match.
+
+In a verified case the exponents were computed per level from the change in gap:
+
+| quantity | exponent, level 1 | exponent, level 2 |
+| --- | --- | --- |
+| outflow | one value | another |
+| stored energy | about **half** the outflow's | about **half** the outflow's |
+| the ratio | about the negative of the energy's | likewise |
+
+The half-ratio reproduced at both levels with a residual **far inside** the
+discretisation bound (`6e-4` and `8e-5` against a bound of `9.8e-3`), and the implied
+relation was confirmed directly — the combination that should be constant changed by
+`4.9e-4` and `6.8e-5` across the step.
+
+Two things made this credible and both are worth copying:
+
+- **the agreement was far inside the bound, at two independently meshed levels.** A
+  coincidence would have to reproduce at both;
+- **the relation was not sought.** It emerged from computing exponent ratios after the
+  exponents, which is a weaker route to a discovery than looking for a specific ratio —
+  and must be reported as such.
+
+Then state the claim exactly:
+
+- **the relation is established at the settings measured, not as a law.** Two settings of
+  a parameter cannot establish a scaling; a third is required before it can be called one;
+- **a plausible reading is not a demonstrated mechanism.** The relation here is what one
+  expects if the radiated power scales with the square of an amplitude whose energy is
+  stored, which is consistent with a fixed shape — but that is an interpretation, and it
+  is recorded as unpromoted;
+- **a test that cannot fail proves nothing.** Fix the prediction before seeing the
+  numbers: a single power law forces the levels to yield the same exponent, so the test
+  can fail, and only then is a pass informative.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
