@@ -425,6 +425,35 @@ Also state plainly what the breakdown does **not** cover: whether any failing st
 lies on the specific branch you intend to report. Localising failures across the
 path is not the same as clearing the branch of interest.
 
+### Verify integrity by hashing, never by timestamp
+
+"It was modified in the last N hours" is not an integrity test and produces both
+false alarms and false reassurance.
+
+A verified false alarm: a recursive "modified in the last 24 hours" check flagged
+an entire upstream package as touched. Every file in it was in fact unmodified and
+about twenty hours old — the newest was dated late on the previous day, which falls
+*after* the `now - 24h` cutoff while still being untouched. The same expression
+would have reported "untouched" for a genuinely modified file whose mtime happened
+to fall just outside the window.
+
+Rules:
+
+- Verify integrity by **re-hashing against the package's own manifest** and
+  comparing recorded SHA-256 values. Copying, restoring, or re-running a tool can
+  change a timestamp without changing content, and can change content while
+  restoring a timestamp.
+- When you do need a recency check, compare against an **explicit absolute
+  timestamp** captured at the start of the session, not a rolling `now - delta`
+  window, and treat it only as a hint to investigate.
+- Read the manifest's real structure before iterating it. A verified case assumed
+  a keyed object and iterated its properties, which silently checked **zero**
+  files; the resulting "all mismatched" output was an artefact of the empty loop,
+  not a finding. Assert that the number of entries checked equals the number the
+  manifest declares.
+- Report the counts explicitly — `checked`, `mismatched`, `missing` — so a zero
+  loop is visible instead of looking like a clean pass.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
