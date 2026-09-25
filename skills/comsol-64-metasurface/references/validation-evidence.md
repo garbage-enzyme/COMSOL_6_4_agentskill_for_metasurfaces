@@ -1864,6 +1864,41 @@ Then state the limit precisely: **absence of leaks by shape is not absence of le
 content.** A private value written as a round number, or a private fact stated in prose,
 matches no pattern. Shape scanning complements reading the text; it does not replace it.
 
+### Audit the gate CONTRACT, not only the gate result
+
+Every check so far compared measured values against limits. None verified that the limit
+is the registered one, or that the inequality points the right way. A gate can pass while
+enforcing the wrong threshold or an inverted comparison, and every downstream check will
+still agree with it.
+
+Compare three independent representations:
+
+1. the **frozen registration**, including its failure clause;
+2. the **enforcement code** — which operator, against which limit;
+3. the **recorded outcome**, which must follow from (2).
+
+Two mismatches matter. Registration differing from enforcement means the registration is
+not what runs. Recorded outcome differing from the enforced rule means the verdict does
+not follow. Either is a contract defect regardless of whether the gate passes. Check the
+**direction** explicitly: `>= 0.90` and `<= 0.90` both look like a limit, and the wrong
+one inverts the verdict.
+
+**Prefer enforcement that reads from the registration.** In a verified case the evaluator
+took both the limit *and* the comparison direction out of the frozen registration, so a
+gate could not disagree with its own registration by construction. Confirming that no
+literal comparison bypasses it is then the whole audit, and the result was four gates
+consistent with zero findings.
+
+Two failure modes appeared while building the check, and both looked like clean results:
+
+- **An over-broad pattern invented comparisons that do not exist** — it reported two
+  extra thresholds because it matched unrelated text later on the same line. A pattern
+  broad enough to find what you want is often broad enough to invent what you do not.
+- **The tightened pattern then matched nothing and still reported zero findings.** Add an
+  assertion that at least one enforcement was located, and let it fail loudly. Here it
+  fired immediately, before the pattern was corrected — which is the assertion working,
+  not obstructing.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
