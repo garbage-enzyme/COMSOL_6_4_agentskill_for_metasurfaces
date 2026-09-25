@@ -1155,6 +1155,36 @@ Practise:
 - **Check the figure, not just the script.** A successful render with clipped text
   passes every programmatic assertion.
 
+### Get the direction right when rebuilding ratios
+
+Before concluding that a stored factor is wrong, check that your rebuild uses the same
+**direction** as the original. Ratios of a falling and a rising quantity are
+reciprocals of each other, and mixing them produces a large apparent discrepancy that
+is entirely your own error.
+
+A verified case recorded a quality-factor factor as `Q[end]/Q[start]` — a number below
+one, because the quantity falls. A first rebuild computed `Q[start]/Q[end]` and
+disagreed with the artifact by about **38 per cent**, which looked like an artifact
+defect. Correcting the direction made the rebuild agree to machine precision.
+
+Procedure:
+
+- **Establish which end is which** from the stored array order and the known
+  direction of the physical change, then state that in a comment so the next reader
+  is not left to infer it.
+- **Rebuild every factor independently** and compare each with the recorded value.
+  In that case two of the three rebuilt exactly and only one disagreed — a strong
+  hint that the odd one out was a direction error rather than a bad record.
+- **Distinguish "the raw values reproduce" from "the identity closes".** These are
+  different questions. The identity `A = B/C` closes to machine precision only if
+  the three factors come from one route; if the numerator comes from an independent
+  method it will close only approximately, and the **residual is itself a result** —
+  it measures the agreement between the two routes. Report it as a number rather than
+  as a pass or fail.
+- Do not label the combined outcome with a single boolean. A field named for
+  "closure" that is false while every raw value reproduces exactly reads as a failure
+  and misrepresents the finding.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
