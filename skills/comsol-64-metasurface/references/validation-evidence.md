@@ -1527,6 +1527,37 @@ fraction at `4.1` per cent. Practise:
   energies as a *group* genuinely tracked the observable far better than the surface
   powers did (which were off by `135`–`162` per cent), and that survived the correction.
 
+### Guard a generated claim against the corrections that invalidated it
+
+When a conclusion is revised, fixing the **output file** is not enough if that file is
+generated: the next regeneration restores the old text. Fix the **generator**, and make
+it refuse rather than emit a claim that contradicts the correction record.
+
+A verified case had a summary claim naming one quantity as the driver of an effect. Two
+later rounds demoted that quantity and then withdrew the promotion of its replacement.
+The claim string had been typed into the generator, so it kept reporting the superseded
+position for two rounds while the correction artifacts said otherwise. Editing the output
+file alone would have been reverted on the next run.
+
+The fix has two parts:
+
+- **Derive the claim from the correction artifacts** rather than restating it as text —
+  here the driver field and a candidate ranking were computed from the analysis files.
+- **Assert the corrections are present and mutually consistent** before writing. The
+  generator now checks that the specific supersession entries exist and that the
+  correction artifact still supports the withdrawal, and raises if not:
+
+  > `AssertionError: mechanism supersessions missing from the register: [...]`
+  > `refusing to write a driver claim that may predate the corrections`
+
+Verify the guard rather than trusting it: temporarily remove the supersession entry and
+confirm the generator **fails** instead of writing. Then restore it, run the generator
+twice, and confirm the corrected value survives both runs — a guard that fires but is
+never tested is a guard that may not fire.
+
+This applies to every generated summary: claim ledgers, READMEs, manifests, figure
+titles. Any of them can silently reassert a withdrawn conclusion.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
