@@ -2015,6 +2015,37 @@ Read the real key list before writing the expectations, and if a whole family of
 Then prove the operator check fires: construct a solid-region key carrying the air-region
 operator and assert it is caught.
 
+### Check the SENSITIVITY BOUND on every route, not only the headline route
+
+A discretisation bound is usually computed on the route that carries the headline result.
+If a second route exists, its sensitivity may be **larger**, in which case the bound in
+use is an underestimate and the margin is smaller than reported.
+
+In a verified case two routes to the same quantity were available from one raw dump — a
+complex eigenvalue, and a ratio of outgoing flux to stored energy — and the resolution
+sensitivity differed between them:
+
+| route | resolution sensitivity |
+| --- | --- |
+| eigenvalue | larger |
+| flux | smaller |
+
+Using the **eigenvalue** bound was therefore the conservative choice, and the effect under
+study still exceeded it at both resolutions. That is a real finding: it closes the
+question "is the reported bound an underestimate?" rather than leaving it open.
+
+Practise:
+
+- **recompute the sensitivity on each route**, and take the **maximum** as the bound in
+  use, so the choice cannot favour the conclusion;
+- **report the cross-route agreement explicitly.** Here the two routes put the effect at
+  similar values from different physical quantities, so the conclusion does not depend on
+  the route;
+- **check the ratio limit too** if the routes are supposed to be interchangeable, since a
+  large disagreement would mean they are not;
+- **state that route agreement is not convergence.** Both routes can agree while the
+  quantity is unconverged, and the gate still failed at both resolutions here.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
