@@ -2272,6 +2272,32 @@ A relation that holds across resolutions is a robustness result. It becomes a ca
 law only when a second independent parameter has been varied, and that has to be tested,
 not assumed.
 
+### Sweep assertive wording, but exclude questions, quotations and methodology
+
+Hand-catching one overclaiming sentence proves the class exists and says nothing about the
+others, so sweep for it. A keyword sweep over assertive verbs and absolutes will, however,
+flag three things that are not claims — and each must be excluded or the sweep becomes
+noise and gets ignored:
+
+- **questions.** "Does the pairing cause the non-freeze?" asserts nothing. Exclude text
+  ending in a question mark, and check the enclosing clause rather than the matched word;
+- **verbatim quotations of errors.** A captured traceback contains "the direct cause of
+  the following exception" and is not a claim. Penalising captured failures would push an
+  author toward **hiding** them, which is worse than the wording it corrects;
+- **methodological statements about one's own process.** "The two methods are never
+  merged" and "a detector weakened into always passing" use absolutes **correctly**,
+  because the absolute attaches to a procedure rather than to a result.
+
+Then validate the classifier against the shape that was actually wrong. In a verified case
+the sweep needed three passes — six flags, then two, then zero — and the zero counted for
+something only because a constructed probe of the original bad shape was still detected.
+
+Report the false-positive history rather than only the final zero, and state the coverage:
+strings above a length threshold inside structured artifacts are checked, while **prose in
+a README, in tables, and in figure text is not**, and a claim can outrun its evidence in
+wording matching no pattern at all. Clean wording is a statement about wording, not about
+correctness.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
