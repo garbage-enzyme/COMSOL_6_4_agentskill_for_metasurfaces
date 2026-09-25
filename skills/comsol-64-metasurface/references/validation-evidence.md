@@ -702,6 +702,42 @@ figures.
   says nothing about whether the physics is right, and it does not transfer to
   other packages whose stored convention may differ.
 
+### Do not bundle a discrimination answer with a gate status
+
+A registered question and a registered numeric gate are different things, and a
+single verdict label can silently answer the wrong one.
+
+A verified case registered the question *"is the two-configuration disagreement
+mesh or physics?"* — a **binary discrimination** question — alongside a numeric
+gate requiring the two configurations to agree within 10 per cent. The delivered
+verdict read `NOT_CONVERGED_gap_effect_is_real_not_discretisation`, which answers
+both at once.
+
+Both underlying statements were true and independent:
+
+- **Discrimination: established.** The disagreement (about 15 per cent) exceeded
+  the mesh-sensitivity bound (about 0.98 per cent) at both resolutions, so it is
+  physics rather than discretisation.
+- **Gate: failed.** The same disagreement exceeds the 10 per cent limit, so the
+  quantity is not converged and no converged value may be reported.
+
+Reporting only the first suggests the value becomes trustworthy once discretisation
+is excluded, which is false — excluding discretisation does not remove a real
+dependence. Reporting only the second loses the answer to the question actually
+asked, and a physically caused difference is a substantive finding rather than
+merely a failed gate.
+
+Practise:
+
+- Keep a **two-part verdict**: the answer to the registered question, and the
+  status of each registered numeric gate, each with its own status word.
+- Check whether a comparison you are using as evidence is a **registered gate** at
+  all. A diagnostic added to answer a question has no pass/fail of its own, and
+  treating it as a gate manufactures a failure.
+- When correcting a label, change **nothing measured**. Record the superseded
+  string, the reason, the corrected form, and state explicitly that no value, gate
+  or gate result changed.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
