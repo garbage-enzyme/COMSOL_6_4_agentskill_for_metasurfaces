@@ -649,6 +649,59 @@ recorded value for the intended mode was 0.7905). The clean number was the tell.
 - Treat an implausibly good derived number as a prompt to verify the indexing, not
   as a result.
 
+### Audit a persistence contract by content, not by key name
+
+A contract that names required fields ("persist the raw complex eigenvalue, the
+quality factor, the energy, the overlap with runner-up") describes **content**. An
+audit that tests literal key names will report false gaps, and false gaps are
+costly because they invite unnecessary rework or, worse, an unnecessary rewrite of
+good artifacts.
+
+A verified case tested six literal names against four solved point files and
+reported **all four incomplete**. Mapping by content showed that five of the six
+items were present under different keys — source hashes as `source_sha256_after`
+plus a `source_unchanged` flag, geometry as `geometry_features`, configuration
+spread over a readback block plus a termination field — and only two items were
+genuinely absent.
+
+Procedure:
+
+- For each contract item, record **where its content lives**, and treat a
+  differently-named key holding the right content as compliant. Report the mapping
+  rather than a bare pass/fail.
+- Distinguish a **per-item** requirement from a **package-level** one. A cleanup
+  receipt, a manifest, or a claim status is normally a package artifact, not a
+  field repeated in every point file; requiring it per point manufactures a gap.
+- When something is genuinely missing, prefer an **additive** remedy over editing
+  the existing artifacts. Editing changes hashes that the manifest already records
+  and can conflict with a standing instruction not to overwrite landed results.
+  Write the missing items to a separate addendum keyed by label, name the source of
+  each value, and re-record the untouched files' hashes so a reader can confirm
+  they did not change.
+- **Cross-check rather than assert** the association. Where a label encodes
+  parameters that also appear inside the file, require them to agree; that catches
+  a mislabelled file without re-solving anything.
+
+### Verify that a stored complex eigenvalue reproduces its own f and Q
+
+When a result file persists a raw complex eigenvalue alongside a frequency and a
+quality factor, check that the three are mutually consistent; otherwise one may have
+been post-processed differently from the others.
+
+Recover the convention **from the data** rather than assuming it. In a verified
+case, treating the stored value as an angular frequency gave 0.0036 THz where the
+file reported 66.58 THz, so that reading was wrong. The relations that held exactly
+at all four points were an imaginary-part frequency and a real-over-imaginary ratio
+for the quality factor, each reproducing the reported value to ten significant
+figures.
+
+- Test the candidate conventions numerically and report which one holds. Do not
+  state the solver's internal convention as though it were documented.
+- Report the **relative error** of each reproduction, not just agreement.
+- State what this does **not** show: internal consistency of three stored numbers
+  says nothing about whether the physics is right, and it does not transfer to
+  other packages whose stored convention may differ.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
