@@ -1654,6 +1654,37 @@ Practise:
 - **Prefer the sanctioned recovery path** over manually removing a lock file, and say so
   in the record — the mechanism matters when the same situation recurs.
 
+### A missing field must fail loudly, not read as a failed measurement
+
+Reading a quantity from the wrong key yields a null, and a null fed into a threshold test
+produces a **failing result that looks like a measurement**. This is the most dangerous
+shape of lookup error: it inverts a pass into a fail while appearing to be data.
+
+In a verified case a gate on a minimum overlap was recomputed by reading the overlap from
+a plausible-but-wrong location under the selection block. The read returned nothing, and
+the gate reported **FAIL** at both settings. The overlap actually lived two levels deeper,
+under an overlap block; read correctly, the gate **PASSED** at both. The spurious failure
+would have been recorded as a finding.
+
+Practise:
+
+- **Assert presence immediately after every retrieval**, naming the path, so a miss stops
+  the script instead of propagating:
+
+  > `assert ovl is not None, f"{label}: overlap missing"`
+
+- **Never let a null reach a comparison.** Guard the value, not the comparison: a
+  comparison that treats null as "below threshold" will silently manufacture failures.
+- **Distinguish the three outcomes explicitly** — measured pass, measured fail, and
+  unavailable — and refuse to emit the first two when the third is the truth.
+- **Read thresholds from the registration file rather than restating them**, including
+  the **comparison direction**, so a metric registered as a lower bound is never checked
+  as an upper bound. Restating a threshold is how a gate gets relaxed by accident.
+- **Recompute every gate from raw stored values and diff against the package.** In the
+  verified case all four gates reproduced with **zero** discrepancies, which is the
+  result that makes the recomputation worth having: it converts "the package says" into
+  "the package and an independent reading agree".
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
