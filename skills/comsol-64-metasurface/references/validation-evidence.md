@@ -1753,6 +1753,34 @@ because the row carried the same key. Before touching it:
 A shadowed name that happens to work is a trap for the next edit, not a wrong answer
 today — and both facts deserve recording.
 
+### Audit where a figure's DATA comes from, not only its labels
+
+Deriving titles and axis labels from artifacts covers the text. The plotted arrays are a
+separate path: a curve can be drawn from a hardcoded list that matches the data today and
+drifts tomorrow, while every label remains correct.
+
+A verified check parsed the plotting script's AST and classified the data argument of
+every drawing call:
+
+- **traceable** if it references an artifact the same script loads;
+- **hardcoded** if it is an inline numeric list of length three or more with no artifact
+  reference.
+
+Result: 13 drawing calls, four artifacts read, and **zero** hardcoded series. A bare
+scalar threshold passed to a horizontal or vertical reference line is acceptable — it is
+a registered limit, not a data series — so the rule targets **lists**, not scalars.
+
+Verify the classifier on an injected case:
+
+- **insert a hardcoded three-element series into a probe copy** of the plotting script and
+  confirm the check reports it, naming the line and the argument;
+- **assert the real script was not modified**;
+- **record the self-test in the artifact**, so a later reader knows the clean result was
+  demonstrated rather than assumed.
+
+A plotting script whose data is traceable end to end, with the traceability itself
+checked, is what makes a figure safe to regenerate.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
