@@ -822,6 +822,35 @@ tail fixes it.
 - Treat a separation of exactly zero, or any other suspiciously round result, as a
   prompt to check the selection logic rather than as a finding.
 
+### Cross-check a thin node intersection with a binned comparison
+
+Comparing fields between two configurations with different meshes requires a common
+sample, and intersecting node coordinates can yield very few nodes — a few per cent
+of each field in a verified case, because the two models did not even share an
+extent. Two independent ways to check that a thin intersection is not driving the
+result:
+
+- **Restrict to the geometrically shared region.** Where the two configurations
+  share geometry (a central slab that is identical by construction), recompute the
+  overlap there alone. If the value barely moves, the result does not depend on the
+  regions where the models differ.
+- **Bin onto a common grid.** Average each field component into cells of a fixed
+  size on both fields, then compare the binned fields cell by cell. This needs no
+  node coincidence at all and uses far more of each field.
+
+Reporting both, with their sample sizes, is materially stronger than either alone
+because the two methods fail differently.
+
+A caution about the binned method: its value **depends on the cell size**, and the
+overlap falls monotonically as cells grow, because coarser averaging mixes distinct
+structure within a cell. That monotone trend is the expected signature of averaging,
+not evidence of a mismatched mode — so quote the **finest** binning as the most
+faithful, and report the trend rather than hiding it.
+
+Neither method is a formal modal inner product; state that, along with the fact that
+a shared-region boundary taken from the model geometry is not re-derived by the
+comparison itself.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
