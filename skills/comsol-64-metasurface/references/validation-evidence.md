@@ -487,6 +487,45 @@ Two cautions:
 Finally, localising a failure to a specific branch is not the same as clearing it.
 State the failing steps, their kind, and what remains untested.
 
+### Classify "infinite" quality factors by magnitude, not by the literal
+
+A solved cavity can report a quality factor as a literal `inf` for a truly
+non-radiating mode, but it can also report a **finite number of enormous
+magnitude** for the same physical situation — values of order 1e13 to 1e17 are
+common when a mode has no radiation channel but the solver still returns a ratio.
+
+A verified case counted only entries equal to `inf` and concluded that a
+closed-termination path was *not* uniformly non-radiating. Classifying by
+magnitude instead — `inf` **or** above a stated large threshold — gave 95 per cent
+rather than 4 per cent. The physical reading was the opposite.
+
+- Classify into explicit buckets: literal `inf`, finite above a declared large
+  threshold, and finite below it. Report all three counts, not a boolean.
+- State the threshold you used, since it is a reporting choice, not a measurement.
+- Compare against the physically expected structure. A termination that closes the
+  radiation channel *should* give non-radiating modes; if the classification says
+  otherwise, suspect the classification before the physics.
+- Keep the same discipline for the reverse case: do not call a large-but-finite Q
+  infinite without saying so, and never derive a bound from a Q whose magnitude
+  exceeds what the solve can resolve.
+
+### Distinguish a fixed mesh along a path from a frozen mesh across states
+
+"Mesh not frozen" and "mesh held fixed" are different claims and can both be true
+in the same project.
+
+- **Freezing across changing geometry** means two different model states must get
+  the *same* sub-region mesh. This can be unattainable; a mesher may not
+  reproduce a sub-region mesh across states even for provably identical geometry.
+- **Holding a mesh along a path at constant geometry** means sweeping one
+  parameter without altering the geometry, and one mesh is reused. This can
+  succeed trivially.
+
+Verify which one applies by reading the per-case element counts and checking
+whether they are constant, rather than assuming either. Record the shared count:
+a constant element count along a path is worth stating explicitly, because it means
+the sweep result is not contaminated by a changing discretisation.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
