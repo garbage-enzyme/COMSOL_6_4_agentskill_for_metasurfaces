@@ -953,6 +953,39 @@ The general lesson: when a registered clause is phrased over "the two best
 candidates", check it is applied to **every** row of the result set, not only to the
 rows that were already under scrutiny.
 
+### Never compare two mode windows by raw mode index
+
+When the same sweep is solved with a different number of requested modes, the two
+results are not directly comparable row by row, and a comparison that ignores this
+produces confident nonsense.
+
+A verified case compared a narrow-mode window and a wide-mode window over the same
+k-steps by keying each assignment on `(step, source-mode-index)`. Because the windows
+resolve **different mode sets**, the same physical mode carried a **different index**
+in each — offset by 6 on one leg of the path. The comparison was therefore between
+different physical modes, and its classification of "explained by truncation" versus
+"persists" was meaningless.
+
+What to do instead:
+
+- **Align by a physical or scalar invariant**, not by index. Matching rows by their
+  overlap value worked: 365 of 384 assigned values were identical to 1e-6 after
+  alignment, which is what confirmed the two windows agree.
+- **Report the per-leg index offset** as part of the comparison, since a roughly
+  constant offset is itself the evidence that the mode sets correspond.
+- **Do not compare raw counts of "bad" rows between windows of different size.** A
+  wider window has more rows available, so it can show more flagged rows purely
+  because it resolves more modes; that is not disagreement.
+
+The payoff was decisive for the question actually being asked. Seeing that the weak
+assignments **reproduce** in the wider window **excludes window truncation** as their
+cause — if the narrow window had cut off the true partner, the wider window would
+have found it and the weakness would disappear there. It did not.
+
+Finally, be clear about scope: excluding one cause is **not** discharging the
+obligation. The weak rows remained outstanding, and their justification still needed
+the assignment cost, which the data did not carry.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
