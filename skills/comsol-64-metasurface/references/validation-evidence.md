@@ -2137,6 +2137,41 @@ The practical consequence:
 - **do not let a structural impossibility look like a negative result.** "The test could
   not be performed" and "the test found no change" are opposite conclusions.
 
+### Match the registered metric's SIGN CONVENTION before calling a contradiction
+
+A signed relative change and a magnitude relative change disagree in appearance whenever
+the quantity falls. Comparing one against the other manufactures a contradiction that
+looks like a physics problem.
+
+In a verified case a derived ratio was recomputed and compared with a registered metric
+that is defined as a magnitude, `abs(a-b)/max(a,b)`. The recomputation used the **signed**
+form `(b-a)/a`, so a fall printed negative while the registered value printed positive.
+The apparent result — the quantity falling while the ratio that *defines* it rose — is
+impossible, and it was reported as a serious inconsistency before the convention was
+checked. There was no inconsistency: the two measured the same change.
+
+Practise:
+
+- **reproduce a stored value from the raw data before drawing a conclusion from your own
+  recomputation.** Here the stored value reproduced to **zero** relative error, which
+  proved the definition was right and the discrepancy lay in the comparison;
+- **check which direction the two formulas run** when a computed quantity appears to
+  contradict a registered one. An always-positive metric and a signed difference will
+  disagree on sign once and only once — exactly when the quantity decreases;
+- **treat an impossible sign combination as a signal about the CHECK, not the physics.**
+  A quantity cannot fall while the ratio defining it rises; if that appears, the
+  comparison is wrong;
+- **report direction separately from magnitude**, so a reader cannot confuse "how much"
+  with "which way";
+- **do not assume an input error without verifying it.** The first repair attempt blamed
+  the wrong inputs (a sum of magnitudes instead of a signed flux, and total instead of AC
+  energy); measuring showed those pairs were numerically **identical** here, and the real
+  cause was the sign convention.
+
+Once corrected, the same recomputation became a **coherence confirmation**: the ratio's
+change matched the registered metric to within 1.6 per cent at both levels, and it
+discriminated between hypotheses the earlier clustering could not separate.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
