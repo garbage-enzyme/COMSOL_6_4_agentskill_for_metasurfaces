@@ -916,6 +916,43 @@ it consumes values the operators already produced. If the mapping matters, the
 adopted checkpoint itself must be inspected. Do not claim coverage matches when the
 record cannot show it.
 
+### Check that an assigned pairing is actually its own row maximum
+
+A mode-assignment table stores a score for the chosen pair and often a runner-up.
+Those are bookkeeping values produced by the tracking step, so they can disagree with
+the underlying data. Recompute from the **stored score matrix**: for each assignment,
+take the source mode's row, find its argmax, and compare it with the assigned target
+index.
+
+Three outcomes, and only one is a real discrepancy:
+
+- assigned index **is** the row argmax — nothing to report;
+- assigned index is **not** the argmax — the score attached to the chosen pair is
+  not the largest available for that source mode;
+- the pair or row is missing from the stored data — report as unavailable rather
+  than as agreement.
+
+Cross-validate against the recorded runner-up column. Both readings should flag the
+**same rows**; a disagreement means one of the two readings is wrong, which is worth
+catching before either is quoted.
+
+In a verified case, a registered near-degeneracy clause (require a subspace
+comparison when the top two candidates are within a stated margin) had been applied
+to only two steps. Applying it across the whole set showed it bore on 19 of 384
+assignments, and the independent argmax recomputation confirmed 12 of those as
+assignments whose chosen pair was not the row maximum — the worst by a margin of
+0.78 in overlap. The obligation was far larger than the spot check suggested.
+
+**Do not report such rows as a physics error.** A tracker may legitimately accept a
+lower overlap to preserve continuity in another quantity — an earlier round
+established that overlap and eligibility-continuity are genuinely competing
+objectives. State it as a scoring outcome whose justification needs the cost
+function and the competing claims, and say plainly when those are not available.
+
+The general lesson: when a registered clause is phrased over "the two best
+candidates", check it is applied to **every** row of the result set, not only to the
+rows that were already under scrutiny.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
