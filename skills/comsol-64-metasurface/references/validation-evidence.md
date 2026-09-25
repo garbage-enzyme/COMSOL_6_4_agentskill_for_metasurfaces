@@ -1185,6 +1185,42 @@ Procedure:
   "closure" that is false while every raw value reproduces exactly reads as a failure
   and misrepresents the finding.
 
+### Refit over every defensible window before quoting a fitted parameter
+
+A single fit that passes a residual gate is not evidence that the fitted parameter is
+a physical constant. If the value swings with the fitting range, it must be quoted
+together with that range.
+
+A verified case fitted a band-curvature coefficient over all windows of landed points.
+Across every window with at least one degree of freedom:
+
+- the **sign was stable** — negative in all of them — so the qualitative content held;
+- the **value moved by about 10 per cent** between windows (roughly −2.71 to −2.47);
+- windows confined to the smaller wavenumbers fitted with residual of order
+  `1e-6`–`1e-5`, while any window reaching the largest wavenumber was **about 20×
+  worse** at `1e-4`, and the fitted value shifted systematically with it.
+
+Reporting only the smallest window's value would have presented a range-dependent
+number as if it were a constant. The honest statement is a **range**, plus the
+observation that the systematic degradation is evidence the fitted form does not
+describe the full range.
+
+Practise:
+
+- **Enumerate every window** with at least one degree of freedom, not the one window
+  that looks best.
+- **Report sign stability separately from value stability.** A stable sign is real
+  physical content even when the magnitude is range-dependent; conflating them
+  discards a defensible finding.
+- **Look for systematic, not random, residual structure.** Residuals growing with the
+  fitting range signal a missing term, which no amount of averaging will fix.
+- **Exclude zero-degree-of-freedom fits from the judgement**, and count them
+  explicitly, since they have zero residual by construction.
+- **Beware a tolerance tighter than float representation.** Comparing a stored `0.1`
+  (actually `0.1000000000000000055…`) with a `1e-12` tolerance matched **nothing** and
+  silently returned nulls; the resulting empty result looked like "no windows found"
+  rather than a filter bug. Assert that a selection is non-empty.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
