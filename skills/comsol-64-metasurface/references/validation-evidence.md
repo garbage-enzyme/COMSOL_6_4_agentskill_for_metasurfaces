@@ -1899,6 +1899,41 @@ Two failure modes appeared while building the check, and both looked like clean 
   fired immediately, before the pattern was corrected — which is the assertion working,
   not obstructing.
 
+### Registering a correction does not remove the corrected text
+
+A supersession register records what was withdrawn. That record does not delete anything:
+the withdrawn wording can survive in an artifact written before the correction and never
+regenerated. Whether a reader is misled depends on where it survives, so search for it
+and **classify each hit** rather than treating presence as a defect.
+
+Three benign shapes, all observed in a verified case with 14 register entries:
+
+- **the field holds the corrected value.** Where the correction is itself a value — a
+  hash, a path, a constant — any artifact carrying the corrected value necessarily
+  contains that text. Flagging it would invert its meaning: the match proves the fix was
+  applied.
+- **the old wording is preserved on purpose** beside the correction, so the history stays
+  auditable. The register or a companion correction artifact should say so explicitly.
+- **the field name declares it records the old wording** — a key containing
+  `superseded`, `retained`, `original`, or `previous` is a record, not an assertion.
+
+A genuine defect is a superseded entry whose old text appears in an **asserting** field,
+with no corrected-value match, no stated retention, and a name that does not mark it as a
+record. Result here: 12 hits, all classified, **zero unexplained**.
+
+Two practical notes:
+
+- **Look for the retention declaration beyond the entry.** It may live in a separate
+  correction artifact rather than beside the text. Searching only the register entry
+  produced six hits labelled unexplained that were in fact fully documented.
+- **Prove the classifier can still produce the bad label.** Assert that a constructed
+  violation — an asserting field, no corrected-value match, no retention, a neutral name
+  — is classified as unexplained. Without that, a zero count is indistinguishable from a
+  matcher that no longer fires.
+
+Also state the limit: this searches long strings in structured artifacts. A superseded
+**numeric** value, or wording in a table export or figure, needs its own check.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
