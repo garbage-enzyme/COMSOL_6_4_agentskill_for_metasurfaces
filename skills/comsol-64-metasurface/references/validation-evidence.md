@@ -10,6 +10,7 @@
 - Provenance and source integrity
 - Reproduction scope and stopping rules
 - Peak finding and mesh convergence
+- Mode-window truncation and reading stored analyses back
 - Field artifacts and visual review
 - Cross-method comparison
 
@@ -343,6 +344,55 @@ the mechanism should be reported as open unless separately established.
 An effect can also contradict the mechanism you expected. If a quantity moves in
 the direction opposite to the proposed explanation, record the refutation rather
 than fitting the observation to the hypothesis.
+
+### A failed mode-window gate may be a truncation artefact
+
+When eigenmodes are tracked over a fixed number of computed modes, the standard
+guard is: no reported band may occupy one of the two highest or two lowest
+positions of the computed set, because such a band may continue outside the
+window. Checking that condition is necessary, but the raw count of offending
+bands is easy to misread in **both** directions.
+
+- **A raw count can overstate the problem.** Such a gate usually counts *every*
+  tracked band, including irrelevant high and low modes that were never
+  candidates. If the reported set is a subset, re-express the question against
+  that subset — while leaving the registered verdict in place.
+- **A raw count can also misattribute it.** Several limited tracks sharing a
+  nearly identical endpoint frequency is the signature of **truncation**: those
+  tracks do not end there physically, they were cut by the window. In a verified
+  case seven tracks at one window width terminated within about 1.8 THz of each
+  other; at a wider width the same tracks resolved with comfortable edge margins.
+
+Practical procedure:
+
+- When two window widths are already available, compare them. Outcomes of
+  unrelated gates will usually be identical; what changes is *which* tracks are
+  edge-limited.
+- Cluster the **endpoint frequencies** of the limited tracks. A tight cluster
+  indicates truncation; scattered endpoints are more likely genuine proximity to
+  the edge.
+- Report separately: the original verdict, the count restricted to the reported
+  subset, and the endpoint clustering. Never silently replace the registry's
+  verdict.
+- Whether a gate should be re-registered against a narrower reported subset is an
+  **authority decision**. State the question; do not answer it unilaterally.
+
+### Reading a stored analysis back
+
+When re-analysing a stored result file, read the **actual field names** from the
+file rather than assuming conventional ones. A verified case searched for a
+frequency field named like `f_THz` in a table that actually used `f_at_Gamma` and
+`f_at_last`. The lookup returned nothing, the derived distance test silently
+matched zero bands, and that zero was briefly read as a clean result. It was an
+artefact of the failed lookup, and the correct answer reversed the conclusion:
+six of nine nearby tracks were in fact window-limited, not none.
+
+- Inspect the key list before extracting, or assert that every field you depend on
+  is present and non-null.
+- Treat a suspiciously clean derived result — especially a count of exactly zero —
+  as a prompt to verify the lookup rather than as a finding.
+- Record which field names were actually used, so a later reader can check the
+  extraction instead of re-deriving it.
 
 ### Mode identity and overlap diagnostics
 
