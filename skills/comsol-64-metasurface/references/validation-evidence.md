@@ -2664,6 +2664,45 @@ Practise:
   artifact the workspace does not hold, so it was recorded as a **provenance question**
   rather than resolved by assumption.
 
+### A ledger entry that records the CAUTION but not the SUCCESS will read as a failure
+
+A summary can be wrong not by inventing a number but by **omitting one**. If an
+investigation produced a baseline value **and** a sensitivity point, and only the baseline
+is carried, the ledger reads as though the target was **never reached**.
+
+In a verified case a ledger carried "target value not reproduced". The artifacts showed
+both halves:
+
+| configuration | value | role |
+| --- | --- | --- |
+| baseline index | below target | the film baseline |
+| raised index | **at the target** | a sensitivity point |
+
+The second had reached the target exactly, matching an independent audit's number. An
+**index scan** made the picture unambiguous, running **monotonically through** the target
+and out the other side — which is far stronger than a single point near it, because it
+shows the target is bracketed rather than hit by luck.
+
+**This was the third stale entry of the same shape in one body of work**, so the pattern is
+worth naming:
+
+- **all three asserted something about the state of the evidence**, written from memory or
+  from **one of several** relevant values;
+- **all three decayed silently**, because nothing forced a re-read;
+- **two directions of error appeared**: entries that were too **pessimistic** (a resolved
+  gate called unresolved; a reached target called unreached) are as damaging as optimistic
+  ones, and the pessimistic ones attract less scrutiny.
+
+Practise, before carrying any item as **open** or as **failed**:
+
+- **re-read the artifact** and check whether the record already answers it;
+- **check that all relevant values from it are represented**, not just the first or the
+  most cautious one;
+- **prefer a scan through a target over a single point at it**, and say which you have;
+- **state what the correction does NOT authorise.** Reinstating "target reached" for one
+  configuration must not be read as a claim about a different system, and the scope ceiling
+  should be restated alongside the correction.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
