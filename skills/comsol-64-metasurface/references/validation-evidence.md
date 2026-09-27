@@ -2628,6 +2628,42 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### Two numbers that "disagree" may be one quantity under different analysis choices
+
+Before recording a discrepancy, check whether the two values are the **same quantity**
+computed with different **analysis choices**. A fit window, a point count and a fit order
+are all choices; changing one changes the number **without any disagreement existing**.
+
+In a verified case a ledger carried an unreconciled difference between two curvature
+values. Deriving both from the stored points under both windows resolved it completely:
+
+| fit | value | quoted as |
+| --- | --- | --- |
+| three points | one value | the 3-point diagnostic |
+| four points | another | the delivered fit |
+
+The two differ by **1.3 per cent** — a **window effect**, not a disagreement. The value
+was the same quantity throughout.
+
+The same trap caught the **percentages**. Two different figures against a third baseline
+existed — one in each document — and they looked contradictory. In fact **each was the
+distance from the same baseline to a different one of the two fits**, so both were correct
+and each was correctly attached to its own fit. The ledger's own recalled figure matched
+**neither**, so the entry was wrong **both** in its number and in asserting a conflict.
+
+Practise:
+
+- **name the analysis choices** — window, point count, fit order — beside every fitted
+  value, so two values can be compared correctly or shown to be different questions;
+- **reproduce both numbers from the stored points** rather than reasoning about them. The
+  attribution is then arithmetic, not interpretation;
+- **check a recorded discrepancy's own number against the artifacts.** If it matches
+  neither source, the entry is unreliable in more than one way;
+- **do not force a reconciliation where a genuine open question remains.** A third value
+  here was identified as probably mislabelled in its role, but settling that needed an
+  artifact the workspace does not hold, so it was recorded as a **provenance question**
+  rather than resolved by assumption.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
