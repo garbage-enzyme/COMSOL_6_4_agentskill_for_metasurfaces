@@ -2703,6 +2703,35 @@ Practise, before carrying any item as **open** or as **failed**:
   configuration must not be read as a claim about a different system, and the scope ceiling
   should be restated alongside the correction.
 
+### A parameter sweep that changes nothing is a SETUP DEFECT, not a null result
+
+If a sweep returns the **same spectrum at every swept value**, the sweep did not apply.
+That is a **defect to diagnose**, not a physical null — a true null would still show
+**scatter**, and the giveaway is that the values agree to **machine precision**.
+
+In a verified case a band was swept over seven values of a phase and the spectra were
+identical to about `1e-11`. The documented cause was that the swept quantity was a
+**degree-valued expression**, while the periodic condition expects the Floquet phase built
+from **reciprocal lattice vectors in the solver's internal dimensionless convention**. The
+swept quantity was therefore never a valid Bloch phase.
+
+Practise:
+
+- **treat bit-identical output across a sweep as a defect** and diagnose it before
+  reporting anything derived from it. The package here records the flat spectrum as a
+  **setup defect, never as physics** — that is the right disposition;
+- **when fitting anything to such data, expect a machine-precision residual and refuse to
+  report it.** A "curvature" fitted to identical points is meaningless, and its tiny
+  residual is the tell;
+- **test flatness with a STATED THRESHOLD, not exact equality.** Exact equality returned
+  **False** at a deviation of `1.3e-11` — float round-trip noise. Choose a threshold orders
+  of magnitude above the noise and orders below any real movement, and say what it is;
+- **read every relevant document before declaring a question closed.** One package's readme
+  reported a gate as a resolved failure while a second document recorded the **definitive
+  test of the same question as still OPEN**, blocked on the working band. Both were true at
+  different levels — the gate as registered versus the underlying question — and reading
+  one file is not reading the record.
+
 ### Mode identity and overlap diagnostics
 
 Frequency continuity alone is a weak branch identifier; pair it with a field
