@@ -7,6 +7,7 @@
 - Geometry and mesh
 - Ports and physics
 - Materials and studies
+- Model paths and read roots
 - Results and validation
 - Runtime and deployment
 
@@ -101,6 +102,14 @@ Practical consequences:
 | Dispersion frozen in sweep | Study changes frequency but not global `wl`; stage points or use an active parametric sweep. |
 | Wavelength study cannot be created | Use `Wavelength` for Wave Optics, not a generic frequency-domain step. |
 | Parametric list ignored | Use `plistarr`, `pname`, `punit`, and activate the sweep. |
+
+## Model paths and read roots
+
+| Symptom | Likely cause/fix |
+| --- | --- |
+| `model input escapes the configured read roots` | The model sits outside the configured model read root. Do **not** move or edit the original. Copy it into an allowed root, load the copy, and **verify the copy's SHA-256 equals the source's** before trusting any readback. Keep the original where its recovery path expects it. |
+| Unsure which roots are allowed | Read the paths block of the shared runtime settings file for `model_read_roots` and `artifact_write_root`; the write root is separate from the read roots. The settings location is host-specific, so resolve it from the active configuration rather than assuming a fixed drive. |
+| A readback must not disturb the evidence | Open a byte-identical copy and record both hashes in the artifact. Then re-hash the original afterwards and assert it is unchanged, so "I only read it" is proven rather than asserted. |
 
 ## Results and validation
 

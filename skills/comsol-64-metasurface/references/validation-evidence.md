@@ -2703,6 +2703,88 @@ Practise, before carrying any item as **open** or as **failed**:
   configuration must not be read as a claim about a different system, and the scope ceiling
   should be restated alongside the correction.
 
+### Bind a solver setting PER CASE, not per package
+
+A package name is not a configuration. If two summaries disagree about a property such as
+the outer boundary termination, the disagreement may be an **artefact of the label**: the
+package may contain **more than one class** of case.
+
+In a verified case two artifacts contradicted each other — one said the tracked path was
+PEC-terminated, the other called the same package open. Reading every case's own
+termination field settled it:
+
+| subset | cases | termination |
+| --- | --- | --- |
+| all cases | 31 | 28 PEC + 3 SBC |
+| the tracked chain | 25 | **all PEC** |
+| the controls | 6 | **3 PEC + 3 SBC** |
+
+**Both statistics were right and neither needed abandoning** — they measured different
+subsets. The apparent contradiction came from each artifact making a **package-level**
+statement that was true of one subset and false of the other.
+
+A **landed solved model is itself a receipt** for this: open it and read the physics
+features back. Here the outer faces carried a scattering condition while the PEC feature
+had an **empty selection**, which confirmed the open case independently of any summary.
+Where a run receipt is absent, the model file plus the per-case field is strong evidence —
+but **say which one you relied on**, since only a receipt confirms the setting as it was
+when the run finished.
+
+Practise:
+
+- **record the solver setting per case**, and treat any package-level label as a summary
+  that may hide a mixture;
+- **read the termination from the model** when a summary is disputed, and report the
+  feature tag, its selection and the boundary count;
+- **check for an empty selection.** A boundary feature that exists but selects nothing
+  terminates nothing, and its presence in a feature list can be mistaken for an active
+  boundary condition.
+
+### A boolean named "unchanged" may not measure change
+
+A verification field called `unchanged` reads as a **content** claim. If it is actually a
+**file-existence** test, it can be false forever for reasons that have nothing to do with
+the data — and it will be believed, because nothing in the name says which it is.
+
+In a verified case a summary reported a package as changed. The field was an `all(...)` over
+**five hardcoded filenames**, and **one of the five never existed** in that package. The
+expression was therefore false **from the first run**, regardless of content. Re-hashing
+every file the package's **own manifest** declared gave **38 of 38 matching**: unchanged.
+
+Practise:
+
+- **make an integrity field assert what its name says.** Derive "unchanged" by **re-hashing
+  against a manifest**, never by checking that filenames exist;
+- **report missing files as their own field**, so one absent name cannot masquerade as a
+  content mismatch;
+- **name the test after what it does.** A file-existence check called `files_present` cannot
+  be misread as evidence that the data is intact;
+- **fix it in the generator.** A derived summary regenerates, so a correction applied to the
+  output is overwritten on the next run.
+
+### Read field names from the record; an empty column reads as absent data
+
+When parsing records whose schema you did not write, **read the keys from the data**. A
+guessed generic key does not raise — it returns nothing, and the artifact then carries an
+**empty column** that a reader interprets as *the quantity was not measured*. That is worse
+than a crash, because it is invisible and it is believed.
+
+A verified case needed an inventory binding each point to its gap, mesh and mode index. The
+first attempt used generic names, found nothing, and produced a table with **empty gap and
+mesh columns**. The records actually stored those under task-specific names, and a second
+schema used different names again for the same quantities.
+
+Practise:
+
+- **print one record before writing the parser**, and copy its keys;
+- **assert that essential columns are populated** — `assert any(r["gap"] is not None ...)` —
+  since a non-empty record count passes while every column is blank;
+- **expect several schemas in one dataset.** Records adopted from an earlier run and records
+  solved in the current run may share no field names, so parse each explicitly and record
+  which source a value came from;
+- **record what you skipped.** A file whose top level is a list, or which failed to parse,
+  belongs in the artifact as a count, or a silently smaller inventory looks complete.
+
 ### A parameter sweep that changes nothing is a SETUP DEFECT, not a null result
 
 If a sweep returns the **same spectrum at every swept value**, the sweep did not apply.
