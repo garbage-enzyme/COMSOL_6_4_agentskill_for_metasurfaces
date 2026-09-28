@@ -2628,6 +2628,54 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### If a resonance's Q depends on how far away the absorber sits, the absorber is returning energy
+
+A perfect absorber would make the measured Q equal the structure's **intrinsic** radiative Q,
+independent of the **standoff** between the scatterer and the absorbing layer. So a Q that
+**tracks the standoff** is direct evidence that the absorber is **not** perfect, and that the
+returning wave interferes with what the mode radiates.
+
+A verified case measured three configurations that disentangled three quantities tied by one
+relation (`cell_half = offset + standoff + absorber_thickness`):
+
+| point | standoff | cell half | mesh elements | Q |
+| --- | --- | --- | --- | --- |
+| A | 2400 | 7132.57 | 190266 | 9260.35 |
+| B | 3600 | 8332.57 | 221918 | 7848.16 |
+| **C** | **2400** | **8332.57** | **221708** | **9251.88** |
+
+C matches **A's standoff** and **B's cell**, and reproduced **A to 0.09 per cent** while
+missing B by **15.17 per cent** — a margin over **160×** the pre-registered band. So Q
+follows the **standoff**.
+
+The reading is **not** "the effect is physical and lives in the standoff". It is:
+
+> the measured Q is **contaminated by the absorber**, and the size of the contamination
+> depends on the standoff.
+
+That places the effect in the **boundary/PML** category rather than in mesh or in pure
+physics — and it means **neither landed point measures an intrinsic radiative Q**, so any Q
+quoted there is boundary-influenced.
+
+**A free second result fell out.** C differs from A by **16 per cent in element count** and
+**1200 nm in cell height**, yet Q agrees to **0.09 per cent**. That is stronger evidence of
+mesh independence than comparing two refinements of the *same* stack, because the stacks
+here are structurally **different**. It also shows the value of choosing a point that
+differs in an unintended way: the agreement was not the thing being tested.
+
+Practise:
+
+- **ask whether a measured Q is intrinsic or boundary-influenced**, and test it by moving
+  the absorber: an intrinsic Q does not care how far away it is;
+- **treat standoff dependence as absorber feedback**, and say plainly that neither the
+  intrinsic Q nor a clean radiative Q has been measured;
+- **state the surviving candidates separately** — reflection, more room for the near field
+  to decay, and changed probe-plane capture — and note that making the absorber *more
+  absorbent at fixed standoff and fixed cell* separates them, since that varies neither;
+- **look for a result you were not testing.** A point built to isolate one quantity may
+  incidentally be a better test of another, and that is worth reporting as its own finding
+  with its own stated limit.
+
 ### Persist setup measurements BEFORE the solve
 
 A solve can fail after hours of meshing, and if the setup numbers are only written at the
