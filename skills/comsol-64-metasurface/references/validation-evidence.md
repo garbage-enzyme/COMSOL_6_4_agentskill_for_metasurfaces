@@ -2628,6 +2628,90 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### Separate "is the effect real?" from "do the settings agree?"
+
+A convergence gate usually carries **two different questions**, and reporting only one verdict
+can invert the reader's conclusion:
+
+| question | what it tests | how it can fail |
+| --- | --- | --- |
+| is the effect **real**? | effect size vs discretisation sensitivity | resolved poorly |
+| do the settings **agree**? | relative difference vs a limit | the settings genuinely differ |
+
+A verified case had an effect of about **15 per cent** against a mesh sensitivity under
+**1 per cent** — so the effect was **not** a discretisation artefact and part one was **MET**
+— while the agreement gate **FAILED** at both resolutions, because the two settings genuinely
+differed.
+
+Reporting only *"the gate fails"* invites the reader to conclude the effect may be
+**numerical**, which the mesh comparison rules out. **State both verdicts.** The honest
+synthesis was: the gate fails for an **identified geometric reason**, not because the model
+is under-resolved.
+
+Practise:
+
+- **report the effect-to-sensitivity ratio alongside the gate verdict**, so a reader can see
+  the effect is real even when agreement fails;
+- **say what refining cannot fix.** If the two settings differ in a geometric quantity rather
+  than in resolution, more mesh will never make them agree, and that is worth stating
+  explicitly;
+- **do not let a failed gate imply a failed measurement.** A real effect and a failed
+  agreement gate are perfectly consistent.
+
+### A gate metric that is one cell of a factorial can be decomposed directly
+
+If a registered metric turns out to be **exactly** one cell comparison of a completed
+factorial, its value can be attributed without re-deriving anything — but only after
+**checking the identity**, not assuming it.
+
+Verify by **subtraction to machine precision**: recompute the cell comparison from the raw
+stored values and subtract it from the recorded metric. In a verified case the difference was
+**0.000e+00** at the stored precision, establishing that the gate *is* that comparison. Then
+the factorial's decomposition applies to the published number, and a quantity like "**99.4
+per cent of the gate difference is the standoff effect**" can be stated with the residual at
+**−4.5e−13**.
+
+Practise:
+
+- **assert the equality to a tight tolerance** and record the residual, so the link is
+  demonstrated rather than asserted;
+- **report the metric's own precision** — an identity to machine precision is a much stronger
+  link than agreement to three digits;
+- **do not extend the decomposition past the sampled range.** It is exact **at** the four
+  cells, not a model that can be extrapolated.
+
+### A diagnostic that does not discriminate is a result — record it as one
+
+Some diagnostics look decisive on paper and are **not** discriminating in practice. The
+failure is worth recording, both because it stops the diagnostic being re-run hopefully and
+because a non-discriminating metric is itself information.
+
+Two verified cases in one package:
+
+- a **PML-reflection fit** whose residual was **≈ 1.0** — the model explained nothing, and
+  the fitted wavenumber hit **both** scan bounds, so the metric could not reject anything;
+- a **flux-asymmetry** test where the between-group separation (**0.00637**) was **smaller**
+  than the within-group spread (**0.00798**), so it could not separate a real effect from
+  scatter.
+
+Neither was reported as a measurement. Each was recorded with **did_it_discriminate: false**
+and kept in the package.
+
+An incidental observation from the second is worth the practice it teaches: the asymmetry
+tracked the **absorber thickness** — the quantity the resonance Q *ignored* — rather than the
+distance Q *followed*. That is the **opposite ordering** to what the hypothesis predicted, and
+noticing it prevented a weak trend from being read as corroboration.
+
+Practise:
+
+- **state the discriminating margin before running the diagnostic**, as a number, so failure
+  is recognisable rather than arguable;
+- **compare the effect against its own spread**, not just against zero;
+- **record failed diagnostics in the deliverable** with an explicit non-discrimination flag;
+- **check which quantity a diagnostic actually tracks**, and compare that with which quantity
+  the hypothesis says it should track. A diagnostic following the wrong quantity is evidence
+  against, not merely absent evidence for.
+
 ### In a 2×2 factorial, "the two estimates agree" and "the interaction is small" are ONE fact
 
 Four cells of a two-factor design give three expressions that **look like separate evidence**
