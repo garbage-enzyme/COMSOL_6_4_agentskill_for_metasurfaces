@@ -2628,6 +2628,43 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### In a 2×2 factorial, "the two estimates agree" and "the interaction is small" are ONE fact
+
+Four cells of a two-factor design give three expressions that **look like separate evidence**
+and are **algebraically the same number**:
+
+```
+(A - D) - (C - B)  ==  (A - C) - (D - B)  ==  A + B - C - D
+```
+
+Writing them up as "the effect is the same at both levels of the other factor" **and** "the
+interaction is negligible" **and** "the two estimates agree" counts **one** fact **three
+times**. That is the same error as inflating a sample count, in a form that is easy to miss
+because each sentence is individually true.
+
+A verified completed 2×2:
+
+|  | cell 7132.57 | cell 8332.57 |
+| --- | ---: | ---: |
+| **standoff 2400** | A 9260.3462 | C 9251.8816 |
+| **standoff 3600** | D 7856.5752 | B 7848.1550 |
+
+All three expressions equal **+0.044424**. What is genuinely distinct is the **size** of each
+main effect — standoff **15.17 per cent** against cell **0.09 per cent**, a factor of **166**.
+
+Practise:
+
+- **assert the identity in code** (`assert abs(inter - ((A-C)-(D-B))) < 1e-9`) so a later
+  edit that breaks it fails loudly instead of silently multiplying the evidence;
+- **count the effects, not the comparisons.** A 2×2 gives two main effects and one
+  interaction; "the estimates agree at both levels" is the interaction restated;
+- **report the SIZES as the finding** and the agreement as the same statement in other
+  words, rather than as a second confirmation;
+- **remember what a factorial buys**: an interaction term tests whether the factors act
+  **independently**, which a pair of points cannot. Where an earlier conclusion was a
+  *deduction that assumed* independence — two comparisons with no singly-varied pair —
+  completing the design **tests** that assumption instead of assuming it.
+
 ### "The hit was well inside the band" and "the miss was far outside it" are different numbers
 
 When a test compares an observation against **two competing predictions**, there are **three
