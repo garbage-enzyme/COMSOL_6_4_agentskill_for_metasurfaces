@@ -2628,6 +2628,73 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### When a quantity is DERIVED under an assumption, that assumption needs its own registered outcome
+
+A prediction can be **sound** and its **bands** still defective. Writing the caveat in prose
+is **not** enough — the case must appear as an **explicit alternative band**.
+
+A verified case: a resonance Q was shown to follow the **absorber standoff**, and a **clean
+single-variable series** was built by holding the absorber **thickness** fixed while varying
+only the **distance**:
+
+| standoff | Q |
+| ---: | ---: |
+| 2400 | 9260.35 |
+| 3600 | 7848.16 |
+| **4673** | **10864.56** |
+
+Q **falls then rises** — **non-monotonic**, which refutes **any** monotonic model with **no
+fitting at all**, at about **60×** the measured mesh sensitivity.
+
+The registered prediction was that a point **one fringe period** further would **reproduce**
+the first, which follows from **periodicity alone** — a genuinely fit-free prediction. It
+**failed by 14.77 per cent**, landing **outside every registered band**. The bands had
+allowed for *fixed-amplitude fringe* and *keeps falling*, but **not** for the case that
+occurred: **a period-preserving oscillation whose amplitude changes with distance**.
+
+**The avoidable part.** An amplitude had been **derived from the first two points**, which
+**required assuming** a constant-amplitude sinusoid. That assumption was **written as a
+caveat in the prose** — and the outcome was **still omitted from the bands**. A caveat is not
+a band.
+
+Practise:
+
+- **for every quantity you derive under an assumption, register the assumption's failure as
+  its own outcome**, not merely as a caveat;
+- **count the alternatives before hashing.** If a model has three ways to be wrong, the band
+  list needs three branches plus an explicit **outside-everything** outcome;
+- **report an unanticipated outcome as a registration defect**, naming which assumption
+  failed and why it was avoidable — do **not** re-read it into the nearest existing label;
+- **keep the fit-free part of the claim separate from the fitted part.** Here *periodicity*
+  survived while *constant amplitude* fell; conflating them would have discarded a true
+  statement along with a false one.
+
+### Do not fit as many parameters as you have points
+
+A model with **as many parameters as data points** has **zero degrees of freedom** and can be
+satisfied by **any** value of the parameter of interest. Its fitted value carries **no
+information** — yet such fits are easy to run and easy to report.
+
+This trap recurred **three times in one project**:
+
+- a **two-parameter fit to two points** reported as a result;
+- a **windowed comparison keyed by index** rather than by frequency, which silently compared
+  different physical modes;
+- a **three-parameter sinusoid to three standoff points**, which would have returned a period
+  that merely restated an assumption.
+
+Practise:
+
+- **count parameters against points before fitting**, and if they are equal, do not present
+  the fit as evidence;
+- **prefer a fit-free consequence of the hypothesis.** Here periodicity alone implied the
+  point one period away must repeat — a prediction needing **no** fitted values, and therefore
+  able to **fail**;
+- **state when a fit becomes evidence**: adding **one more point** gives the model a degree of
+  freedom, so the parameter becomes testable instead of merely satisfiable;
+- **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
+  can refute a whole model class on its own.
+
 ### Separate "is the effect real?" from "do the settings agree?"
 
 A convergence gate usually carries **two different questions**, and reporting only one verdict
