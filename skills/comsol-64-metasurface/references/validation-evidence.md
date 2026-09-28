@@ -2628,6 +2628,58 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### A ratio of two swings is only a measurement if the reference level is known
+
+Taking a minimum as a **shared reference** and comparing the swing on each side looks model
+free. It is not: **the ratio is only meaningful if the background is flat**, and if it is not,
+two different families fit the same points **exactly**.
+
+A verified case had three standoffs at held absorber thickness giving Q that **fell then
+rose**. Treating the middle point as the minimum gave an outward swing **2.15×** the inward
+one, reported as *amplitude growing with distance*. **Withdrawn.** Two three-parameter
+families each fit all three points to **machine precision** (residuals **0.00e+00** and
+**1.8e−12**):
+
+| family | parameters | consequence |
+| --- | --- | --- |
+| flat mean, amplitude **linear** in distance | Q0, amp0, k | amplitude grows |
+| **constant** amplitude, mean **linear** in distance | B0, slope, amp | growth is all background |
+
+**Three parameters, three points — zero degrees of freedom each**, so the data cannot choose.
+In the second family the "growth" is **entirely a rising background**.
+
+Practise:
+
+- **ask what the background is doing before comparing two swings.** A shared reference is a
+  *choice*, not a measurement, unless its level is independently constrained;
+- **count parameters against points for every family you compare**, not only for the one you
+  prefer. Degeneracy between two zero-dof families is invisible if only one is written down;
+- **demonstrate degeneracy numerically** — solve both and report both residuals — rather than
+  arguing that a confound is conceivable;
+- **record the withdrawal, do not delete the number.** A retracted figure that leaves no trace
+  tends to reappear.
+
+### One more point turns a fit from satisfiable into testable
+
+The recurring cure for zero-degrees-of-freedom fitting is **one additional data point at a
+held configuration**, and it is worth stating as the *purpose* of a planned measurement.
+
+With **n** points and **n** parameters a model can be **satisfied** by anything. With **n+1**
+points it acquires **one degree of freedom** and can be **tested** — two competing families
+then make **different predictions** at the new point, so the new point discriminates them even
+though neither was refuted by the old data.
+
+Practise:
+
+- **state the degrees of freedom a new point buys**, as the justification for its cost;
+- **hold every other quantity fixed**, so the new point extends a genuinely single-variable
+  series. Where a quantity is tied to others by a relation, say which one is being varied;
+- **expect the new point to be the most expensive**, since the design usually grows the
+  domain, and say so before solving;
+- **do not carry forward a prediction that just failed.** If a model's prediction at the new
+  point is the one that already missed, the value of the point is the **freedom**, not that
+  number — and say which.
+
 ### When a quantity is DERIVED under an assumption, that assumption needs its own registered outcome
 
 A prediction can be **sound** and its **bands** still defective. Writing the caveat in prose
