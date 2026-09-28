@@ -2628,6 +2628,94 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### Persist setup measurements BEFORE the solve
+
+A solve can fail after hours of meshing, and if the setup numbers are only written at the
+end, a failure costs the diagnosis as well as the time. In a verified case an eigenfrequency
+solve died in LU factorisation with an out-of-memory error, and because every measurement
+was written after `std.run()`, the artifact was lost — including the **mesh element count**
+that would have separated "the mesh grew too large" from "the host ran out of memory".
+
+Writing the pre-solve block **before** the solve fixed that on the retry, and it
+immediately produced the decisive number:
+
+| point | elements |
+| --- | --- |
+| landed, solved successfully | 221918 |
+| control, previously OOM | 221708 |
+
+**A 0.095 per cent difference**, and the control is the *smaller* problem. Since a point
+with essentially the same element count already solved, the mesh is **removed** as an
+explanation and the resource constraint is left as the surviving candidate.
+
+Practise:
+
+- **write the setup measurements before the run**, not after: element and vertex counts,
+  the operator and selection readbacks, the boundary termination, and the memory available
+  at that moment;
+- **record the host memory in the artifact**, so a resource failure is diagnosable later
+  rather than reconstructed from memory;
+- **state the limit of an element-count comparison**: equal counts do **not** prove equal
+  factorisation cost, because a differing geometry changes the sparsity pattern and hence
+  the fill-in. It removes a *dramatically larger* problem; it does not bound the cost.
+
+### A failed solve is recorded as a failure, and the preregistration is NOT edited
+
+When a solve fails after a prediction was registered, the temptation is to adjust the
+prediction, the tolerance or the design so the next attempt "counts". Doing so destroys the
+only property that made the registration worth anything.
+
+In the same case the registered prediction was left **exactly as written**, with its hash,
+and the failure recorded as a failure carrying **no result** — with the registered
+predictions explicitly listed as **still unmeasured**, and the retry specified as
+**scientifically unchanged** apart from the resource that caused the failure.
+
+Practise:
+
+- **record the failure as an artifact**, with the exception, the stage it occurred at, and
+  what had completed successfully before it;
+- **keep the registered file byte-identical**, and re-verify its hash afterwards — an
+  edited registration is worse than no registration, because it still looks authoritative;
+- **say which alternative the failure could not exclude**, and then go and exclude it with
+  a measurement if one is available, rather than asserting the convenient explanation;
+- **check for orphans and partial artifacts** after a mid-solve failure, and state that you
+  checked. This is exactly when a stray process or half-written file contaminates a
+  package.
+
+### Two knobs, three quantities, one relation: choose a point that shares one of each
+
+When a geometry ties quantities together, a comparison that varies one parameter varies all
+of them, and the effect cannot be attributed. The way out is not always more solves — it can
+be choosing a **better point**.
+
+In a verified case the cell half-height satisfied
+
+    cell_half = |z_bot| + standoff + absorber_thickness
+
+so the standoff, the absorber thickness and the cell height were three quantities behind two
+knobs, and the two existing points varied all three at once. A **third** point was chosen to
+share **its standoff with the first** and **its cell height with the second**:
+
+| point | standoff | cell half | role |
+| --- | --- | --- | --- |
+| A (landed) | 2400 | 7132.57 | baseline |
+| B (landed) | 3600 | 8332.57 | shallower absorber |
+| **C (new)** | **2400** | **8332.57** | shares standoff with A, cell with B |
+
+**One solve** then discriminates: Q(C) near Q(A) means the standoff drives it, near Q(B)
+means the cell does.
+
+Practise:
+
+- **write the relation down before choosing points**, so the confound is visible rather
+  than discovered after the numbers disagree;
+- **look for a point that shares one quantity with each of two existing points** before
+  assuming a factorial grid is needed;
+- **register both predicted outcomes and a band** before solving, with the band justified
+  against a **measured** numerical bound rather than a guess;
+- **register a third outcome.** If the result lands outside both bands, report it as
+  neither rather than forcing it into the nearer one.
+
 ### Two numbers that "disagree" may be one quantity under different analysis choices
 
 Before recording a discrepancy, check whether the two values are the **same quantity**
