@@ -2628,6 +2628,34 @@ Practise:
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
+### "The hit was well inside the band" and "the miss was far outside it" are different numbers
+
+When a test compares an observation against **two competing predictions**, there are **three
+distinct ratios** and they are easy to conflate:
+
+| ratio | what it divides | typical use |
+| --- | --- | --- |
+| inside margin | **band ÷ observed difference** | how comfortably a prediction was met |
+| outside margin | **observed difference ÷ band** | how decisively a prediction was missed |
+| difference ratio | **difference A ÷ difference B** | how far apart the two outcomes are |
+
+In a verified case the three were **1/22**, **7.6×** and **166×** respectively. A draft
+reported the difference ratio as a "margin over the band", overstating the margin by more
+than an order of magnitude. The conclusion was unaffected — the outcome did not depend on
+the band width — but a quoted margin is exactly the kind of number that gets copied
+forward, so the distinction matters.
+
+Practise:
+
+- **name which ratio you are quoting**, in the text and in the artifact field name, so
+  `inside_margin` cannot be read as `difference_ratio`;
+- **check whether the conclusion needs the band at all.** If the hit sits at a small
+  fraction of its band AND the miss is several times outside it, say the outcome is
+  band-independent rather than leaning on the margin;
+- **when a claim is corrected, correct it everywhere it was published** — the plan, the
+  artifacts and any written-back guidance — since a number repeated in three places will
+  survive in whichever one is read next.
+
 ### If a resonance's Q depends on how far away the absorber sits, the absorber is returning energy
 
 A perfect absorber would make the measured Q equal the structure's **intrinsic** radiative Q,
@@ -2645,8 +2673,20 @@ relation (`cell_half = offset + standoff + absorber_thickness`):
 | **C** | **2400** | **8332.57** | **221708** | **9251.88** |
 
 C matches **A's standoff** and **B's cell**, and reproduced **A to 0.09 per cent** while
-missing B by **15.17 per cent** — a margin over **160×** the pre-registered band. So Q
-follows the **standoff**.
+missing B by **15.17 per cent**. So Q follows the **standoff**.
+
+**Do not conflate the two margins.** An earlier draft of this note said the miss was
+"160× the pre-registered band". That was wrong: it divided the *difference between the two
+predictions* by the band, which is not a margin. The actual numbers are:
+
+| quantity | value |
+| --- | --- |
+| hit sits **inside** its band at | **1/22** of the band |
+| miss lies **outside** its band by | **7.6×** |
+| the two observed differences differ by | **166×** |
+
+The conclusion holds either way — the outcome does not depend on the band width — but the
+figures are the kind that get copied forward, so the distinction is worth stating.
 
 The reading is **not** "the effect is physical and lives in the standoff". It is:
 
