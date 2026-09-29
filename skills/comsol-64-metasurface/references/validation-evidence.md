@@ -2776,6 +2776,83 @@ Practise:
 - **compare two crossings in the same model** when both exist. The contrast is evidence about
   which part of the model actually governs the result.
 
+### Check whether an oscillation period is a PHYSICAL length or a NUMERICAL one
+
+An oscillation in a design curve is only scientifically usable if its **period** is set by the
+**field** rather than by the **discretisation**. Test the measured period against **both** sets
+of candidate scales, computed from the recorded settings.
+
+A verified case measured a standoff-dependent Q oscillation with an independently measured period
+of **2349.14 nm**:
+
+| candidate scale | value (nm) | difference |
+| --- | ---: | ---: |
+| **half the wavelength in air** | 2251.80 | **4.3 %** |
+| lattice period | 3296.00 | 28.7 % |
+| absorber thickness | 4000.00 | 41.3 % |
+| element size (max) | 240.00 | 879 % |
+| probe slab thickness | 100.00 | 2249 % |
+
+The period matched **half the wavelength in air** — the **round-trip** scale for interference
+across the gap — and **no numerical dimension came within 28 per cent**. So the oscillation is
+**physical**, and that conclusion is **independent** of whatever mechanism is proposed for it.
+
+Practise:
+
+- **enumerate the numerical scales from the model record** — element sizes, probe and absorber
+  thicknesses, cell dimensions, lattice period — and the **physical** ones — wavelengths in each
+  medium, half and full;
+- **compare against half a wavelength for a round-trip effect**, not the full wavelength. A
+  standoff-dependent oscillation is a **round trip**;
+- **state the residual rather than hiding it.** Here it was **4.3 per cent**, about **7×** the
+  mesh sensitivity, so real rather than scatter. A round-trip condition carries
+  **reflection phases**, so an effective period above the bare half-wavelength is expected —
+  but explaining it needs a phase model, and one residual cannot constrain one;
+- **record the residual as unexplained.** "Expected rather than surprising" is not the same as
+  explained.
+
+### A replacement explanation must be tested against a NEW measurement
+
+Withdrawing an overclaim is only half the work. The **replacement** explanation is a new claim
+and needs its **own** test — being **simpler** than what it replaced is not evidence.
+
+A verified sequence: an overclaim that a non-monotone response required **multiple**
+contributions was withdrawn, and replaced by "**one** pathway explains it, because the absorber's
+reflectivity is itself non-monotone in its setting". That replacement makes a sharp prediction —
+the peak sits at the **same** setting **wherever** the absorber is placed, since the
+reflectivity belongs to the absorber **alone**. A new measurement put the same setting at a
+**minimum** at a different standoff:
+
+| factor | standoff 2400 | standoff 3600 | swing |
+| ---: | ---: | ---: | ---: |
+| 1.00 | 9260.35 | 7848.16 | +1412.19 |
+| **0.75** | **10333.02** | **7046.54** | **+3286.49** |
+| 0.50 | 8719.12 | 9708.87 | **−989.75** |
+
+The same setting is a **maximum** at one standoff and a **minimum** at the other, so the
+**curvature flips** and the single-pathway account is **refuted**.
+
+**What survives is sharper than either.** Apply the odd-ladder test to the **swing** rather than
+to a single curve:
+
+1. the swing **magnitude has a maximum** — 3286.49 exceeds both 1412.19 and 989.75, so the
+   coupling is **largest at an intermediate strength**;
+2. the swing **changes sign** between the last two settings, so it passes through **zero**.
+
+So the coupling is **neither a scaling nor a shift**: there is an intermediate strength at which
+the dependence is strongest, and its **sense reverses** on the weak side. Both the withdrawn
+claim and its refuted replacement are **recorded**, not deleted.
+
+Practise:
+
+- **write down the replacement's predictions immediately**, then design the measurement that
+  would refute it. A simpler story feels safe precisely because it is untested;
+- **apply an odd-ladder test to the derived quantity** — here the difference between two
+  settings — not only to the raw curve. That is what turns a statement about a curve into a
+  statement about a **coupling**;
+- **keep both the withdrawn claim and the refuted replacement.** A record of two failed
+  explanations and one surviving narrower statement is more useful than a tidy single story.
+
 ### A non-monotone shape is not evidence for multiple mechanisms
 
 A **non-monotone** response is evidence about the **shape of one parameter's dependence**. It
