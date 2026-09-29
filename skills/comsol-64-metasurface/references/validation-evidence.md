@@ -2776,6 +2776,55 @@ Practise:
 - **compare two crossings in the same model** when both exist. The contrast is evidence about
   which part of the model actually governs the result.
 
+### Tell an ADDITIVE perturbation from a MULTIPLICATIVE one using stored eigenvectors
+
+Two solved runs that differ **only** in a coordinate-system parameter can share a mesh
+**bit-identically**. Their stored eigenvector fields then lie on the **same nodes**, which makes
+an exact, solver-free comparison available: is the change a **rescaling** of the same mode, or
+is something **added** to it?
+
+Eigenvectors are normalised arbitrarily, so the unknown complex scale must be removed first, by
+the **least-squares optimal** factor:
+
+    alpha = <E_A, E_B> / <E_A, E_A>,     dE = E_B - alpha*E_A
+
+`dE` is then the part of the change **no choice of scale can remove**. Bin nodes by `|E_A|` and
+compare the **spans**:
+
+| quantity | span across bins |
+| --- | ---: |
+| `|E_A|` | **9389×** |
+| median `|dE|` | **7×** |
+
+A **multiplicative** change would make those spans **equal** (removing the scale leaves the shape
+untouched at every amplitude). They differ by **~1343×**, so multiplicative is **excluded** —
+and by a **span comparison**, not a fit, so no functional form is assumed.
+
+**The scaling signature is in the ratio, so check it by band.** Splitting the domain into bands
+and comparing each one's **unit-normalised** overlap shows the mismatch falling as the field
+grows — here **7.2e−01** in the absorbing layers, **7.2e−02** in the physical air gap,
+**3.0e−05** in the resonator interior. Normalising **each region to itself** is what makes a weak
+region's shape change detectable at all.
+
+Practise:
+
+- **remove the scale by least squares, then look at the residual** — do not compare raw fields,
+  whose normalisation is arbitrary;
+- **compare spans, not fitted exponents**, for the additive-versus-multiplicative decision. The
+  span argument needs **no** functional form;
+- **exclude the regions whose parameter you changed** from a spatial fit. Including them
+  conflates *"this region changed because its own material changed"* with *"this is a weak-field
+  region where a fixed perturbation looks large"* — with them the slope was **−1.87**, without
+  them **−2.74**;
+- **beware a high R² produced by the denominator.** Regressing `log|dE| − log|E|` on `log|E|`
+  leaves the **residuals unchanged** while enlarging the total variance, since `log|E|` varies
+  far more than `log|dE|`. Here that turned R² **0.231 → 0.976** with the **same** residual, so
+  the higher value is a **denominator effect**, not evidence;
+- **do not fit a power law to two points.** A two-point power law passes through both points
+  exactly, so R² is **1 by construction**. Return **no fit** rather than a meaningless one;
+- **report a poor fit as poor.** A slope threshold is not a licence to describe the data as
+  *"roughly uniform"* when the printed curve spans a factor of 7.
+
 ### Check whether an oscillation period is a PHYSICAL length or a NUMERICAL one
 
 An oscillation in a design curve is only scientifically usable if its **period** is set by the
