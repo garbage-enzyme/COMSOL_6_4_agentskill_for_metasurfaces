@@ -3959,6 +3959,94 @@ shape-invariant check, before proposing a mechanism:
   saturating, and non-monotonic behaviour are indistinguishable. State the
   dependence as undetermined unless a third configuration is available.
 
+### Report a fit's parameter spread across windows, not just its best window
+
+Refitting the same model over several defensible windows is usually presented as a
+robustness check: if the parameters agree, they are trustworthy. The more informative
+outcome is when they do **not** agree, because that says the parameters are **not
+identifiable** from the data at hand, and no amount of quoting the best window fixes it.
+
+In a verified case a three-oscillator dispersion model was fitted to a published
+optical-constants table over five windows. Every fit converged, and they did not agree:
+
+| window | residual character | static permittivity |
+| --- | --- | --- |
+| narrow, around the working band | good in n, poor in k | one value |
+| intermediate | best overall | a different value |
+| wide, to the far band edge | poor in k | another value |
+| full table | failed in k | yet another |
+
+The spread in the static term was a factor of about **17**. The best-fitting window
+looked perfectly acceptable on its own; only the spread revealed that the model was
+being asked to reproduce more structure than it had freedom for.
+
+Practise:
+
+- **Fit several defensible windows and report every parameter's spread**, using the
+  maximum-over-minimum ratio rather than a standard deviation, since the values are
+  not samples from one distribution;
+- **form the residual per physical quantity.** A residual formed on a combined error
+  lets a good fit to one quantity hide a bad fit to another. Here the real part fitted
+  well while the imaginary part was wrong by hundreds of per cent, which a combined
+  residual would have concealed;
+- **separate "the fit is bad" from "the data is flat".** Check whether the target is
+  actually varying over the fit band. A column that is constant by construction
+  carries no dispersion for the model to reproduce, so a large residual there is a
+  statement about the **table**, not only about the fit;
+- **state the identifiability limit explicitly** rather than silently quoting one
+  window's numbers as though they were determined.
+
+### A term you are measuring may already be measured
+
+Before designing a comparison that varies several things at once, check whether some
+of its axes have already been covered by earlier work in the same study. A comparison
+that adds three differences simultaneously attributes none of them, and it may be
+repeating measurements that exist.
+
+In a verified case a "use the fitted dispersive model instead of the constant-value
+control" comparison was about to be run as a single pair. Decomposing it showed it
+changed **three** things at once — a small dispersion term, a large loss term, and the
+fitted functional form itself with its own residual. One of those axes had already been
+measured and published in an earlier package, at three settings of the loss parameter.
+
+Practise:
+
+- **enumerate what changes between the two configurations**, and treat each as a
+  separate axis;
+- **size each axis from existing artifacts first**, by arithmetic, without solving.
+  An axis that turns out to be two orders of magnitude smaller than another is not
+  worth a solve;
+- **reuse the landed measurements explicitly, citing path and hash**, rather than
+  re-running them; and cross-check the reused values against a **different** artifact
+  that states them, so the reuse is verified rather than copied;
+- **then solve only the axis that is genuinely unmeasured.** This typically reduces a
+  paired comparison to a single point.
+
+### Key a table lookup on every column that identifies the row
+
+When the same parameter was swept at several settings, a dictionary keyed on the swept
+parameter alone silently keeps whichever row happened to come last. The result has the
+right key and the **wrong value**, so it reads as a small numerical discrepancy rather
+than as a lookup error — the most expensive kind of mistake to notice.
+
+In a verified case a loss sweep stored four aspect ratios at each of three loss values.
+Keying on the loss value alone returned the **last** aspect ratio instead of the peak,
+giving three numbers that were each plausible and each from the wrong row. A table of
+the same quantities in a README file, written by different code, disagreed by roughly
+10 per cent — which is what exposed it.
+
+Practise:
+
+- **include every column that identifies the row** in the key, or filter explicitly on
+  the ones you are holding fixed and assert the count you expect;
+- **assert the selection size** — `len(result) == n_expected` — so a collapse from four
+  rows to one is loud rather than silent;
+- **cross-check reused numbers against a second artifact that states them**, ideally one
+  produced by different code. Agreement between two copies of the same file proves
+  nothing; agreement between a table and a prose summary is a real check;
+- **record which row you selected and why** in the output, so a later reader can see
+  that the peak was chosen deliberately rather than by dict ordering.
+
 ## Field artifacts and visual review
 
 Evaluate field values and coordinates from a solved dataset, validate finite
