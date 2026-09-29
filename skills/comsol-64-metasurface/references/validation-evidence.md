@@ -2776,6 +2776,44 @@ Practise:
 - **compare two crossings in the same model** when both exist. The contrast is evidence about
   which part of the model actually governs the result.
 
+### A middle point above both ends of a ladder: compare CONSECUTIVE steps
+
+An **odd number** of settings lets the **middle** value be compared against both ends, and that
+comparison needs **no fit**. Three settings in one variable, at one geometry and one mesh,
+showed the middle **exceeding both endpoints**:
+
+| setting | value |
+| ---: | ---: |
+| 1.00 | 9260.35 |
+| **0.75** | **10333.02** |
+| 0.50 | 8719.12 |
+
+**Compare consecutive differences, not differences from the middle.** Both differences measured
+**from** the middle point point **outward** and therefore **always share a sign** — reporting
+them as evidence about monotonicity is a **bug in the comparison**, not a fact about the data.
+The consecutive steps here are **+1072.68** (1.00 → 0.75) and **−1613.91** (0.75 → 0.50), which
+**do** have opposite signs. An assertion on the product being negative is cheap and catches it.
+
+**Why it matters physically.** A response that rises then falls as one parameter is varied at
+**fixed** geometry requires **more than one contribution** with differing dependence on that
+parameter. A single returning wave of fixed phase would give a **monotone** response, and a pure
+phase change would **shift** the pattern without producing a peak. Since the varied parameter
+here lives on the **coordinate system**, the mesh is **bit-identical** across all three runs, so
+the peak **cannot** be a discretisation or geometry effect.
+
+Practise:
+
+- **prefer odd ladders** — three settings in one variable give the middle-versus-ends test,
+  which is model-free;
+- **write the consecutive differences explicitly** and assert their product is negative when
+  claiming non-monotonicity;
+- **do not treat "rises then falls" as monotone** in any direction. Two consecutive steps with
+  opposite signs are, by definition, not monotone.
+- **check names against conditions.** A registered condition reading "the middle exceeds the
+  high anchor" was labelled `MONOTONE_INCREASING`, which **contradicts** what the condition
+  tests. Report the outcome the **condition** describes, and **record the misnomer** rather than
+  quietly renaming it.
+
 ### Verify the comparison you are making is the right one before reporting a discrepancy
 
 A consistency check that uses the **wrong** relationship will appear to show a large
