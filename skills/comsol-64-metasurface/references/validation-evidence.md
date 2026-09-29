@@ -4211,3 +4211,77 @@ Before explaining FEM/RCWA offsets:
 
 Do not let a scattered-field result with nonphysical absorption arbitrate a
 physical port/RCWA disagreement.
+
+## Floquet eigenvalue ladders: compare the propagator, not a chosen eigenvalue
+
+A periodically driven or periodically modulated problem has Floquet exponents
+`Lambda` defined only up to the drive: if `Lambda` is an exponent, so is
+`Lambda + i*n*omega_m` for every integer `n`, because `exp(i*n*omega_m*t)` is
+itself periodic. The computed spectrum is therefore a **ladder**, and any
+comparison that first *selects* an eigenvalue is choosing among physically
+identical representations.
+
+Three selection rules were tried against an independently integrated
+monodromy matrix, and all three failed — each for a representation reason, not
+a physical one:
+
+1. **"Nearest the undriven frequency."** An aliased rung can sit closer to the
+   reference than the physical one. The disagreement came out as *exactly one
+   drive quantum* in the imaginary part, which is the signature to recognise.
+2. **Folding each exponent onto the principal strip** `|Im| <= omega_m/2`. This
+   fixes case 1, then breaks wherever a multiplier is **real**: a real `mu` has
+   `log(mu) = log|mu| + i*pi`, so *both* exponents land on the branch cut at
+   `Im = omega_m/2` exactly, and pairing them "one of each sign" picks wrong.
+3. **Largest multiplier moduli.** The modulus is ladder-invariant, so this is
+   branch-free — but a truncated harmonic (Hill) matrix carries spurious
+   edge eigenvalues that can *exceed* the physical ones. Taking the top two by
+   modulus then compares the physical pair against truncation debris. The
+   symptom is a disagreement that refinement does not remove.
+
+**The robust comparison is the propagator itself.** Each eigenvector `c` with
+exponent `Lambda` defines an exact solution
+`q(t) = exp(Lambda*t) * sum_n c_n exp(i*n*omega_m*t)`. Evaluating it at `t = 0`
+and `t = T` gives the state vectors `y(0)`, `y(T)`, and two independent
+solutions determine the monodromy matrix `M` completely. Compare `M`
+**entrywise** against the directly integrated propagator. This eliminates
+selection entirely.
+
+Two practices make the recovery trustworthy rather than merely plausible:
+
+- **Choose the solution pair by conditioning, not by modulus** — the pair whose
+  state matrix has the largest `|det|`. Any well-conditioned pair gives the same
+  `M`.
+- **Recover `M` twice from different pairs and compare the two matrices.** If
+  the recovery depended on the pair chosen, that difference exposes it. Report
+  it; do not assume invariance.
+
+Branch-free invariants are useful alongside, not instead of:
+
+- `det(M) = exp(-2*gamma*T)` for a damped oscillator, from **both** methods.
+- `det(exp(A*T)) = exp(trace(A)*T)`. Compute this from `trace(A)` directly —
+  forming `exp(A*T)` as a matrix overflows whenever `A` carries
+  `omega_0^2`-scale entries.
+
+### A convergence sweep must be run where the parameter matters
+
+Sweeping a truncation order (harmonics retained, Fourier orders, polynomial
+degree) at a parameter point where the physics is insensitive reports
+"converged at the lowest order tested" while discriminating nothing. In a
+periodically modulated system this is the off-resonant point: the drive barely
+couples the sidebands there.
+
+**Locate the sensitive region by an independent sweep first, then run the
+convergence sweep inside it — and record the locating sweep**, so the choice of
+test point is measured rather than asserted. A good sensitivity check is that
+the lowest order tested gets an answer that is not merely imprecise but
+**qualitatively wrong** (a growth rate of the wrong sign, say). If every order
+already agrees, the sweep is not a test.
+
+### Energy closure must be checked in the growing regime
+
+For a modulated system, an energy account that closes on a **decaying** solution
+proves little: the pump-work term is small and its sign is barely exercised.
+Run it where the solution **grows**. There, energy must be entering through the
+modulation, so a sign error in the pump term shows up. Include the unmodulated
+control, where the pump work must vanish identically — that shows the term is
+not an artefact of the quadrature.
