@@ -2747,6 +2747,56 @@ Practise:
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
+### If a quantity's definition does not contain a region, that region cannot move it by that route
+
+Before building an explanation around a growing region — a larger domain, a thicker absorber,
+more surrounding air — check whether the **quantity being explained even contains that
+region**. If it does not, the route is closed regardless of how much the region grows.
+
+A verified case asked whether a **rising background** in a resonance Q came from the growing
+outer domain storing more energy, since **Q is proportional to stored energy** at fixed
+frequency and loss. Two independent closures:
+
+1. **Containment.** The Q in question was defined over a **fixed control volume** (about
+   **96 per cent** of stored energy). That definition **excludes** energy outside it, so a
+   growing outer region **cannot move it at all** by this route.
+2. **Magnitude.** Even on the route that *does* see the whole domain, the growing region held
+   only about **0.006 per cent** of the energy — and was **largest at the smallest cell**,
+   i.e. **not monotonic** in the direction required.
+
+The available redistribution was **~0.56 per cent** against an effect of **~15 per cent** — a
+refutation by a factor of about **27**.
+
+Practise:
+
+- **name the exact definition** of the quantity you are explaining, and check its region
+  membership before proposing a regional cause;
+- **run both closures when two routes exist** (here a flux-normalised Q and an eigenfrequency
+  Q see different regions), since closing one leaves the other open;
+- **state the refutation factor as computed.** "About 27" is honest; rounding it to "two
+  orders of magnitude" is not;
+- **look for the non-monotonicity.** A region whose share is *largest at the smallest* domain
+  cannot explain an effect that **grows** with domain size, however large its share.
+
+### Persisted per-region energies are a free hypothesis test
+
+If a run already stores **energy per region group**, several mechanisms can be tested with
+**no new solve**. A verified record had `energy[group][We|Wm|Wav]` for groups including the
+film, the physical air, the absorber, the control volume and the total, so **shares** follow
+by dividing.
+
+One **by-product** was worth keeping: the film's share stayed constant to **0.065 percentage
+points** across a **50 per cent change in cell height**. That is a cheap **independent check
+of branch identity**, complementing a field-overlap measurement.
+
+Practise:
+
+- **check what a stored record already contains** before designing a solve — per-region
+  energies, fluxes and mode metadata often answer the question directly;
+- **form shares, not absolute energies**, since absolute values scale with normalisation;
+- **use stable region shares as a branch-identity cross-check**, while stating that it is
+  necessary rather than sufficient and does not replace the overlap gate.
+
 ### Turning points you did not place yourself give a free independent period
 
 A predicted period is usually an **assumption** carried into every fit. It becomes a
