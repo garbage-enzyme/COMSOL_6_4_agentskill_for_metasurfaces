@@ -2747,6 +2747,51 @@ Practise:
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
+### A sign reversal is the signature of interference, not of loss or gain
+
+If the **same physical change** can **raise** a quantity at one setting and **lower** it at
+another, the quantity contains an **interference term**. A monotone loss or gain — *"less
+absorption means higher Q"* — **cannot** produce that, and the refutation needs **no fitting**.
+
+A verified case weakened an absorber at **two standoffs**, giving changes of **opposite sign**:
+
+| standoff | full absorber | weakened | change |
+| ---: | ---: | ---: | ---: |
+| 2400 | 9260.35 | 8719.12 | **−541.23** |
+| 3600 | 7848.16 | 9708.87 | **+1860.72** |
+
+So the half-swing between the two standoffs went from **+1412.19** to **−989.75** — it
+**reversed sign**. Any description in which the absorber applies a **uniform shift** or
+**scales the oscillation by a positive factor** preserves the sign, so both are refuted.
+
+The reading: the weakened absorber **shifts the interference pattern in standoff**, and a fixed
+pair of measurement points then samples a **different part** of the pattern. A shift — rather
+than an amplitude change — is what takes a point from one side of an extremum to the other.
+
+**A robust consequence, free of any model:** two changes of opposite sign force the effect to
+pass through **zero** between the two settings. Here the span (1200 nm) comfortably contains a
+zero crossing, consistent with **half** the independently measured period (1174.57 nm).
+
+**Do not fit here.** Two settings and one changed parameter give exactly **two** values of the
+effect, which determines a **two-parameter** sinusoid **exactly** — **zero** degrees of freedom.
+An amplitude and phase fitted that way carry **no information**, and this trap had already
+appeared three times in the same project.
+
+Practise:
+
+- **check the SIGN of a change at more than one operating point**, not just its magnitude. A
+  sign flip is far more informative than any single difference and is invisible if you compare
+  one point only;
+- **state what class of models a sign reversal excludes**, and say the exclusion needs no fit;
+- **look for the implied zero crossing** when two nearby settings disagree in sign — it is a
+  model-free statement and can be checked against an independently measured period;
+- **resist fitting amplitude and phase from exactly two values**, and say what would give the
+  fit a degree of freedom instead;
+- **confirm branch identity before believing a dramatic result.** Here the two runs tracking
+  the same mode had **different eigenvalue-list indices** (14 and 15) while agreeing in
+  frequency to **2.5 MHz** and in field overlap to **0.9994** against a **0.72** runner-up, so
+  the index difference was a list-position artefact rather than a branch change.
+
 ### Change an absorber's strength through the coordinate system, not the geometry
 
 When a model ties a physical quantity to **several** geometric dimensions at once, no
