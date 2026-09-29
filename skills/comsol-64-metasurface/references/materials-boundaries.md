@@ -55,6 +55,50 @@ Direct use of a changing `ewfd.freq` inside a layered impedance expression can
 also produce an impedance singularity in a multi-wavelength solve; prefer the
 explicit `wl` control and staged one-point validation.
 
+## A frequency-dependent material in an eigenfrequency study freezes at the search shift
+
+An eigenfrequency study makes the frequency an eigenvalue. A material written in terms of
+`ewfd.freq` therefore depends on the unknown being solved for, which makes the problem
+nonlinear. **The default linear eigenfrequency solver does not iterate that dependence
+without being told to.** In a verified case it evaluated the material **once at the study's
+shift frequency** and solved a linear problem with that frozen value.
+
+The trap is that this produces a plausible answer. Nothing errors, the solve converges, and
+the returned frequency is close to the expected one — it is simply the answer to a different
+question than the one asked.
+
+**Detect it by prediction, not by inspection.** Before solving, compute what each candidate
+behaviour predicts; they differ by far more than solver reproducibility, so the measured
+frequency identifies which occurred:
+
+| behaviour | condition | how to compute the prediction |
+| --- | --- | --- |
+| frozen at the shift | material evaluated once at the shift | `f = f_ref + (n(f_shift) - n_ref) * df/dn` |
+| self-consistent | material evaluated at the converged frequency | fixed point of `f * n(f) = f_ref * n_ref` |
+| evaluated at the answer | as self-consistent | same fixed point |
+
+In a verified case the hypotheses differed by `8.4e-3` THz against a solver reproducibility of
+about `1e-5` THz, so one measurement settled it. The measured value sat within `5e-5` of the
+frozen prediction and `5e-4` from the self-consistent one.
+
+**Check both before trusting either.** `f = f_ref * sqrt(eps_ref / eps(f))` is a plausible-
+looking condition that is **wrong**: it drives `n` back to the reference value and converges
+on the wavelength corresponding to the reference index, which is not the invariant. For a
+fixed geometry the quantised quantity is the round-trip phase, so it is **`f * n(f)`** that is
+held constant. The two differ by roughly an order of magnitude in the predicted shift.
+
+**Calibrate `df/dn` from your own data rather than assuming `1/n`.** A measured sensitivity
+from an existing index sweep is a second, independent route to the same prediction. In a
+verified case the measured value was `0.957` of the pure scaling — close, but the measured one
+needed no assumption.
+
+**What to do with the result.** A frozen evaluation is still usable: the applied index offset
+is known, and dividing the measured shift by it gives a sensitivity that converts the frozen
+result to the physical in-band offset. State the scaling; do not present the frozen number as
+the physical one. If the intended material really is dispersive across the band, look for the
+nonlinearity control on the eigenfrequency step and **record whether it took effect** — an API
+that silently rejects the property leaves you in the frozen regime with no warning.
+
 ## Layered conductive boundaries
 
 A periodic port requires a homogeneous adjacent domain. A thin metal volume near

@@ -4047,6 +4047,78 @@ Practise:
 - **record which row you selected and why** in the output, so a later reader can see
   that the peak was chosen deliberately rather than by dict ordering.
 
+### Test a model choice against the REGISTERED METRIC, not only per-point values
+
+When a study concludes that a gate failed, an obvious follow-up is "would a different
+material or boundary model have changed that?". Comparing per-point values is the intuitive
+way to answer it and is **weaker than it looks**: a registered gate is usually a *difference*
+or *ratio* between configurations, and a model change can move every point together, leaving
+the gate metric untouched — or move them oppositely and move it a lot. Per-point agreement
+does not distinguish those cases.
+
+In a verified case a dispersive material model shifted each resonance by about `4e-4`
+relative and each Q by `(0.6-0.8)e-3` — comfortably below the `9.8e-3` mesh bound. That said
+nothing directly about the gate, which was a **ratio between two standoffs**. Evaluating the
+gate metric itself under both models was the decisive test: it moved by `1.0e-3` relative,
+about `9x` below the same bound, and it **failed under both models by a similar margin**.
+
+Practise:
+
+- **recompute the gate's own metric under each model**, from the artifacts, rather than
+  reasoning from the per-point numbers;
+- **report both verdicts side by side.** "FAIL under model A, FAIL under model B" is a far
+  stronger robustness statement than any amount of per-point agreement;
+- **state explicitly that a second FAIL is not a rescue.** The point is robustness of the
+  verdict, not a route to a pass, and the write-up should say so, because a reader may
+  otherwise read "the metric barely moved" as "the gate is nearly passing";
+- **when the model change is not the physical one**, scale the measured effect to the
+  physical case and report the scaled value separately from the measured one, so the two
+  cannot be confused.
+
+### A crash after the solve does not mean the solve is lost
+
+If a run dies *after* the solver returns — in collection, post-processing, or writing —
+the expensive part is already done and is usually sitting on disk as a saved model. Re-running
+from the start pays for the solve twice.
+
+In a verified case a two-point run completed its first solve, then died in the collection step
+with a `TypeError`; the solved model was a 370 MB file on disk, untouched. Re-measuring that
+file took `82` seconds against roughly `15` minutes for the solve.
+
+Practise:
+
+- **save the model immediately after the solve returns**, before any post-processing, so a
+  later failure cannot cost the solve;
+- **make the runner resume-aware**: if a solved model exists with no result record beside it,
+  load and measure it instead of re-solving. Keep the overwrite guard on the *record*, not on
+  the model — refusing because a model exists would discard a completed solve;
+- **persist a pre-solve summary before solving**, since a failure inside the solve otherwise
+  destroys the configuration you need to diagnose it;
+- **expect the resume path to need its own reconstruction.** A summary written to survive a
+  crash is not a complete state object: in the same case the pre-solve record omitted the
+  domain groups the collector required, and re-deriving them from the loaded model was
+  necessary. Do not assume the summary is sufficient just because it is detailed.
+
+### Pass the module in, do not re-import it
+
+When a runner loads a patched copy of a shared module, any function that does
+`import <original> as X` inside itself will silently rebind to the **unpatched** original.
+The failure is confusing because dispatch appears to work: in a verified case one function
+used the patched copy and another used the original, so a patched signature was called
+against the unpatched definition and failed with `TypeError: unexpected keyword argument` —
+after the solve had already run.
+
+Practise:
+
+- **pass the loaded module as a parameter** to anything that needs it, so two versions cannot
+  coexist in one run;
+- **after patching a copy, assert the patch is visible** where it will be used, e.g. inspect
+  the function signature, rather than assuming the import graph resolved the way you intended;
+- **check whether the original is hash-recorded before editing it.** If a landed package
+  records the file's digest, patching it in place breaks that package's verification; copy it,
+  record both hashes, and redirect the copy's output paths — a copy usually still points at
+  the original's output directory.
+
 ## Field artifacts and visual review
 
 Evaluate field values and coordinates from a solved dataset, validate finite
