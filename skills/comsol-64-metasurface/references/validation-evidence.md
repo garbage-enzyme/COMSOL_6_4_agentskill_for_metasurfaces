@@ -2747,6 +2747,53 @@ Practise:
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
+### An interaction larger than every main effect, and a nearly inert parameter
+
+Crossing two parameters at two levels each, with **all four cells measured**, separates their
+effects without a fit. The comparison between two such crossings in the **same** model was
+informative about the **model**, not only about the numbers.
+
+| crossing | main effect | interaction | ratio |
+| --- | ---: | ---: | ---: |
+| standoff × **cell size** | 1403.7 | 0.0444 | **3.2e−05** |
+| standoff × **absorber strength** | 1412.2 | 2401.9 | **1.29** |
+
+In the first, the interaction is **negligible** against the main effect: Q is close to
+**independent** of the cell size. In the second the interaction **exceeds every main effect**.
+
+A quantity set by how two parts **exchange energy** depends **jointly** on their separation and
+on how strongly the second responds; a quantity set by the mesh or by a cell volume does not.
+So the contrast itself argues for a **boundary interaction** rather than a discretisation
+effect — and it agrees with an independent stored-energy result that the cell is nearly inert.
+
+Practise:
+
+- **cross the parameters rather than varying one at a time** when an interaction is plausible.
+  A single-parameter sweep cannot reveal one, and here the interaction was the **largest**
+  quantity in the table;
+- **report the interaction as a ratio to the main effect**, not as a raw number, so its
+  importance is legible and comparable across models;
+- **compare two crossings in the same model** when both exist. The contrast is evidence about
+  which part of the model actually governs the result.
+
+### Verify the comparison you are making is the right one before reporting a discrepancy
+
+A consistency check that uses the **wrong** relationship will appear to show a large
+discrepancy that **does not exist**. A verified instance: two settings known to be a **maximum**
+and a **minimum** were compared against a **quarter** period and gave an apparent **104 per
+cent** mismatch. The separation of a maximum from a minimum is **half** a period, and against
+that the agreement was **2.2 per cent**.
+
+Practise:
+
+- **identify the phase relationship first** — are the two points both extrema, one extremum and
+  one flank, or adjacent extrema? — and only then choose the fraction of a period to compare
+  against;
+- **record the wrong check and its correction** rather than deleting it. An apparent
+  inconsistency that was an artefact of the test will otherwise be rediscovered;
+- **prefer a phase check that uses different information** from the one already done — here an
+  amplitude-and-sign check, independent of the turning-point positions used earlier.
+
 ### A sign reversal is the signature of interference, not of loss or gain
 
 If the **same physical change** can **raise** a quantity at one setting and **lower** it at
