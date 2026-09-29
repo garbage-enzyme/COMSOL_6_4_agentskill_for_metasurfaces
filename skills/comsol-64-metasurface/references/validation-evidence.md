@@ -690,11 +690,24 @@ been post-processed differently from the others.
 
 Recover the convention **from the data** rather than assuming it. In a verified
 case, treating the stored value as an angular frequency gave 0.0036 THz where the
-file reported 66.58 THz, so that reading was wrong. The relations that held exactly
-at all four points were an imaginary-part frequency and a real-over-imaginary ratio
-for the quality factor, each reproducing the reported value to ten significant
-figures.
+file reported 66.58 THz, so that reading was wrong. What held exactly at all four
+points was `lambda = i*2*pi*f`, giving
 
+```text
+f = |Im(lambda)| / (2*pi)
+Q = |Im(lambda)| / (2*|Re(lambda)|)
+```
+
+each reproducing the stored value to the last bit.
+
+- **Get the ratio the right way up.** The relation is **imaginary over real**, and
+  the reciprocal is the dangerous direction because it is also finite and
+  plausible: inverting it returned `2.7e-05` where `Q` was `9.2e+03`, a wrong
+  answer that never looks like an error, only like a small number. A correct-
+  looking magnitude is not evidence of a correct convention.
+- **Check the ratio against `2Q`, not against `Q`.** `|Im|/|Re|` equals `2Q`, so a
+  missing factor of two is invisible if you only sanity-check the order of
+  magnitude. Use an equality test against the solver's own reported value.
 - Test the candidate conventions numerically and report which one holds. Do not
   state the solver's internal convention as though it were documented.
 - Report the **relative error** of each reproduction, not just agreement.
