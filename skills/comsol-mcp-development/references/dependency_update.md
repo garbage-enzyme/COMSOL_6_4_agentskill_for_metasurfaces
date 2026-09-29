@@ -38,9 +38,15 @@ Start with the smallest affected solver-free tests:
 
 - MCP imports, server construction, stdio initialization, dispatch, schemas,
   cancellation, and installed entry points;
+- native Tasks wire negotiation and ordinary-job fallback when updating the
+  MCP SDK; SDK major, date-based protocol revision, and extension generation
+  are distinct compatibility claims;
 - rendering arrays, PNG semantics, isolated worker cleanup, and GUI packaging
   for Matplotlib changes;
 - strict typing groups and quality inventory for mypy changes; and
+- exact Ruff selection and diagnostics for lint changes; resolve new findings
+  with narrow code changes or documented exceptions, not blanket exclusions
+  or weaker thresholds; and
 - imports, security, license, and SBOM evidence for transitive runtime changes.
 
 Classify a failure before editing. Permit only a narrow project-owned API,
@@ -98,3 +104,7 @@ Stop when the resolver crosses an excluded major, violates an exact pair,
 changes an unapproved minimum, lacks a supported wheel, changes public or
 scientific behavior, produces an incomplete/unhashed lock, or starts
 COMSOL/Java during solver-free maintenance.
+
+A preview interpreter is an informational compatibility lane unless the caller
+explicitly promotes it. Do not turn a dependency drift review into a runtime
+or production Python migration.

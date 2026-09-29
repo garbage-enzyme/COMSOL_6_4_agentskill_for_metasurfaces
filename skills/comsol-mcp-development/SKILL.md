@@ -38,6 +38,7 @@ Read each selected reference completely before acting.
 | Package boundaries, `comsol_mcp` namespace, wheel/sdist, non-editable install, build identity, exact-SHA release, production restart | [packaging-release.md](references/packaging-release.md) |
 | Fresh-install disk sizing, package/dependency attribution, optional-extra boundaries, and temporary-space estimates | [deployment-sizing.md](references/deployment-sizing.md) |
 | Dependency drift, direct/optional/dev/bootstrap classification, paired constraints, dual-lane validation, lock regeneration, and report workflows | [dependency_update.md](references/dependency_update.md) |
+| MCP native Tasks, durable-job bridging, and legacy-client fallback | [mcp-tasks-compatibility.md](references/mcp-tasks-compatibility.md) |
 | Explicitly requested COMSOL versions below 6.4, conflict proof, narrow compatibility patches, stop rules, and rollback to a public GitHub version | [legacy-version-compatibility.md](references/legacy-version-compatibility.md) |
 | External-review reconciliation, parent/child verification, dispositions, repair ordering, commit boundaries, TODO and receipt maintenance | [review-maintenance.md](references/review-maintenance.md) |
 | Optional DeepSeek Harness bridge, DSH installation, single-connection ownership, job mirroring, settings-change verification, and bridge evidence boundaries | [deepseek-harness-bridge.md](references/deepseek-harness-bridge.md) |
@@ -115,3 +116,8 @@ successful COMSOL solve.
   production modules, and respect the hash/synchronization gate for the
   user-facing operations reference that lives only in the operations skill's
   references folder — never duplicate that usage guide here.
+- An isolated licensed smoke on a newer MPh backend does not widen the
+  supported dependency range. Before declaring a new lane, bind the imported
+  version, module path, interpreter and source identity; run both the retained
+  minimum and new lane through solver-free, licensed, cleanup, installed-wheel
+  and exact-SHA CI gates. Refuse a missing overlay instead of falling back.
