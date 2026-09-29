@@ -2747,6 +2747,48 @@ Practise:
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
+### Guard that the override was FOUND, not only that it worked once found
+
+A run can be labelled as a controlled variation while **silently varying nothing**. The guards
+that catch a *rejected* setting do **not** catch an *absent* one.
+
+A verified failure: a control intended to halve an absorber's absorption at bit-identical
+geometry recorded its override nested inside a sub-object, while the runner looked for it at
+the **top level**. The lookup returned an **empty dict**, no override was applied, and the run
+solved the **default** configuration under a label claiming the absorption was halved.
+
+**Every guard was on the wrong side of the lookup.** They raised if `set` failed, and raised if
+the readback disagreed — but none checked whether anything had been **found**.
+
+**How it was caught — and this is the transferable part.** The measured Q came out
+**bit-identical** to an existing run:
+
+| quantity | relative difference |
+| --- | ---: |
+| frequency | **1.1e−15** |
+| Q (eigenfrequency) | **4.4e−12** |
+| Q (flux) | **1.2e−11** |
+
+A difference in the **eleventh significant figure is round-off, not physics.** Two genuinely
+different configurations do not agree to eleven figures. Reported without that check, the
+number would have been published as *"the absorber does not matter"* — a **false negative**
+produced by a configuration error.
+
+Practise:
+
+- **assert the setting was located BEFORE asserting it took.** Search every plausible
+  placement, and **stop the run** if a preregistration *names* an override that cannot be
+  found;
+- **read the value back out of the model** and raise on disagreement, so the record shows what
+  the solver saw, not what was requested;
+- **treat an exactly-zero difference as a warning**, not a triumph. Physical comparisons give
+  small results; bit-identical ones usually mean the variation never happened;
+- **fix the lookup, not the record.** Editing the preregistration to match the bug would make
+  the record agree with the mistake;
+- **keep the failed run** — a mislabelled repeat is still a valid **repeatability**
+  measurement, here bounding run-to-run variation at about **1e−11**, and it documents the
+  bug.
+
 ### If a quantity's definition does not contain a region, that region cannot move it by that route
 
 Before building an explanation around a growing region — a larger domain, a thicker absorber,
