@@ -2747,6 +2747,46 @@ Practise:
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
+### Change an absorber's strength through the coordinate system, not the geometry
+
+When a model ties a physical quantity to **several** geometric dimensions at once, no
+geometric edit gives a single-variable comparison. A **coordinate-system-level** parameter
+breaks the tie: it changes the absorbing behaviour while **no domain boundary moves**, so the
+mesh and every geometric quantity stay **identical**.
+
+A verified case: a periodic wave-optics model tied the scatterer-to-absorber **distance**, the
+absorber **thickness** and the **cell height** behind one parameter, so every comparison moved
+at least the cell height. The absorbing layer's **stretching factor** lives on the coordinate
+system, so halving it changed only how strongly the layer absorbed:
+
+| | stretching factor | mesh elements | Q |
+| --- | ---: | ---: | ---: |
+| landed reference | 1.0 | 190266 | 9260.35 |
+| **controlled point** | **0.5** | **190266** | **8719.12** |
+
+Q moved **5.84 per cent** — about **9.5×** the measured mesh sensitivity — at a mesh that was
+**identical**. Neither discretisation nor geometry can explain the change, because neither
+differs.
+
+**Verify the lever is inert to the mesher before trusting it.** Build the mesh at several
+values of the parameter and confirm the **element count is unchanged** (here `103972` at 1.0,
+0.5 and 2.0) and the domain selections are identical. Only then is the comparison
+single-variable **by construction** rather than by hope.
+
+**Enumerate properties from the live object; do not guess names.** Read them back and check
+which accept being written, and confirm how the API reports an **invalid** name
+(`Unknown_property`) so a bad key cannot pass silently.
+
+Practise:
+
+- **look for parameters that live outside the geometry** — coordinate systems, solver settings,
+  material coefficients, study features — when a design ties several dimensions together;
+- **state what the control does and does not isolate.** A sensitivity to the absorber does
+  **not** distinguish a returning wave from a boundary truncating a near field differently, and
+  a factor-to-reflectivity mapping is **not** measured unless it is measured;
+- **record the parameter's provenance in the pre-solve record**, so a run that dies still shows
+  what it was testing.
+
 ### Guard that the override was FOUND, not only that it worked once found
 
 A run can be labelled as a controlled variation while **silently varying nothing**. The guards
