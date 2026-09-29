@@ -2747,6 +2747,85 @@ Practise:
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
+### Turning points you did not place yourself give a free independent period
+
+A predicted period is usually an **assumption** carried into every fit. It becomes a
+**measurement** if the data contains two turning points of the same kind whose positions were
+**not chosen using that prediction**.
+
+A verified series at held absorber thickness alternated **max, min, max, min**:
+
+| standoff | Q | |
+| ---: | ---: | --- |
+| 2400 | 9260.35 | max |
+| 3600 | 7848.16 | **min** |
+| 4673 | 10864.56 | max |
+| 5949 | 8008.44 | **min** |
+
+The **min-to-min** separation was **2349.14 nm** against a predicted **2273.14 nm** —
+agreement **+3.34 per cent**. Neither minimum was placed using the period: one was a landed
+baseline from an earlier matrix, the other was chosen to **maximise separation between
+candidate models**.
+
+By contrast **max-to-max was exactly the prediction** — and is therefore **circular**, because
+that point *was* placed one predicted period away. **Exclude it.**
+
+Practise:
+
+- **audit how each turning point was placed** before using a separation as a measurement. A
+  point chosen *by* the prediction cannot test it;
+- **report the independent estimate and the circular one separately**, naming why the second
+  is excluded, so a later reader does not average them;
+- **fix the period and re-fit.** With period and phase pinned, a sinusoid on a background has
+  one parameter fewer, so it gains a **degree of freedom** and can finally **fail**.
+
+### A linear background cannot shift both extrema the same way
+
+This refutes **any** sinusoid on **any** linear background, **whatever its parameters** — a
+structural argument, stronger than a residual.
+
+If both maxima **rise** *and* both minima **rise**, a linear tilt is excluded: a tilt **raises
+one extremum and lowers the other**. In the verified case the maxima rose by **+1604** and the
+minima by **+160** — **same sign**, so no linear background can produce it. The fit residuals
+said the same thing: **−384, +368, +391, −375**, large and **structured in same-sign pairs**
+rather than scattered — the signature of a **mis-specified background**, not noise.
+
+Practise:
+
+- **compare extrema-to-extrema, not point-to-point.** Same-sign shifts of both maxima and
+  both minima rule out a linear trend at a glance, with no fitting;
+- **read residual signs, not just their size.** Same-sign runs indicate model error; scatter
+  indicates noise;
+- **say what the refutation does and does not cover.** It excludes a *linear* background; a
+  curved one could lift both extrema, and establishing its form needs more points or a
+  physical model.
+
+### Check whether a fitted model has any freedom left to fail
+
+Before reporting a fit, count **parameters against points** — including parameters you fixed
+by *measurement*. A model with **zero** residual freedom cannot be evidence, but a model with
+**one** degree of freedom **can be refuted**, and that difference is worth engineering
+deliberately.
+
+A verified sequence:
+
+1. **3 parameters, 3 points** — two different families fitted **exactly** (residuals
+   **0.00e+00** and **1.8e−12**); data could not choose.
+2. **3 parameters, 4 points** after fixing the period from an independent turning-point
+   measurement — the model now had **one** degree of freedom, and was **refuted** at
+   **RMS 4.2 per cent** against a mesh sensitivity of **0.61 per cent**.
+
+Practise:
+
+- **state the degrees of freedom before interpreting any fit**;
+- **use an independent measurement to pin a parameter**, converting it from free to fixed and
+  buying the model a degree of freedom;
+- **state the interpretation rule before looking at the residual** — e.g. "an RMS below the
+  mesh sensitivity would mean the model describes the series" — so the verdict is not chosen
+  after the fact;
+- **do not upgrade a non-refutation into a confirmation.** Four points cannot establish a
+  functional form; surviving one test is not being confirmed.
+
 ### Separate "is the effect real?" from "do the settings agree?"
 
 A convergence gate usually carries **two different questions**, and reporting only one verdict
