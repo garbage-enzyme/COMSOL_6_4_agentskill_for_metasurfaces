@@ -2776,6 +2776,51 @@ Practise:
 - **compare two crossings in the same model** when both exist. The contrast is evidence about
   which part of the model actually governs the result.
 
+### A non-monotone shape is not evidence for multiple mechanisms
+
+A **non-monotone** response is evidence about the **shape of one parameter's dependence**. It
+becomes evidence for **multiple contributions** only when the **single-contribution**
+explanation makes a prediction the data **refute** — and that refutation must be **exhibited**,
+not assumed.
+
+A verified overclaim, caught and withdrawn: a Q that **rose then fell** as an absorber's
+stretching factor was varied was reported as requiring **more than one** contribution. It does
+not. An absorbing layer's **reflectivity is not monotone** in its stretching factor — too
+little stretching leaves the wave unabsorbed at the outer boundary, too much reflects from the
+discrete stretching — so reflectivity has a **minimum** and Q, if loss-dominated by it, has a
+**maximum** there. **One pathway reproduces the whole shape.**
+
+**The check that narrows a claim correctly.** Ask what the **simplest single-pathway**
+explanation would be, then test whether it **also** covers the other measurements. Here it
+covered the ladder and **failed** to cover a **sign reversal** between two standoffs:
+
+| change | standoff | ΔQ |
+| --- | ---: | ---: |
+| factor 1.0 → 0.5 | 2400 | **−541.23** |
+| factor 1.0 → 0.5 | 3600 | **+1860.72** |
+
+Under a single pathway the reflectivity change belongs to the **absorber alone** and is
+identical wherever it sits, so ΔQ would have the **same sign** everywhere. It does not. The
+claim that survived is therefore narrower and **model-free**: the absorber **cannot be a single
+real scalar of strength**, and its effect must depend on **position**, so the resonance responds
+to the **phase** of what returns and not only to **how much**.
+
+That is a statement about the **form of a sufficient description**, not a **count**.
+
+Practise:
+
+- **attribute a shape to a shape.** A peaked response says the parameter's dependence is
+  peaked; it does not count mechanisms;
+- **state the single-mechanism alternative explicitly** and check it against every other
+  measurement before claiming multiplicity;
+- **prefer the narrower claim the data force.** "The absorber is not a single real scalar" is
+  weaker-sounding than "there are several pathways" and is the one the evidence supports;
+- **withdraw in place.** Annotate the artifact that carries the overclaim, name the correction
+  and its hash, state what was withdrawn and what stands, and **leave the withdrawn text in
+  place** so the record shows what was published;
+- **check clauses doing hidden work.** *"A single returning wave **with a fixed phase**…"* — the
+  condition had not been established, so the inference drawn from it went too.
+
 ### A middle point above both ends of a ladder: compare CONSECUTIVE steps
 
 An **odd number** of settings lets the **middle** value be compared against both ends, and that
