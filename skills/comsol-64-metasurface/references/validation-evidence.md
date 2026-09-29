@@ -2372,6 +2372,59 @@ Practise:
   it. The wrong version's conclusion may already have been read; hiding it loses the fact
   that the error happened.
 
+### Index the filesystem before calling a source missing
+
+A source recorded as "not available" is a claim about a **search**, and the search is
+usually narrower than it should be. In a verified case three gaps sat for many rounds
+marked "awaiting a paywalled source from the user" while the **supplementary PDF had been
+supplied with the project all along**. Nobody had listed the local directories. The gap was
+in the record, not in availability, and the wrong framing had been repeated across rounds
+precisely because each round trusted the previous round's note instead of the disk.
+
+The durable fix is not care, it is a repeatable index: walk the directories that actually
+hold the literature, hash each file, and pull a DOI or arXiv identifier out of the first
+pages so presence can be checked **by identifier** rather than by a remembered filename.
+Then a presence check is a lookup, and "we do not have it" comes with the list of roots that
+were searched.
+
+Practise:
+
+- **scan before registering a gap.** A date-stamped inventory of what is on disk costs one
+  sweep and removes the whole failure class;
+- **match on the identifier, not the filename.** The same paper arrives as `ao-59-5-a40.pdf`
+  in one directory and `amotchkina_ao_2020_ref59.pdf` in another; a filename search finds one
+  and reports the other missing;
+- **state the roots that were searched** alongside any negative result, so the claim cannot
+  silently outrun its coverage;
+- **treat presence as availability only.** A file on disk is not evidence that its content was
+  read, and it is not evidence that any value taken from it is correct.
+
+### Normalise PDF ligatures before searching extracted text
+
+Text pulled from a PDF is not plain ASCII. Words containing `fi`, `fl`, `ffi` and `ffl` are
+frequently stored as the single Unicode ligature code points `U+FB01`, `U+FB02`, `U+FB03`
+and `U+FB04`. A search for the literal string `film` then **fails to match** the text
+`ﬁlm`, and the failure is silent: the search simply returns nothing, which reads as "the
+document does not say this".
+
+This matters most when a negative result is the finding. In a verified case a keyword census
+was being used to establish that a paper never used a particular model; the ligature made
+one of the searched words unmatchable, and a naive sentence extraction returned nothing at
+all for a sentence that was present verbatim in the document.
+
+Practise:
+
+- **map the ligatures to ASCII immediately after extraction**, before any matching:
+  `U+FB01 -> fi`, `U+FB02 -> fl`, `U+FB03 -> ffi`, `U+FB04 -> ffl`. Also normalise the
+  typographic quote and the Unicode minus sign, which break identifier and number matching;
+- **collapse whitespace too.** PDF extraction breaks sentences across lines and hyphenates
+  them, so a sentence-level pattern will not match until runs of whitespace become one space;
+- **prove the negative.** A census that reports zero must be shown able to report non-zero
+  on a control string that IS present, or the zero is indistinguishable from a broken matcher;
+- **watch decimal points in numeric patterns.** A value like `A0 = 0.310182` contains a
+  period, so a `[^.]*` capture stops inside the number and silently truncates it. Anchor on a
+  period that is not followed by a digit.
+
 ### A file that looks like new data may be the same data re-serialised
 
 Searching the wider workspace for missing data can turn up a file that looks like an
