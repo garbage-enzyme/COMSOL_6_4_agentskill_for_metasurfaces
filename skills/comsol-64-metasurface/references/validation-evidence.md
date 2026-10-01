@@ -4248,12 +4248,34 @@ selection entirely.
 
 Two practices make the recovery trustworthy rather than merely plausible:
 
-- **Choose the solution pair by conditioning, not by modulus** — the pair whose
-  state matrix has the largest `|det|`. Any well-conditioned pair gives the same
-  `M`.
 - **Recover `M` twice from different pairs and compare the two matrices.** If
   the recovery depended on the pair chosen, that difference exposes it. Report
   it; do not assume invariance.
+- **Do not let conditioning decide which pair is admissible.** This corrects an
+  earlier version of this section, which said that any well-conditioned pair
+  gives the same `M` and suggested choosing the pair whose state matrix has the
+  largest `|det|`. Both halves of that were wrong.
+
+  `max|det Y|` is not scale invariant: it grows when you simply rescale a column,
+  so it ranks pairs by how they happen to be normalised. Normalise the columns
+  first and use a condition number.
+
+  More seriously, **a small condition number does not certify the pair**. A pair
+  of state vectors can be very nearly orthogonal — as well conditioned as a 2x2
+  basis gets — and still be built from vectors that do not solve the equation.
+  Measured on a driven oscillator, a pair selected by conditioning alone had a
+  column-normalised condition number within half a per cent of the best
+  attainable value, and a propagator error nine orders of magnitude larger than
+  a screen-selected pair whose condition number was very slightly *worse*. The
+  conditioning-only error was also the same at **every** truncation order tried,
+  so it would have looked stable under refinement while being wrong.
+
+  Admit a candidate by **differential residual** (how well it satisfies the ODE)
+  and by **harmonic tail norm** (whether the outermost retained coefficient has
+  decayed). Use conditioning only to order pairs that already passed, never to
+  admit one. If fewer than two candidates pass, report the order as unresolved
+  rather than falling back to the best-conditioned pair — and report the
+  unresolved orders, because a truncation order that is rejected is a result.
 
 Branch-free invariants are useful alongside, not instead of:
 
@@ -4261,6 +4283,62 @@ Branch-free invariants are useful alongside, not instead of:
 - `det(exp(A*T)) = exp(trace(A)*T)`. Compute this from `trace(A)` directly —
   forming `exp(A*T)` as a matrix overflows whenever `A` carries
   `omega_0^2`-scale entries.
+
+### The determinant decides which stability test is valid
+
+The familiar trace test `|tr M| > 2` is the **`det(M) = 1` case**. For a real
+2x2 monodromy with `d = det(M)` strictly between 0 and 1 the correct boundary is
+
+```text
+|tr M| < 1 + d      stable
+|tr M| = 1 + d      boundary
+|tr M| > 1 + d      unstable
+```
+
+Carrying `|tr M| > 2` into a damped problem is a category error, not a rounding
+issue: with damping both the trace and the boundary shrink together, and the old
+form reports *stable* for systems that grow. This was caught by a counterexample
+found far from the tongue edge — a case growing by several per cent per period
+whose `|tr M|` was still comfortably below 2. It is easy to miss, because a
+lightly damped tongue edge sits close to `|tr M| = 2` anyway, so a sample that
+never leaves that neighbourhood makes a wrong criterion look confirmed.
+
+**Take the largest multiplier modulus as the primary test**, with an explicit
+tolerance:
+
+- In a **lossless** system `det(M) = 1` exactly and the multipliers sit on the
+  unit circle outside the tongue, so `|mu|` equals 1 to round-off. A bare
+  `max|mu| > 1` is then decided by floating-point noise and will report most of a
+  parameter sweep as unstable. Compare against `1 + tol` with a tolerance chosen
+  well above the round-off floor and well below any growth the model produces.
+- **The discriminant `tr(M)^2 - 4*det(M)` is not a growth test.** It says only
+  whether the multipliers are real or a complex-conjugate pair. A real
+  multiplier pair includes both the growing and the decaying solution.
+- For a lossless monodromy the trace form is genuinely equivalent, so reporting
+  `|tr M|` alongside is a useful cross-check — provided the determinant really
+  is 1, which has to be established rather than assumed.
+
+### Bracket a resonance from inside it, never around an estimate
+
+Locating a tongue edge, a resonance window, or any other narrow feature by
+searching for a sign change in a fixed window around an **estimate** fails
+whenever the feature is narrower than the window: both ends land on the same
+side and no bracket exists. Widening the window when that happens makes it
+worse, because a wider window steps over a narrow feature more thoroughly.
+
+The failure is also easy to misread. In one case the widening search walked its
+lower trial point through zero, where the drive period diverges, and the
+integrator stopped converging — the run produced no output and never finished,
+which looks like slow work rather than a bug. Timing the underlying call in
+isolation is what settled it: a single evaluation cost milliseconds, so a
+multi-minute run could not be slow-but-correct.
+
+**Bracket outward from a point you know is inside.** For a parametric tongue the
+centre is known analytically and is unstable whenever the tongue exists at all,
+so start there and step outward with a cap that keeps trial points away from
+zero. Where the centre turns out not to be unstable for a given truncation
+order, report that as its own outcome instead of searching for an edge that the
+order cannot produce.
 
 ### A convergence sweep must be run where the parameter matters
 
@@ -4277,6 +4355,28 @@ the lowest order tested gets an answer that is not merely imprecise but
 **qualitatively wrong** (a growth rate of the wrong sign, say). If every order
 already agrees, the sweep is not a test.
 
+**Report a residual and a tail per order, not only the order-to-order
+difference.** Agreement between two orders says the number stopped moving; it
+does not say the number was ever right. Two quantities belong beside every order:
+
+- the **differential residual** — how well the truncated candidate satisfies the
+  equation it is supposed to solve;
+- the **harmonic tail norm** — how small the outermost retained coefficient is.
+  In a low-order truncation this has not decayed by construction, so a screen
+  built on it will reject the lowest orders outright. That rejection is the
+  result, not an obstacle to it: it says the truncated solution is not a
+  certified solution at that order, which is different from being imprecise.
+
+Expect a sweep where the lowest orders produce **no admissible answer at all**
+rather than a slightly wrong one, and report those orders explicitly. A verdict
+cannot be "converged" when only one order yielded a number; and it cannot be
+"not converged" either, because no comparison was made. Give it its own outcome.
+
+Also fix the resolution the verdict is claimed at. A bisection that stops at
+some tolerance makes "stable across orders" a statement **at that tolerance**,
+not below it — and a truncation error far below the tolerance will read as
+exactly zero difference, which is not the same as having measured it.
+
 ### Energy closure must be checked in the growing regime
 
 For a modulated system, an energy account that closes on a **decaying** solution
@@ -4285,3 +4385,27 @@ Run it where the solution **grows**. There, energy must be entering through the
 modulation, so a sign error in the pump term shows up. Include the unmodulated
 control, where the pump work must vanish identically — that shows the term is
 not an artefact of the quadrature.
+
+**Do not then read the energy as a stability indicator.** In a modulated medium
+the field energy depends explicitly on the time-varying permittivity, so it is
+not periodic even when nothing grows: a stable state returns *rotated* by a
+unit-modulus multiplier, and the energy is not invariant under that rotation.
+An earlier version of this section implied the opposite and was refuted by its
+own output — a stable operating point showed a clearly non-zero one-period
+energy change. Energy is a valid bookkeeping quantity and an invalid growth
+test; the multiplier is the growth test.
+
+Two consequences worth carrying:
+
+- Derive the pump term for the actual model rather than reusing another model's
+  energy expression. For a modulated permittivity in a lossless non-magnetic
+  medium the stiffness goes as the **reciprocal** of the permittivity, so
+  raising it *lowers* the stiffness — the drive acts with the opposite sign to a
+  positive-stiffness oscillator, and an energy term borrowed from the latter has
+  the wrong sign.
+- The clean link between the two is `u(T)/u(0) = mu^2`, and it holds **only for a
+  pure Floquet mode**. Started from an arbitrary initial condition the state is a
+  mixture of both multipliers and the ratio is meaningless; started from the
+  eigenvector it reproduced `mu^2` to about 1e-14 while the arbitrary-condition
+  value was wrong in the second decimal. If you quote that identity, say which
+  initial condition it was evaluated on.
