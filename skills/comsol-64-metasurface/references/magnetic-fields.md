@@ -15,7 +15,7 @@ study setup have been independently inspected.
 - When a required AC/DC interface cannot be created reliably from scratch, load
   a compatible baseline, hash it, and only save a distinct derived model.
 - Java tag arrays contain `java.lang.String` values. Convert before Python text
-  logic: `name = str(tag)`; use the original tag for ClientAPI collection calls.
+  logic: `name = str(tag)`. Use the original tag for ClientAPI collection calls.
 - Do not assume a generic study type is valid for every baseline. Some
   compatible AC/DC baselines accept `Frequency`, while others accept
   `FrequencyDomain`. Export a trusted model as Java or perform a bounded
@@ -36,7 +36,7 @@ finally:
 
 - `model.remove()` removes a model node and is not whole-model cleanup.
 - Use `client.remove(model)` for a loaded standalone model. Do not call
-  `client.disconnect()` merely because a standalone client is local; it is for
+  `client.disconnect()` merely because a standalone client is local. It is for
   a connected server session and can fail when no server connection exists.
 - Start a fresh Python process for a later standalone client if JVM state is
   uncertain.

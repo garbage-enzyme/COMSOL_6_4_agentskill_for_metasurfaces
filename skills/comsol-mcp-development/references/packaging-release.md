@@ -42,8 +42,14 @@ accepted wheel for rollback.
 Treat a version bump as one atomic public-identity change. Update package and
 GUI versions, bilingual docs, deterministic locale outputs, schema-registry
 hashes, release facts, compatibility assertions, and visible header tests
-together. Run the repository generators and their `--check` modes; do not hand
+together. Run the repository generators and their `--check` modes. Do not hand
 edit generated PO/MO or release-facts payloads independently.
+
+The compatibility assertions include every shipped identity surface, not only
+the package module: citation metadata and SDK/protocol response fixtures must
+use the candidate version as well. Run a repository-wide search for the prior
+release string and classify each remaining match as historical documentation
+or an active assertion before the release gate.
 
 ## Clean non-editable installation
 
@@ -52,9 +58,16 @@ ASCII build, cache, runtime, and artifact roots on Windows, especially when the
 user profile path contains non-ASCII characters.
 
 Use non-editable installation for release acceptance. If rebuilding the same
-version with different content, force reinstall and compare installed identities;
-the version string alone cannot prove which code is running. Run `pip check`
+version with different content, force reinstall and compare installed identities.
+The version string alone cannot prove which code is running. Run `pip check`
 and verify the resolved dependency lane.
+
+On Windows, keep the build backend and dependency index separate from the gate
+interpreter. If an isolated build cannot resolve its pinned backend from the
+configured mirror, record the error and rerun with the explicitly selected
+build interpreter and `--build-no-isolation`. Never silently switch indexes or
+claim an isolated build passed. The release receipt must record both the build
+interpreter and whether isolation was used.
 
 On Windows, a running console-script process can lock its generated `.exe`.
 Before replacing an installed wheel, prove that no COMSOL client or solver
@@ -98,13 +111,13 @@ caller's configured model/API provider instead of bypassing user configuration.
 
 Use this order unless the repository contract is stricter:
 
-1. pass focused and broader local solver-free gates;
-2. commit a clean, buildable change;
-3. push only with caller authorization;
-4. require every CI job for the exact pushed SHA to finish successfully;
-5. run the clean locked release gate without a heavy COMSOL workload active;
-6. build the final wheel from that exact identity;
-7. record hashes and installed-probe receipts;
+1. pass focused and broader local solver-free gates.
+2. commit a clean, buildable change.
+3. push only with caller authorization.
+4. require every CI job for the exact pushed SHA to finish successfully.
+5. run the clean locked release gate without a heavy COMSOL workload active.
+6. build the final wheel from that exact identity.
+7. record hashes and installed-probe receipts.
 8. install to production only when the caller authorizes deployment.
 
 Do not infer release readiness from a different commit, a cancelled run, a
@@ -112,7 +125,7 @@ rerun that used changed source, or a source-only local pass.
 
 ## Production restart and rollback
 
-Migrate effective settings intentionally; do not overwrite production with a
+Migrate effective settings intentionally. Do not overwrite production with a
 template. Restart every owning stdio client after installation because an
 already-running Python process retains old modules in memory.
 
@@ -130,5 +143,5 @@ serially without starting COMSOL.
 
 Keep the prior reviewed wheel and settings receipt for rollback. If installed
 identity, stdio discovery, dependency checks, or settings fingerprint differs
-from the release receipt, stop deployment and restore the prior exact package;
-do not debug by launching a solver.
+from the release receipt, stop deployment and restore the prior exact package.
+Do not debug by launching a solver.

@@ -19,7 +19,7 @@ The current profile exposes five bounded tools:
   physics interface with duplicate-tag refusal and rollback on failure.
 - `physics_configure_electrode_reaction` — creates an `ElectrodeSurface`
   boundary. On the accepted COMSOL 6.4.0.293 host, the verified property is
-  surface resistivity `rhos`; Butler-Volmer/Tafel parameters are rejected when
+  surface resistivity `rhos`. Butler-Volmer/Tafel parameters are rejected when
   the selected interface does not expose them.
 - `physics_set_electrolyte` — creates an `Electrolyte` feature on selected
   domains and optionally sets ionic conductivity `sigmal`.
@@ -45,7 +45,7 @@ electrolyte.selection().set([domain_id])
 electrolyte.set("sigmal", "1")
 ```
 
-Physics creation uses a string spatial dimension (`"3"`); feature creation uses
+Physics creation uses a string spatial dimension (`"3"`). Feature creation uses
 an integer entity dimension (`2` for boundaries, `3` for domains). Convert Java
 tag arrays with `list(...)` and retrieve objects by tag with `.get(tag)`.
 
@@ -53,13 +53,13 @@ The minimal live probe verified `SecondaryCurrentDistribution`, its default
 features, `ElectrodeSurface.rhos`, `Electrolyte`, `ElectrolytePotential`, and
 `ElectrodePotential`. `TertiaryCurrentDistribution` and `Electroanalysis` were
 rejected as unknown interface names on that exact COMSOL build. Do not broaden
-the catalog from an upstream COMSOL 6.3 record; probe the exact installed build
+the catalog from an upstream COMSOL 6.3 record. Probe the exact installed build
 before adding an interface or property.
 
 ## Evidence and limits
 
 The profile catalog is a declaration, not scientific validation. A successful
-native creation proves API availability and cleanup only; it does not prove a
+native creation proves API availability and cleanup only. It does not prove a
 valid electrochemical model, material law, boundary condition, mesh, study, or
 scientific result. Use a fresh solver-owner preflight, one serial live probe,
 and a redacted receipt containing runtime identity, module findings, rollback,

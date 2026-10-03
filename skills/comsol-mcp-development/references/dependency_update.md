@@ -37,16 +37,16 @@ it is a declared project dependency.
 Start with the smallest affected solver-free tests:
 
 - MCP imports, server construction, stdio initialization, dispatch, schemas,
-  cancellation, and installed entry points;
+  cancellation, and installed entry points.
 - native Tasks wire negotiation and ordinary-job fallback when updating the
-  MCP SDK; SDK major, date-based protocol revision, and extension generation
-  are distinct compatibility claims;
+  MCP SDK. SDK major, date-based protocol revision, and extension generation
+  are distinct compatibility claims.
 - rendering arrays, PNG semantics, isolated worker cleanup, and GUI packaging
-  for Matplotlib changes;
-- strict typing groups and quality inventory for mypy changes; and
-- exact Ruff selection and diagnostics for lint changes; resolve new findings
+  for Matplotlib changes.
+- strict typing groups and quality inventory for mypy changes.
+- exact Ruff selection and diagnostics for lint changes. Resolve new findings
   with narrow code changes or documented exceptions, not blanket exclusions
-  or weaker thresholds; and
+  or weaker thresholds.
 - imports, security, license, and SBOM evidence for transitive runtime changes.
 
 Classify a failure before editing. Permit only a narrow project-owned API,
@@ -58,7 +58,7 @@ settings, solver, or scientific-behavior change.
 
 Resolve and test both lanes independently:
 
-1. current-compatible dependencies selected within package metadata; and
+1. current-compatible dependencies selected within package metadata.
 2. the unchanged reviewed minimum direct constraints.
 
 Do not raise a minimum merely because the current lane moved. A compatibility

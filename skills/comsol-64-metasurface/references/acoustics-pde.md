@@ -44,7 +44,7 @@ before those names are used for physics.
 Use Box `condition="inside"` for thin side boxes. `intersects` also includes
 boundaries that touch the box at a corner and selected three boundaries per side
 in a COMSOL 6.4 rectangle probe. Keep a small declared tolerance around the side
-plane; do not infer stable entity numbers from construction order.
+plane. Do not infer stable entity numbers from construction order.
 
 ## Pressure Acoustics
 
@@ -88,7 +88,7 @@ variables:
 Dependent-variable names must be unique across every active interface in one
 component. Reusing `u` for Coefficient, General, and Weak Form in one component
 causes COMSOL to reject duplicate variable names. A General Form `Ga` is a
-spatial flux vector; supply the shape required by the model dimension instead
+spatial flux vector. Supply the shape required by the model dimension instead
 of assuming one scalar string is valid.
 
 Do not include incomplete General or Weak interfaces in the study used to solve

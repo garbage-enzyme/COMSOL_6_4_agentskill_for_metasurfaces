@@ -17,15 +17,15 @@ gate.
 
 For each lossy domain record:
 
-- the exact complex material expression;
-- requested and evaluated wavelength/frequency;
-- integrated `Qh` with sign;
+- the exact complex material expression.
+- requested and evaluated wavelength/frequency.
+- integrated `Qh` with sign.
 - raw R/T/A and physical flux closure.
 
 A passive model must not produce material gain, negative dissipated power beyond
 numerical noise, or R/T/A outside justified bounds. If reversing the imaginary
-sign fixes all passivity evidence, document the formulation-specific convention;
-do not generalize it to other physics interfaces or boundary types.
+sign fixes all passivity evidence, document the formulation-specific convention.
+Do not generalize it to other physics interfaces or boundary types.
 
 For example, one volumetric `ewfd` convention can be passive with
 `1-wp^2/(omega*(omega-i*gamma))` and `(n-i*k)^2`, while a calibrated layered
@@ -52,7 +52,7 @@ Use `c_const/wl` inside dispersive expressions. Persist both evaluated `wl` and
 `c_const/ewfd.freq` for every row. A systematic mismatch is a classification
 failure, not rounding noise.
 Direct use of a changing `ewfd.freq` inside a layered impedance expression can
-also produce an impedance singularity in a multi-wavelength solve; prefer the
+also produce an impedance singularity in a multi-wavelength solve. Prefer the
 explicit `wl` control and staged one-point validation.
 
 ## A frequency-dependent material in an eigenfrequency study freezes at the search shift
@@ -68,7 +68,7 @@ the returned frequency is close to the expected one — it is simply the answer 
 question than the one asked.
 
 **Detect it by prediction, not by inspection.** Before solving, compute what each candidate
-behaviour predicts; they differ by far more than solver reproducibility, so the measured
+behaviour predicts. They differ by far more than solver reproducibility, so the measured
 frequency identifies which occurred:
 
 | behaviour | condition | how to compute the prediction |
@@ -94,7 +94,7 @@ needed no assumption.
 
 **What to do with the result.** A frozen evaluation is still usable: the applied index offset
 is known, and dividing the measured shift by it gives a sensitivity that converts the frozen
-result to the physical in-band offset. State the scaling; do not present the frozen number as
+result to the physical in-band offset. State the scaling. Do not present the frozen number as
 the physical one. If the intended material really is dispersive across the band, look for the
 nonlinearity control on the eigenfrequency step and **record whether it took effect** — an API
 that silently rejects the property leaves you in the frozen regime with no warning.
@@ -116,7 +116,7 @@ The reliable hierarchy is:
 `SingleLayerMaterial` can replace a multi-layer definition for one layer, but it
 still requires the component link and explicit boundary conductivity/
 permeability validation. A component `LayeredMaterialLink` normally provides its
-`shell` property group automatically; do not assume creating an arbitrary Shell
+`shell` property group automatically. Do not assume creating an arbitrary Shell
 property group produces the same clientapi object.
 
 Common materials normally select domains. Use a layered/single-layer material
@@ -147,8 +147,8 @@ bc.set("murbnd", "1")
 bc.set("lth", thickness_expression)
 ```
 
-Do not assume `from_mat` resolves boundary conductivity/permeability correctly;
-verify a known thin-film baseline first.
+Do not assume `from_mat` resolves boundary conductivity/permeability correctly.
+Verify a known thin-film baseline first.
 
 ## Geometry partitioning
 
@@ -156,10 +156,10 @@ A global layered material cannot generally use coordinate-dependent thickness.
 An embedded WorkPlane face may be a construction object rather than a physical
 boundary. For a patterned conductive patch:
 
-- partition the real interface with solid geometry;
-- preserve the intended interface through union/assembly imprinting;
-- apply the layered boundary only to the patch footprint;
-- classify the footprint by adjacent domains and coordinates;
+- partition the real interface with solid geometry.
+- preserve the intended interface through union/assembly imprinting.
+- apply the layered boundary only to the patch footprint.
+- classify the footprint by adjacent domains and coordinates.
 - re-probe outer periodic faces so patch sides are not mistaken for cell sides.
 
 ## PML and manual Floquet

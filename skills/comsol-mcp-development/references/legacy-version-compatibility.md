@@ -14,9 +14,9 @@
 
 Use this workflow only when all conditions hold:
 
-1. the exact detected COMSOL release is older than 6.4; and
+1. the exact detected COMSOL release is older than 6.4.
 2. the user explicitly asks the agent to attempt compatibility with that
-   release; and
+   release.
 3. the evidence in the next section proves a reproducible conflict caused by a
    specific difference between that release and the supported reference build.
 
@@ -38,12 +38,12 @@ claim that all earlier COMSOL versions are supported.
 Require concrete evidence before editing:
 
 - exact COMSOL display and executable versions read from authoritative runtime
-  surfaces;
-- exact public MCP source/build identity and settings fingerprint;
-- the smallest request that fails on the legacy release;
+  surfaces.
+- exact public MCP source/build identity and settings fingerprint.
+- the smallest request that fails on the legacy release.
 - complete bounded error type, stable message/reason code, failing API call, and
-  lifecycle phase;
-- expected behavior from the current public contract;
+  lifecycle phase.
+- expected behavior from the current public contract.
 - reflection, feature/property inventory, official release documentation, or a
   controlled probe showing the legacy API difference.
 
@@ -85,13 +85,13 @@ Keep the 6.4 path unchanged and make the legacy branch explicit and testable.
 
 Do not:
 
-- add broad exception swallowing or retry every native error;
-- probe many undocumented properties by mutation;
-- weaken validation, rollback, ownership, evidence, or cleanup requirements;
-- expose arbitrary property setters as a compatibility escape hatch;
-- silently substitute another physics interface or numerical meaning;
+- add broad exception swallowing or retry every native error.
+- probe many undocumented properties by mutation.
+- weaken validation, rollback, ownership, evidence, or cleanup requirements.
+- expose arbitrary property setters as a compatibility escape hatch.
+- silently substitute another physics interface or numerical meaning.
 - combine the adapter with unrelated refactoring, dependency upgrades, feature
-  work, cleanup, or speculative hardening;
+  work, cleanup, or speculative hardening.
 - expand compatibility to other versions without their own evidence.
 
 If the legacy API cannot represent the public contract faithfully, return an
@@ -101,12 +101,12 @@ explicit unsupported result rather than approximating success.
 
 Require all of the following before accepting the narrow patch:
 
-- deterministic fake/reflection tests for the exact legacy difference;
-- regression coverage proving the supported 6.4 path is unchanged;
-- clean package, schema, profile, and solver-free stdio gates;
+- deterministic fake/reflection tests for the exact legacy difference.
+- regression coverage proving the supported 6.4 path is unchanged.
+- clean package, schema, profile, and solver-free stdio gates.
 - an opt-in licensed acceptance on the exact requested legacy build when native
-  behavior is part of the claim;
-- source-model immutability, rollback, cleanup, and ownership evidence;
+  behavior is part of the claim.
+- source-model immutability, rollback, cleanup, and ownership evidence.
 - a receipt whose compatibility statement names only the tested build, tool,
   workflow, and limitations.
 
@@ -119,14 +119,14 @@ pass.
 Stop the compatibility attempt when any of these occurs:
 
 - the required native API or physics feature does not exist and no typed,
-  semantically equivalent route is available;
+  semantically equivalent route is available.
 - the patch would weaken safety, evidence integrity, source immutability,
-  ownership, rollback, or boundedness;
-- the legacy result cannot be distinguished from a false-success approximation;
+  ownership, rollback, or boundedness.
+- the legacy result cannot be distinguished from a false-success approximation.
 - the exact licensed legacy gate cannot be run or repeatedly fails after a
-  bounded, evidence-driven repair sequence;
+  bounded, evidence-driven repair sequence.
 - cleanup, process ownership, model state, or installed identity becomes
-  uncertain;
+  uncertain.
 - the requested change would require broad support claims beyond the proven
   conflict.
 
@@ -139,15 +139,15 @@ On an unfixable or unsafe failure, restore production to the exact public GitHub
 version recorded at baseline:
 
 1. stop only compatibility-owned MCP/test/solver processes and preserve failure
-   artifacts;
+   artifacts.
 2. leave user-owned COMSOL, Desktop, Server, launchers, models, and unrelated
-   worktree changes untouched;
+   worktree changes untouched.
 3. reinstall the recorded public wheel non-editably, or rebuild it from the
-   recorded public tag/commit and verify its hash;
-4. restore the recorded effective settings and packaged console entry point;
-5. restart one fresh stdio host without starting COMSOL;
+   recorded public tag/commit and verify its hash.
+4. restore the recorded effective settings and packaged console entry point.
+5. restart one fresh stdio host without starting COMSOL.
 6. run dependency checks, installed build/schema/profile identity checks, MCP
-   initialize/tool discovery, and capabilities/status serially;
+   initialize/tool discovery, and capabilities/status serially.
 7. write a rollback receipt binding the failed attempt, restored public commit,
    artifact hash, settings fingerprint, and solver-free verification.
 

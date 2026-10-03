@@ -40,11 +40,11 @@ permits the licensed gate.
 
 Use dispositions such as:
 
-- `confirmed` — defect exists and is actionable;
-- `rejected` — claim conflicts with code or declared scope;
-- `duplicate` — another canonical claim owns the same defect;
-- `deferred` — valid but outside the current release boundary;
-- `implemented_pending_ci` — fix and local gates pass;
+- `confirmed` — defect exists and is actionable.
+- `rejected` — claim conflicts with code or declared scope.
+- `duplicate` — another canonical claim owns the same defect.
+- `deferred` — valid but outside the current release boundary.
+- `implemented_pending_ci` — fix and local gates pass.
 - `fixed` — required exact-SHA CI and release boundary pass.
 
 Do not mark a claim fixed because code changed or one focused test passed.
@@ -52,7 +52,7 @@ Do not mark a claim fixed because code changed or one focused test passed.
 A reviewer disposition is evidence to check, not permission to edit. Reproduce
 the exact premise against the current source before every repair. If the path is
 already guarded, unreachable, outside declared support, or correct by design,
-change the disposition to `rejected` and preserve the behavior; never weaken a
+change the disposition to `rejected` and preserve the behavior. Never weaken a
 correct contract merely to exhaust a review count.
 
 For test-oracle findings, require the reviewer to name a concrete mutation that
@@ -65,8 +65,8 @@ the same implementation path.
 
 Finish release-blocking summary parents before unrelated standalone findings
 unless the caller explicitly overrides the order. Within one queue, rank by
-severity, public reachability, data/solver safety, dependency, and repair risk;
-the identifier prefix alone does not determine priority.
+severity, public reachability, data/solver safety, dependency, and repair risk.
+The identifier prefix alone does not determine priority.
 
 Group claims with one root cause into a cohesive buildable commit. Respect the
 live plan's current batch and push cadence. A CI-only correction may be pushed

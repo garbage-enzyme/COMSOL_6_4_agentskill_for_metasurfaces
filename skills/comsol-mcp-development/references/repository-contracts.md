@@ -18,7 +18,7 @@ content unless packaging metadata explicitly includes them. Runtime code must
 not import the development kit or recipes.
 
 Read and update the layout inventory whenever a tracked file is added, removed,
-or renamed. Check both wheel and sdist contents; source-tree cleanliness does
+or renamed. Check both wheel and sdist contents. Source-tree cleanliness does
 not prove artifact cleanliness.
 
 Recipes are self-contained examples, not runtime dependencies. Do not commit
@@ -38,10 +38,10 @@ readback evidence.
 
 When a public tool changes, update together:
 
-- catalog registration and static profile membership;
-- public input/output schema and limits;
-- compatibility snapshots and schema hashes;
-- user and developer documentation;
+- catalog registration and static profile membership.
+- public input/output schema and limits.
+- compatibility snapshots and schema hashes.
+- user and developer documentation.
 - positive, negative, rollback, and framework-dispatch tests.
 
 Do not use private framework registries or direct wrapped-function calls as the
@@ -51,7 +51,7 @@ Treat container-level meaning as part of the typed contract. Validate nested
 elements, preserve the distinction between absent, null, empty, and invalid,
 and classify physical/evidence differences from the complete normalized object
 rather than from one convenient scalar. Public responses may be redacted while
-private logs retain diagnostics; tests must verify both boundaries separately.
+private logs retain diagnostics. Tests must verify both boundaries separately.
 
 ## Typed schemas and boundedness
 
@@ -74,7 +74,7 @@ retaining full private evidence where appropriate.
 Use one project-root `settings.json` shared by all clients. Group settings by
 function and keep field meaning in documentation. Missing keys use safe
 defaults. An invalid leaf falls back only that leaf and yields a structured,
-bounded error; malformed JSON falls back the entire default document.
+bounded error. Malformed JSON falls back the entire default document.
 
 Do not duplicate profile, runtime, path, Java, shared-server, or evidence
 settings across agent-specific configuration files. Pass only the settings-file
@@ -93,7 +93,7 @@ and cleanup were independently proven.
 
 Treat caller-owned sources as immutable. Mutate only a derived model with a
 distinct identity and output. A before/after hash proves equality, not that the
-source was never opened for writing; tests should also enforce access mode or
+source was never opened for writing. Tests should also enforce access mode or
 mutation boundaries.
 
 ## Evidence separation
@@ -103,7 +103,7 @@ Changing caller policy must not mutate stored raw evidence. A hash proves
 consistency and change detection, not equations, mesh, or physical correctness.
 
 Default-on evidence checks should report explicit opt-outs and propagate an
-unverified outcome. Restore a disabled check with a fresh verification; never
+unverified outcome. Restore a disabled check with a fresh verification. Never
 upgrade an old receipt in place.
 
 ## Windows support boundary

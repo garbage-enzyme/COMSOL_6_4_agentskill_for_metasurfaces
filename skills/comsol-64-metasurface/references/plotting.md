@@ -58,7 +58,7 @@ boundaries. Exclude the field boundaries from this gray complement so the two
 surface features do not compete for the same pixels.
 
 Set `PlotGroup3D.edges="off"` when the solution dataset draws an unwanted air
-box. This removes dataset edges; it is independent of the selected surface
+box. This removes dataset edges. It is independent of the selected surface
 features.
 
 ## Use a shared symmetric field range
@@ -109,14 +109,14 @@ selection categories, range, and camera/view identity.
 ## Views and camera coordinates
 
 Let an automatic result view render once before changing its camera. Do not
-blindly bind a new result group to an uninitialized geometry view; headless
+blindly bind a new result group to an uninitialized geometry view. Headless
 export can become blank.
 
 COMSOL camera `position`, `target`, and `up` use scene coordinates, which can be
 normalized values rather than model length units. Read the initialized camera
 with `getDouble(property, index)` before changing it. Preserve `projection`,
 `zoomanglefull`, `viewscaletype`, and `autoupdate` with the vectors. If the
-automatic headless view already matches the required orientation, keep it; this
+automatic headless view already matches the required orientation, keep it. This
 is more stable than reconstructing a camera from model coordinates.
 
 ## GUI and standalone boundaries
@@ -127,7 +127,7 @@ attached/shared interactive session when live capability discovery exposes a
 generic ClientAPI, plotting, or image-export operation that can express the
 exact call. In an interactive MCP session, keep the same topology probes,
 selection assertions, shared ranges, view initialization, immutable-source
-rules, and artifact checks; serialize every MCP call and preserve the shared
+rules, and artifact checks. Serialize every MCP call and preserve the shared
 Desktop/Server ownership contract. User-guided GUI inspection can establish
 which physical faces are intended, but the final artifact must still record and
 re-probe their adjacency, centers, normals, and current entity IDs.
@@ -148,5 +148,5 @@ export after ownership is clean.
 Treat the source MPH as immutable: hash it before and after, never save the
 temporary Results tree, remove the model from the client, and verify process and
 lease cleanup. A regenerable plot does not justify retaining another MPH. Keep
-stdout receipts concise; large diagnostic property dumps can block a piped
+stdout receipts concise. Large diagnostic property dumps can block a piped
 worker after its scientific artifacts are already complete.

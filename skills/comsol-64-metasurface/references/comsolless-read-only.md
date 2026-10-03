@@ -40,7 +40,7 @@ pure stdlib/offline.
 
 ## Tool semantics you can rely on
 
-- `mph_inspect`: bounded stdlib ZIP reading; reports only what archive
+- `mph_inspect`: bounded stdlib ZIP reading. Reports only what archive
   markers declare (version, node/runnable/solved/preview state, parameters,
   physics/study/material/solution/geometry/mesh tags, savepoints,
   deterministic size breakdown). Ambiguous or conflicting markers fail
@@ -50,17 +50,17 @@ pure stdlib/offline.
   proof.
 - `model_identity`: file/source/derived/checkpoint identity plus runtime
   distribution versions from package metadata. Live session identity is
-  structured-unavailable unless explicitly requested; requests never attach,
+  structured-unavailable unless explicitly requested. Requests never attach,
   start, or own anything. Conflicting declared identity yields
   `pause_and_repair`, not permission to continue.
 - `runtime_compatibility_status`: active Python/MPh/JPype from package
   metadata, supported ranges from the frozen manifest, profile and skill-layer
-  hashes, warnings for detected-but-unsupported installs; bound COMSOL build
-  only on explicit request against an already-connected session; never picks
+  hashes, warnings for detected-but-unsupported installs. Bound COMSOL build
+  only on explicit request against an already-connected session. Never picks
   a fallback runtime or profile.
 - `offline_export_validate`: validates an export manifest and its CSV/TXT/VTU
   bytes (containment, IDs, ordering seal, units, counts, hashes) fully
-  offline; unsupported reader claims are rejected.
+  offline. Unsupported reader claims are rejected.
 
 ## Safety limits enforced everywhere
 
@@ -104,7 +104,7 @@ export or an inspection to FEM validation.
 
 ## Lightweight install, cold discovery, and example flows
 
-Install non-editably into any supported Python on an ASCII path; no COMSOL
+Install non-editably into any supported Python on an ASCII path. No COMSOL
 steps exist for this profile. Cold discovery serves exactly the five tools.
 Typical flows:
 
@@ -119,7 +119,7 @@ Typical flows:
 4. Runtime report: `runtime_compatibility_status {}` → active identities,
    ranges, skill hashes, warnings.
 5. Validate exports: `offline_export_validate {"manifest_path": ...}` →
-   per-artifact verdicts; integrity evidence stays distinct from FEM proof.
+   per-artifact verdicts. Integrity evidence stays distinct from FEM proof.
 
 Proof that nothing solver-side runs: a fresh interpreter serving this profile
 keeps `mph`, `jpype`, and ML packages out of `sys.modules` while all five

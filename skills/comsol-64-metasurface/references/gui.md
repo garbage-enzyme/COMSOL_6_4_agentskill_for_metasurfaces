@@ -36,7 +36,7 @@ requires another declared profile. Treat the GUI descriptions and live
 ## Validation and compatibility
 
 The GUI accepts bounded `_comment*` keys from readable legacy settings as
-non-editable metadata; do not ask the user to delete them. Known invalid fields
+non-editable metadata. Do not ask the user to delete them. Known invalid fields
 must be visibly identified and keep Save and Apply disabled. Missing, damaged,
 future-version, or structurally unsupported settings require the explicit
 rebuild-or-exit workflow rather than a partial rewrite.
@@ -51,7 +51,7 @@ package before editing settings.
 
 After the user applies or saves changes:
 
-1. Ask the user to restart Codex or the owning MCP client; an existing host does
+1. Ask the user to restart Codex or the owning MCP client. An existing host does
    not hot-load settings.
 2. Call `capabilities` on the fresh host before any COMSOL start.
 3. Verify the installed deployment identity, configuration state, settings

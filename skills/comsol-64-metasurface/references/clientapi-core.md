@@ -42,12 +42,12 @@ feature = physics.feature().create("bc1", "FeatureType", 2)
   `float(str(node.getString("oocmemory")))`. Under JPype 1.7,
   `float(java.lang.String)` can raise `TypeError` even when the value prints as
   a valid number.
-- Iterate tags and call `.get(tag)`; integer `.get(i)` is commonly unsupported.
+- Iterate tags and call `.get(tag)`. Integer `.get(i)` is commonly unsupported.
 - Use `feature().size()` instead of `len(feature())`.
-- A physics feature may lack `.type()`; use known tags, labels, or exported model
+- A physics feature may lack `.type()`. Use known tags, labels, or exported model
   metadata rather than guessing from unavailable methods.
 - Do not expect geometry-feature helpers such as `output()` or `faceBB()` on
-  clientapi objects; use geometry-level probing.
+  clientapi objects. Use geometry-level probing.
 - Coordinate `Box` selectors are not reliable across all clientapi objects. Probe
   geometry and pass explicit entity IDs when a selector cannot be proved.
 - Use exact capitalization: `getSDim()`, `getNBoundaries()`, `getNDomains()`,
@@ -70,8 +70,8 @@ physics or validation.
 
 - `selection().entities()` returns an integer array. Convert it to a Python list.
 - `geom.getUpDown()` takes no argument and returns two boundary-indexed rows:
-  upper and lower adjacent domain IDs. Assembly configurations can report zeros;
-  retain that ambiguity instead of inventing adjacency.
+  upper and lower adjacent domain IDs. Assembly configurations can report zeros.
+  Retain that ambiguity instead of inventing adjacency.
 - Probe a face with `faceParamRange(boundary)` and use its parameter-range
   midpoint. A fixed `(0.5, 0.5)` may lie outside a patch face's range.
 - `faceX(boundary, points)` and `faceNormal(boundary, points)` return nested
@@ -106,7 +106,7 @@ Do not infer success from the move call alone. After `geom.run()`, read back the
 complete ordered tags and the expected domain/boundary topology before creating
 physics, mesh, or a study. A bounded COMSOL 6.4 no-solve smoke validated the
 transition `[fin]` to `[coil_positive, coil_negative, air, fin]` with three
-domains and twelve boundaries; those counts calibrate that geometry only and
+domains and twelve boundaries. Those counts calibrate that geometry only and
 are not portable defaults.
 
 ```python
@@ -148,10 +148,10 @@ mat.selection().set([domain_id])
 - COMSOL does not guarantee a mesh sequence exists. Create and build one
   explicitly before solving.
 - A capacitor sanity expression can use
-  `2*es.intWe/(1[V])^2`; compare against the analytical capacitance before using
+  `2*es.intWe/(1[V])^2`. Compare against the analytical capacitance before using
   the model as a regression fixture.
 - Useful electrostatics quantities can include `es.intWe`, `es.C11`, `es.normE`,
-  and `es.normD`; a bare potential variable may work where `es.V` is undefined.
+  and `es.normD`. A bare potential variable may work where `es.V` is undefined.
 
 A portable analytical regression follows this sequence: create a 3D component
 and block, build geometry, add electrostatics plus ChargeConservation/material,
@@ -184,12 +184,12 @@ the boundary between API smoke evidence and scientific validation.
   `Eigenfrequency`, `Perturbation`, and for Wave Optics wavelength studies,
   `Wavelength`.
 - `Wavelength` step properties use `plist` and `punit`. A `Parametric` feature
-  uses `pname`, `plistarr`, and `punit`; activate it explicitly.
+  uses `pname`, `plistarr`, and `punit`. Activate it explicitly.
 - A multi-point outer sweep can be difficult to index reliably through MPh.
   Prefer staged one-point solves or `EvalGlobal.computeResult()` when all outer
   solutions are required.
 - When `model.evaluate()` accepts an expression list, preserve column order and
-  use explicit inner indices; do not assume a broken scalar outer-solution
+  use explicit inner indices. Do not assume a broken scalar outer-solution
   overload will select the requested point.
 - Save Unicode destinations through the Java clientapi with an absolute path:
   `jm.save(str(path.resolve()))`.
@@ -203,5 +203,5 @@ the boundary between API smoke evidence and scientific validation.
 - Clear owned models before process exit. A standalone client's remote port being
   `None` does not imply that `disconnect()` is appropriate.
 - COMSOL 6.4 can expose cuDSS through a solver property such as
-  `linsolver="cudss"`; benchmark it for the exact model and GPU rather than
+  `linsolver="cudss"`. Benchmark it for the exact model and GPU rather than
   assuming acceleration.

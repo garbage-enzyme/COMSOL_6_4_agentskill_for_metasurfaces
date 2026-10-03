@@ -4,7 +4,7 @@
 
 本仓库包含两个渐进式技能：
 
-- `comsol-64-metasurface`：用于 COMSOL 建模、求解操作、主机恢复和物理验证；
+- `comsol-64-metasurface`：用于 COMSOL 建模、求解操作、主机恢复和物理验证。
 - `comsol-mcp-development`：用于 MCP server 开发、测试、CI、打包、部署和审查维护。
 
 ## CLI 兼容性
@@ -13,14 +13,14 @@
 
 | CLI | 入口 |
 | --- | --- |
-| Claude Code | 将完整目录复制到 `~/.claude/skills/comsol-64-metasurface/`；也可保留项目级 `CLAUDE.md` import。 |
+| Claude Code | 将完整目录复制到 `~/.claude/skills/comsol-64-metasurface/`。也可保留项目级 `CLAUDE.md` import。 |
 | Codex CLI | 将完整目录安装到 Codex skills 目录，或从 `AGENTS.md` 指向它。 |
 | opencode | 将完整目录复制到 `~/.config/opencode/skills/`。 |
 | Hermes Agent | 安装到 `~/.hermes/skills/`，或通过 `skills.external_dirs` 暴露仓库的 `skills/` 目录。 |
 
 Windows 11 上的 Claude Code 2.1.220 已验证个人安装：完整复制 10 个文件到
 `~/.claude/skills/comsol-64-metasurface/`，逐文件 SHA-256 与来源一致，并可被新 session
-发现。该结论只证明安装和 skill discovery；验收没有启动 COMSOL，也没有执行本文档中的
+发现。该结论只证明安装和 skill discovery。验收没有启动 COMSOL，也没有执行本文档中的
 建模、求解或证据工作流。
 
 已依据 Hermes Agent 官方
@@ -28,36 +28,36 @@ Windows 11 上的 Claude Code 2.1.220 已验证个人安装：完整复制 10 �
 检查兼容性。本仓库符合 Hermes 扫描的 Agent Skills 结构：目录名与 skill 名一致，`SKILL.md` 含必需的 `name` 和
 `description` frontmatter，并通过相对路径引用 `references/`。Hermes 专属
 frontmatter 是可选项，因此不需要维护 Hermes 专用分支。兼容性只表示 skill 能被
-发现和加载；Hermes session 仍需具备可用的 COMSOL MCP 连接，或能访问文档所述
+发现和加载。Hermes session 仍需具备可用的 COMSOL MCP 连接，或能访问文档所述
 MPh/clientapi 环境的 terminal。
 
 `SKILL.md` 是短入口。其路由表使用相对链接指向 `references/` 下的任务模块，
 因此 agent 只加载当前任务所需内容，不依赖任何 CLI 专属工具协议。
 
 这种结构也是实际的兼容性选择：部分 agent runtime 的系统指令会在每次匹配任务时
-强制完整读取 `SKILL.md`。保持必读入口精简，可以减少重复等待和上下文占用；完整
+强制完整读取 `SKILL.md`。保持必读入口精简，可以减少重复等待和上下文占用。完整
 操作经验仍保留在路由模块中，并在任务涉及该领域时完整读取。
 
 ## 覆盖范围
 
 使用技能：
 
-- standalone `ModelClient` 重载差异与几何探测；
-- 独立的 COMSOL 6.4 电化学模块 profile、接口/属性探测、有界修改和证据边界；
-- typed Pressure Acoustics、数学 PDE 和命名 selection；
-- 周期端口、入射角、偏振、CopyFace 网格和斜晶格；
-- Drude/损耗符号、层状边界、色散扫描、PML/手动 Floquet；
-- durable jobs、取消、Windows 共享/进程身份稳定性和主机恢复；
-- R/T/A、物理通量闭合、波长同步、溯源、收敛和场证据；
+- standalone `ModelClient` 重载差异与几何探测。
+- 独立的 COMSOL 6.4 电化学模块 profile、接口/属性探测、有界修改和证据边界。
+- typed Pressure Acoustics、数学 PDE 和命名 selection。
+- 周期端口、入射角、偏振、CopyFace 网格和斜晶格。
+- Drude/损耗符号、层状边界、色散扫描、PML/手动 Floquet。
+- durable jobs、取消、Windows 共享/进程身份稳定性和主机恢复。
+- R/T/A、物理通量闭合、波长同步、溯源、收敛和场证据。
 - MIM、光栅、纳米柱、参数扫描和场导出配方。
 
 开发技能：
 
-- 公共 tool/profile/schema/settings 契约与有界验证；
-- durable state、进程 ownership、取消、准入和 Windows I/O；
-- solver-free 测试、云端 CI 策略、warning 清理和 gate 诊断；
-- wheel/sdist 边界、non-editable 部署和 installed build identity；
-- 对用户明确要求的 6.4 以前版本进行证据约束的兼容尝试；
+- 公共 tool/profile/schema/settings 契约与有界验证。
+- durable state、进程 ownership、取消、准入和 Windows I/O。
+- solver-free 测试、云端 CI 策略、warning 清理和 gate 诊断。
+- wheel/sdist 边界、non-editable 部署和 installed build identity。
+- 对用户明确要求的 6.4 以前版本进行证据约束的兼容尝试。
 - 分层审查验证、修复台账、exact-SHA CI 和发布流程。
 
 ## 安装
@@ -99,7 +99,7 @@ hermes skills install garbage-enzyme/COMSOL_6_4_agentskill_for_metasurfaces/skil
 也可以把完整目录复制到 `~/.hermes/skills/`，或在 `~/.hermes/config.yaml`
 的 `skills.external_dirs` 中加入本仓库的 `skills/` 目录。
 
-Claude Code 项目级使用时保留 `CLAUDE.md` 和 `skills/` 的相对位置；个人配置应把
+Claude Code 项目级使用时保留 `CLAUDE.md` 和 `skills/` 的相对位置。个人配置应把
 完整目录安装到 `~/.claude/skills/`，并启动新 session，避免把旧进程缓存误当成 discovery。
 
 ## 目录结构

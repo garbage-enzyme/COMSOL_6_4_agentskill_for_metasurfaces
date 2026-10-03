@@ -20,9 +20,9 @@ Establish a continuous-film baseline before adding a patch:
 3. Rebuild geometry, re-probe domains/boundaries, and rebuild mesh.
 4. Solve staged wavelengths and compare reflection against an analytical or
    trusted thin-film baseline.
-5. Add a patterned patch with a real geometry partition; update the layered
+5. Add a patterned patch with a real geometry partition. Update the layered
    boundary only on the footprint.
-6. Re-probe periodic faces using centers plus normals; patch sides must not enter
+6. Re-probe periodic faces using centers plus normals. Patch sides must not enter
    cell-side groups.
 
 Use an MIM helper only when it exposes the exact source identity, geometry
@@ -32,7 +32,7 @@ physically zero or independently measured.
 
 On servers that expose the legacy helpers, `geometry_probe_domains`,
 `mim_patch_build`, and `mim_evaluate_spectral` can accelerate this workflow.
-Treat live discovery and returned provenance as authoritative; do not depend on
+Treat live discovery and returned provenance as authoritative. Do not depend on
 them on a server/profile where they are absent.
 
 ## Local refinement
@@ -61,7 +61,7 @@ mesh's own resonance before comparing.
 
 Do not let a swept spectral parameter silently control the convergence mesh.
 If `hmax` or `hmin` contains the same `wl` that the spectrum changes, COMSOL may
-invalidate or rebuild the mesh at every point; the resulting spectrum then mixes
+invalidate or rebuild the mesh at every point. The resulting spectrum then mixes
 discretization changes with physical wavelength response. For fixed-mesh spectral
 or own-peak convergence, define an independent parameter such as `mesh_ref_wl`,
 set every wavelength-scaled mesh expression from that parameter, build once per
@@ -74,9 +74,9 @@ do not label the result fixed-mesh convergence.
 A 2D x-z grating cannot generally represent an out-of-plane electric
 polarization with the same physics interface. Use a 3D thin cell for dual polarization:
 
-- keep the invariant dimension thin enough for a small number of mesh layers;
-- select `rdir1` along the intended grating/lattice direction;
-- use `FreeTri -> CopyFace -> FreeTet` on all periodic pairs;
+- keep the invariant dimension thin enough for a small number of mesh layers.
+- select `rdir1` along the intended grating/lattice direction.
+- use `FreeTri -> CopyFace -> FreeTet` on all periodic pairs.
 - solve both `S` and `P` and verify their physical field directions in reference
   air.
 
@@ -103,14 +103,14 @@ Read existing feature tags and properties from the live model (for example with
 `feature.tags()` and `getString("size")`) rather than relying on user-facing
 labels or construction-order guesses.
 
-1. coarse scan a broad wavelength range;
-2. find all interior local maxima;
-3. fine scan around candidates;
-4. fit only fully bracketed peaks;
+1. coarse scan a broad wavelength range.
+2. find all interior local maxima.
+3. fine scan around candidates.
+4. fit only fully bracketed peaks.
 5. record every branch and validation state.
 
 Scale scan ranges from physical expectations, but keep enough width to reveal
-side-mode switching. A jump to another branch can be physical; compare field
+side-mode switching. A jump to another branch can be physical. Compare field
 profiles before calling it numerical.
 
 For long scans, use resumable per-point rows and separate discovery/refinement
@@ -121,16 +121,16 @@ loading them into the peak-search state.
 
 For equivalent rectangular supercells of nonrectangular lattices:
 
-- derive pillar centers from the primitive vectors, not a drawing alone;
-- distinguish same-column spacing from half-row offsets;
-- ensure translated edge partitions match across both periodic directions;
-- calibrate `S/P` after choosing the reference direction;
+- derive pillar centers from the primitive vectors, not a drawing alone.
+- distinguish same-column spacing from half-row offsets.
+- ensure translated edge partitions match across both periodic directions.
+- calibrate `S/P` after choosing the reference direction.
 - compare a fresh primitive/equivalent cell with matched per-domain mesh density,
   not merely equal total element count.
 
 A common rectangular representation of a hexagonal row pattern uses
 `Px=a`, `Py=a*sqrt(3)`, supercell height `2*Py`, half-row offset `Py/2`, and a
-quarter-row origin shift. Same-column separation is `Py`, not `Py/2`; derive the
+quarter-row origin shift. Same-column separation is `Py`, not `Py/2`. Derive the
 actual centers and translations explicitly before building geometry.
 
 Do not attribute angular disagreement to the cell representation before checking

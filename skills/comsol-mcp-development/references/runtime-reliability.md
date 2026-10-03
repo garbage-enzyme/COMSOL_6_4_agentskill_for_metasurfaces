@@ -20,7 +20,7 @@ terminal result or deliberate host restart.
 
 Keep one solver owner. Before client creation or lifecycle mutation, require a
 fresh complete process inventory plus lease validation. Read-only status may use
-a labeled recent cache; mutation may not.
+a labeled recent cache. Mutation may not.
 
 Classify collision candidates by exact process role. The installed
 `comsol-mcp.exe` console entry point is a solver-free stdio host until it owns an
@@ -38,10 +38,10 @@ with admission. A single clean inventory can become stale before a worker starts
 Bind each job attempt to immutable source, normalized configuration, driver,
 runtime, and attempt identities. Persist:
 
-- immutable specification and fingerprints;
-- atomic projected state;
-- append-only event/result/resource journals;
-- attempt-bound control requests;
+- immutable specification and fingerprints.
+- atomic projected state.
+- append-only event/result/resource journals.
+- attempt-bound control requests.
 - checkpoints, bounded logs, and cleanup evidence.
 
 The append-only journal is completion authority. Mutable status is a projection
@@ -50,7 +50,7 @@ rows and replay completed points as skipped.
 
 Recovery tests must cover a partial final record, exact truncation to the last
 complete record, and the next hash-chained append. Assert recovered rows and
-chain identity; do not couple the contract to the private lifetime or filename
+chain identity. Do not couple the contract to the private lifetime or filename
 of the synchronization lock.
 
 Flush and `fsync` each durable append before callbacks, progress publication, or
@@ -72,7 +72,7 @@ remain a complete closed contract with the same schema/runtime valid set.
 
 For a multiphysics replay, persist one hash-chained row per bounded stage. Resume
 only verified complete stages and append a missing row for orphaned complete
-evidence; never repeat an accepted stage merely because projected status lagged.
+evidence. Never repeat an accepted stage merely because projected status lagged.
 Bind every result read to an explicit study and dataset so a default solution
 cannot substitute for the intended stage.
 
@@ -95,8 +95,8 @@ the attempt so a stale request cannot affect a replacement worker.
 For child-process acceptance, isolate output per case, retain the exact process
 object, drain redirected streams, apply a bounded wait, and terminate only that
 identity on timeout. A parent test that requires a readiness marker, proves the
-child remains alive, and force-terminates it already covers early-return risk;
-do not add a second assertion that cannot observe a distinct failure.
+child remains alive, and force-terminates it already covers early-return risk.
+Do not add a second assertion that cannot observe a distinct failure.
 
 Retain process-owner objects until children exit. Dropping `Popen` or pipe
 owners while durable children still run can produce warnings, blocked output,
@@ -138,13 +138,13 @@ host memory, commit, page-file, process, handle, and disk headroom are normal.
 
 If a gate exhausts resources and the MCP host disappears:
 
-1. stop new tests and MCP calls;
-2. preserve solver journals and user-owned launchers;
-3. inventory whether COMSOL or Java survived independently;
-4. clean only exact owned test descendants;
-5. wait for commit, memory, handles, processes, and disk to recover;
-6. validate the installed MCP command outside the checkout;
-7. restart one fresh stdio host without starting COMSOL;
+1. stop new tests and MCP calls.
+2. preserve solver journals and user-owned launchers.
+3. inventory whether COMSOL or Java survived independently.
+4. clean only exact owned test descendants.
+5. wait for commit, memory, handles, processes, and disk to recover.
+6. validate the installed MCP command outside the checkout.
+7. restart one fresh stdio host without starting COMSOL.
 8. query capabilities and ownership status serially.
 
 One resource incident can expose a second deployment defect. For example, a

@@ -27,7 +27,7 @@ ownership. Network-share locking is not a distributed lease.
 
 When supported by the companion server, select the shared root with
 `COMSOL_MCP_RUNTIME_DIR`. A compatibility `COMSOL_MCP_JOBS_DIR` override must
-resolve exactly to the runtime root's `jobs` directory; refuse conflicting roots.
+resolve exactly to the runtime root's `jobs` directory. Refuse conflicting roots.
 
 Mutation paths require a fresh, complete process inventory. Read-only status may
 use a recent labeled cache with a strict deadline, but it must report cache age
@@ -38,8 +38,8 @@ lease, start a worker, refresh ownership, or recover an orphan.
 
 Issue only one request at a time to a given COMSOL MCP stdio server. This rule
 also covers `capabilities`, session status, ownership status, job status, and
-polling. Do not infer that read-only or control-plane tools are safe to batch;
-server-side concurrency classes do not guarantee transport-level parallelism.
+polling. Do not infer that read-only or control-plane tools are safe to batch.
+Server-side concurrency classes do not guarantee transport-level parallelism.
 
 After a host-side wait is interrupted, assume the original request may still be
 running. Do not issue a compensating start, disconnect, reset, or ownership
@@ -70,20 +70,20 @@ Server.
 
 In Desktop, use **File > COMSOL Multiphysics Server > Connect to Server**, select
 `localhost`, and enter the exact port. On one accepted Windows installation,
-the dialog automatically populated locally stored username/password fields;
-this is a UX observation, not a portable guarantee. Never put credentials or
+the dialog automatically populated locally stored username/password fields.
+This is a UX observation, not a portable guarantee. Never put credentials or
 login files in prompts, logs, screenshots, or receipts. The lower-left
-`localhost:<port>` indicator is useful user evidence; if it disappears, Desktop
+`localhost:<port>` indicator is useful user evidence. If it disappears, Desktop
 is disconnected.
 
 Before constructing an MPh client:
 
-1. discover the default-off shared profile and static feature gate;
-2. restart the MCP host after changing that profile or gate;
-3. perform two bounded process/listener probes;
-4. require the user to confirm that Desktop shows the declared endpoint;
-5. attach non-owningly and enumerate bounded server model metadata;
-6. adopt one exact tag plus available label/path/unsaved expectations;
+1. discover the default-off shared profile and static feature gate.
+2. restart the MCP host after changing that profile or gate.
+3. perform two bounded process/listener probes.
+4. require the user to confirm that Desktop shows the declared endpoint.
+5. attach non-owningly and enumerate bounded server model metadata.
+6. adopt one exact tag plus available label/path/unsaved expectations.
 7. establish and retain exact server, model, lock, and revision identities.
 
 Accept only the `6.4.0.*` release line for a surface calibrated to that family.
@@ -94,15 +94,15 @@ Desktop/Server family, or unreadable version must fail closed.
 
 State handling must remain explicit:
 
-- no Desktop/Server or a still-starting process is retryable, not attachable;
+- no Desktop/Server or a still-starting process is retryable, not attachable.
 - a connected Desktop with no server model needs the user to create, transfer,
-  or open one model while connected;
+  or open one model while connected.
 - an unsaved blank model may be adopted by exact tag for bounded interactive
-  work, but it has no immutable source-file identity;
+  work, but it has no immutable source-file identity.
 - a standalone-only Desktop model is invisible until explicitly transferred to
-  the Server;
+  the Server.
 - multiple Desktop windows, candidate Servers, or ambiguous models require the
-  user to reduce or identify the topology; never choose “the first” item;
+  user to reduce or identify the topology. Never choose “the first” item.
 - preserve wildcard listener evidence. Connecting through `localhost` does not
   turn a `0.0.0.0` or `::` listener into loopback-only exposure.
 
@@ -116,8 +116,8 @@ passed.
 Keep three file roles separate:
 
 - **immutable source**: caller-owned, readable under an allowed root, exact
-  SHA-256, never overwritten within the formal identity;
-- **open working model**: the mutable in-memory Server model visible in Desktop;
+  SHA-256, never overwritten within the formal identity.
+- **open working model**: the mutable in-memory Server model visible in Desktop.
 - **Save Copy snapshot/checkpoint**: a new collision-free file under the owned
   ASCII artifact root, with size/hash/manifest evidence, that does not change
   the working model's main path.
@@ -134,7 +134,7 @@ between points. Cancellation stops only the owned attached worker/client and is
 terminal only after owned cleanup plus preservation of the external Server,
 Desktop, listener, and model.
 
-Normal unlock/detach leaves the user resources running; the user normally does
+Normal unlock/detach leaves the user resources running. The user normally does
 not restart the Server between collaboration steps. Only the user closes or
 restarts those resources after evidence is saved. This release is local-only,
 does not support simultaneous editing, and does not turn visible GUI output into
@@ -144,11 +144,11 @@ scientific validation.
 
 Store each job under a stable job directory containing:
 
-- immutable normalized `spec.json` and source/configuration hashes;
-- atomic `state.json`;
-- append-only event/resource/result journals;
-- attempt-bound control requests;
-- checkpoint/model artifacts;
+- immutable normalized `spec.json` and source/configuration hashes.
+- atomic `state.json`.
+- append-only event/resource/result journals.
+- attempt-bound control requests.
+- checkpoint/model artifacts.
 - bounded worker logs and summaries.
 
 Write JSON through temporary-file replacement, flush and `fsync` the file, then
@@ -198,14 +198,14 @@ budgets, observed latencies, process identities, and blockers.
 
 Use a native cancellation API such as `ProgressContext.cancel()` only for the
 exact COMSOL/MPh build on which it was probed. On any other build, report the
-profile mismatch and use exact-identity owned-process fallback; never assume a
+profile mismatch and use exact-identity owned-process fallback. Never assume a
 native API is portable across versions.
 
 Commit `cancelled` only after proving:
 
-- worker and owned descendants are absent;
-- recorded server port is clean;
-- the owned solver lease is absent;
+- worker and owned descendants are absent.
+- recorded server port is clean.
+- the owned solver lease is absent.
 - the request targets the active attempt.
 
 A request, native cancel return, missing PID, or coordinator loss is not enough.
@@ -222,13 +222,13 @@ Windows readers can temporarily deny replace/unlink access. Apply bounded retrie
 to every read, atomic replace, heartbeat, release, recovery unlink, and lock
 cleanup path. After each retry:
 
-- re-read and validate exact bytes/identity;
-- refuse a competing write;
-- preserve foreign locks;
-- fail closed after the deadline;
+- re-read and validate exact bytes/identity.
+- refuse a competing write.
+- preserve foreign locks.
+- fail closed after the deadline.
 - clean only owned temporary files.
 
-Use a unique owned temporary name for every atomic write; never share a fixed
+Use a unique owned temporary name for every atomic write. Never share a fixed
 `status.tmp` name across attempts or processes. Flush and `fsync` the temporary,
 retry only recognized sharing violations with bounded backoff, verify that its
 bytes remain unchanged after every failed replace, and read back the exact
@@ -269,8 +269,8 @@ durable-row callbacks bounded so cancellation cannot starve.
 Report progress by declared row role, not by the raw length of a shared CSV.
 Keep separate planned/completed counters for production targets, smoke gates,
 diagnostics, retries, and errors. A valid smoke row may share physical parameters
-with a later formal target but must not increment the formal completion count;
-normalize and compare exact point fingerprints before deciding whether it is
+with a later formal target but must not increment the formal completion count.
+Normalize and compare exact point fingerprints before deciding whether it is
 reusable evidence.
 
 Separate solver completion from post-solve analysis and rendering. Once all
@@ -290,12 +290,12 @@ polarization, or angle points under one outer geometry/material owner only if
 the worker can validate, append, flush, and `fsync` every inner point before
 continuing. Persist the outer dependency key and observed mesh identity on each
 row. If point callbacks are not durable, declare the whole group as the smallest
-recoverable segment; do not claim point-level crash durability.
+recoverable segment. Do not claim point-level crash durability.
 
 Never silently overwrite duplicate scientific keys. Exact byte-identical rows
 may deduplicate under one recorded source. Numerically near duplicates require a
 declared tolerance, both source identities, component-wise spreads, and an
-explicit precedence rule; material conflicts remain separate and block reuse.
+explicit precedence rule. Material conflicts remain separate and block reuse.
 
 Never edit a driver or child script that an active parent process may import or
 spawn later. Stop the owner at a durable boundary, defer the change, or create a
@@ -316,7 +316,7 @@ inputs before acquiring ownership or creating a client.
 
 Serialize exact duplicate submissions under a bounded runtime-root lock and
 return the existing job. Reuse the established manager, lease, cancellation,
-resource journal, worker, and client paths; a matrix is orchestration, not a
+resource journal, worker, and client paths. A matrix is orchestration, not a
 second solver runtime. Matrix-owned settings cannot be overridden by collector
 configuration.
 
@@ -347,25 +347,25 @@ public skill or server.
 
 Useful policy inputs include:
 
-- minimum available-memory and remaining-commit fractions;
-- warning and refusal thresholds;
-- runtime-volume free-space thresholds;
-- maximum mesh elements/DOF when available;
+- minimum available-memory and remaining-commit fractions.
+- warning and refusal thresholds.
+- runtime-volume free-space thresholds.
+- maximum mesh elements/DOF when available.
 - total wall budget and minimum time for the next point.
 
 Sample at `pre_mesh`, `post_mesh`, `pre_solve`, `post_solve`, and `recovery`:
 
-- physical available/total memory;
-- remaining/limit commit;
-- runtime free space;
-- worker private bytes and working set;
-- CPU-time progress proxy;
-- disk and pagefile counters;
-- mesh elements/DOF;
+- physical available/total memory.
+- remaining/limit commit.
+- runtime free space.
+- worker private bytes and working set.
+- CPU-time progress proxy.
+- disk and pagefile counters.
+- mesh elements/DOF.
 - elapsed wall time and latest durable-result timestamp.
 
 Label unavailable metrics explicitly. If a required metric is unavailable, fail
-closed. Disk activity alone is not paging or progress evidence; correlate commit,
+closed. Disk activity alone is not paging or progress evidence. Correlate commit,
 memory, working set, pagefile I/O, CPU time, and durable timestamps.
 
 ### Distinguishing a slow solve from a stalled one
@@ -392,9 +392,9 @@ the completed ones.
 
 Use green/warning/red decisions:
 
-- green: allow;
-- warning: require a separate caller confirmation bound to the exact decision;
-- red: checkpoint/no-start; do not begin another factorization.
+- green: allow.
+- warning: require a separate caller confirmation bound to the exact decision.
+- red: checkpoint/no-start. Do not begin another factorization.
 
 Append telemetry and decisions as separately hashed, monotonic per-attempt
 records. Flush and `fsync` each record. Reject sequence gaps, nonmonotonic attempts,
@@ -415,15 +415,15 @@ Do not attach long work to an agent process whose lifetime may end. Validate the
 driver with compile and zero-work dry-run checks, then create a foreground
 operator launcher that:
 
-- validates executable, driver, model, output, and runtime paths;
-- refuses duplicate starts and solver collisions;
-- declares cores, memory/commit, element/DOF, free-space, and wall gates;
-- prints durable log/artifact paths;
+- validates executable, driver, model, output, and runtime paths.
+- refuses duplicate starts and solver collisions.
+- declares cores, memory/commit, element/DOF, free-space, and wall gates.
+- prints durable log/artifact paths.
 - keeps its console open on exit.
 
 For the companion durable PowerShell launcher, use exactly one mode switch per
 invocation. Run `-ValidateOnly` first and require its explicit no-client receipt.
-Then use `-Run` to start or resume the driver; `-Run` already enters the monitor
+Then use `-Run` to start or resume the driver. `-Run` already enters the monitor
 after startup. Do not combine it with `-Monitor`. Use `-Monitor` by itself only
 to inspect an existing or stopped job and select any offered `resume` command
 explicitly. Treat `-Run`, `-Monitor`, and `-ValidateOnly` as mutually exclusive.
@@ -433,7 +433,7 @@ Classify process collisions by role, not a broad executable-name prefix. An idle
 collision. A real COMSOL executable other than that exact host, an MPh server,
 or a Java process whose command line identifies COMSOL/MPh remains a collision.
 Before every start, still require the shared lease and a fresh complete process
-inventory; excluding the idle host is not permission to ignore its actual
+inventory. Excluding the idle host is not permission to ignore its actual
 solver child or lease.
 
 Do not route a long worker's stdout or stderr through an agent-owned tool pipe.
@@ -443,7 +443,7 @@ flushed and `fsync`ed. Use a user-owned foreground console or redirect output to
 a durable file whose lifetime is independent of the agent. Derive progress from
 durable rows and process telemetry. An orphaned parent together with zero CPU and
 I/O deltas and a missing next log event is evidence of a transport blockage, not
-a failed next solve; stop only the exact owned worker at a durable boundary and
+a failed next solve. Stop only the exact owned worker at a durable boundary and
 resume the exact configuration identity.
 
 On legacy Windows PowerShell, avoid non-ASCII literals in UTF-8 scripts without
@@ -462,8 +462,8 @@ estimate plus margin fits the remaining wall budget.
 
 For a geometry sweep whose cell size or feature scale changes materially, smoke
 at least the expected smallest and largest mesh/resource cases. Verify topology,
-periodic selections, mesh identity, passive evidence, and cleanup at both ends;
-one representative geometry does not bound runtime or memory. Use the endpoint
+periodic selections, mesh identity, passive evidence, and cleanup at both ends.
+One representative geometry does not bound runtime or memory. Use the endpoint
 timings only as an initial bounded estimate and replace them with rolling
 completed-point telemetry.
 
@@ -480,11 +480,11 @@ worker limit that stops only between flushed point rows, then let the foreground
 launcher enforce the later absolute deadline against the exact owned process
 tree. The margin must exceed the expected longest point plus cleanup time. If
 the absolute guard fires, preserve prior durable rows, verify owned-process and
-lock absence, and write an atomic termination receipt; never label the
+lock absence, and write an atomic termination receipt. Never label the
 interrupted point complete.
 
 Some standalone clients leave JVM/helper threads alive after all outputs are
 saved. After flushing every artifact, saving through the Java clientapi, and
 releasing owned resources, `os._exit(0)` is acceptable for a dedicated worker.
 Do not call `disconnect()` merely because a standalone client's remote port is
-`None`; clear owned models/resources and let the dedicated process exit.
+`None`. Clear owned models/resources and let the dedicated process exit.

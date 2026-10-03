@@ -23,19 +23,19 @@ explicit states such as `measured`, `derived_from_declared_convention`,
 Only a caller-supplied, hashed policy may classify passivity, closure,
 wavelength synchronization, polarization ratio, loss agreement, or mesh gates.
 An evidence collector should not silently embed project thresholds.
-Default one-point audit output to `evidence_only`; a successful collector is not
+Default one-point audit output to `evidence_only`. A successful collector is not
 a project pass.
 
 ## Default-on formal evidence integrity
 
 When the MCP exposes formal evidence guards, inspect their effective state
-before relying on a verified label. Strict checks should be enabled by default;
-only an explicit per-check JSON boolean `false` may disable one. At minimum,
+before relying on a verified label. Strict checks should be enabled by default.
+Only an explicit per-check JSON boolean `false` may disable one. At minimum,
 discover and preserve the effective state of:
 
-- outcome-contract validation;
-- artifact-chain verification;
-- exact summary-claim verification;
+- outcome-contract validation.
+- artifact-chain verification.
+- exact summary-claim verification.
 - producer/driver compatibility for resumed work.
 
 Capability/status output should report each check, whether its source is the
@@ -76,17 +76,17 @@ Use a lossless all-air clone and sample median or RMS `abs(Ex)`, `abs(Ey)`, and
 `abs(Ez)` in a named homogeneous top-air region away from the port and structure.
 Persist:
 
-- clone/source/configuration identity;
-- sample entity IDs and coordinate range;
-- requested/evaluated wavelength and incidence settings;
-- aggregation method and component values;
-- target/transverse ratios;
-- all-air R/T residuals;
+- clone/source/configuration identity.
+- sample entity IDs and coordinate range.
+- requested/evaluated wavelength and incidence settings.
+- aggregation method and component values.
+- target/transverse ratios.
+- all-air R/T residuals.
 - cleanup evidence.
 
 Total field at a reflective physical port is not incident-field evidence. Some
-full-field formulations expose background-field variables that evaluate to zero;
-verify the formulation before relying on them.
+full-field formulations expose background-field variables that evaluate to zero.
+Verify the formulation before relying on them.
 In particular, do not assume `ewfd.Ebx/Eby/Ebz` contains an incident field in a
 full-field `PeriodicStructure` model.
 
@@ -115,8 +115,8 @@ H = [[H_ss, H_sp], [conj(H_sp), H_pp]]
 
 If a different circular Jones-vector convention is calibrated, derive and record
 the corresponding sign rather than copying the last equation. An optional LHCP
-solve must satisfy `A_LHCP = mean + Im(H_sp)` within a caller-declared tolerance;
-use it as an independent reconstruction check, not a fifth fitted input.
+solve must satisfy `A_LHCP = mean + Im(H_sp)` within a caller-declared tolerance.
+Use it as an independent reconstruction check, not a fifth fitted input.
 
 Persist every basis result independently with raw R/T/A, closure, material Qh,
 requested/applied polarization properties, angle/wavelength readback, mesh
@@ -128,7 +128,7 @@ not a plotting artifact.
 
 Extract the dominant eigenvector only after fixing its arbitrary global phase.
 Compute Stokes parameters under the project's declared phasor, propagation, and
-viewer convention; do not reuse a normal-incidence handedness sign at oblique
+viewer convention. Do not reuse a normal-incidence handedness sign at oblique
 incidence without calibration. For reciprocal thermal emission, explicitly apply
 the direction reversal and conjugation/transposition required by the declared
 Kirchhoff/reciprocity convention. An incident absorptivity eigenvector is not by
@@ -149,7 +149,7 @@ A_volume = integrated Qh / declared incident power
 ```
 
 Cross-section absorption and volume loss may agree because they share the same
-normalization. Label that comparison `internal_normalization_consistency`; never
+normalization. Label that comparison `internal_normalization_consistency`. Never
 use it as a substitute for independent physical flux closure.
 
 Persist per-domain `Qh` for lossy materials. Treat tiny signed values in declared
@@ -159,9 +159,9 @@ lossless domains as numerical noise only under an explicit tolerance.
 
 Whenever dispersion uses `wl`, record in every row:
 
-- requested wavelength;
-- evaluated global `wl`;
-- `c_const/ewfd.freq`;
+- requested wavelength.
+- evaluated global `wl`.
+- `c_const/ewfd.freq`.
 - exact material expressions or their configuration hash.
 
 Use COMSOL's exact `c_const` for the synchronization verdict. Do not substitute
@@ -204,13 +204,13 @@ Rules:
 
 Every row or artifact should include:
 
-- source model relative identity and SHA-256;
-- normalized configuration ID;
-- requested/evaluated point settings;
-- physics, material, mesh, study, dataset, and selection identities;
-- mesh expressions and observed element/DOF counts;
-- raw R/T/A/flux/loss values and validation state;
-- solve time, error, attempt, and durable timestamp;
+- source model relative identity and SHA-256.
+- normalized configuration ID.
+- requested/evaluated point settings.
+- physics, material, mesh, study, dataset, and selection identities.
+- mesh expressions and observed element/DOF counts.
+- raw R/T/A/flux/loss values and validation state.
+- solve time, error, attempt, and durable timestamp.
 - script/tool/schema hashes when applicable.
 
 Never mix rows from different geometry, materials, mesh, normalization, or
@@ -225,16 +225,16 @@ identity per wavelength, and require equality only across inner parameters that
 do not affect meshing. If the workflow explicitly builds at the shortest
 wavelength and reuses that mesh, key identity by geometry instead and verify the
 same count after every longer-wavelength solve. Record both the policy and the
-observed counts; neither pattern by itself establishes mesh convergence.
+observed counts. Neither pattern by itself establishes mesh convergence.
 
 If a physically valid row fails only because an earlier mesh-identity policy was
 scoped incorrectly, preserve that row and error status as diagnostic evidence.
 Create a versioned driver, manifest, and output path with the corrected
-dependency key; never relabel or overwrite the old row in place.
+dependency key. Never relabel or overwrite the old row in place.
 
 For validation matrices, each result row must bind the immutable spec, exact
 point fingerprint, collector name, artifact identifier, and wrapper-manifest
-hash. Keep full evidence in bounded artifacts; status and list operations return
+hash. Keep full evidence in bounded artifacts. Status and list operations return
 only bounded summaries.
 
 A successful call is not complete evidence when its manifest is partial,
@@ -264,7 +264,7 @@ necessity as separate decisions.
 
 Have a preliminary summarizer report exact artifact identities, raw extrema,
 validation failures, and unresolved boundaries. Let a separate reviewer apply
-the final acceptance policy; a summary is not itself a scientific verdict.
+the final acceptance policy. A summary is not itself a scientific verdict.
 Treat console-only or report-only numerical claims as unverifiable. If a cited
 mesh, configuration, wavelength, or peak has no matching hash-bound raw artifact,
 exclude that claim from acceptance rather than reconstructing evidence from the
@@ -282,11 +282,11 @@ Use staged discovery:
 
 When later targets depend on completed locator or peak rows, persist the derived
 target list and its configuration identity before solving that stage. On resume,
-reuse the frozen list; do not regenerate it from a mixture of original and
+reuse the frozen list. Do not regenerate it from a mixture of original and
 partially refined rows, which can change the requested set and break exact resume.
 
 For angle sweeps, continue branches from the preceding angle with adaptive
-windows. Scan the dominant polarization first; evaluate the suppressed
+windows. Scan the dominant polarization first. Evaluate the suppressed
 polarization at each accepted dominant-branch peak. Run a full suppressed scan
 only when it is unexpectedly strong or another branch appears.
 
@@ -325,7 +325,7 @@ a dense angle-wavelength map.
 
 To attribute a between-configuration difference to physics rather than
 discretisation, the natural design is to hold the mesh fixed. That may not be
-attainable; see `troubleshooting.md`. When it is not, bound the contribution
+attainable. See `troubleshooting.md`. When it is not, bound the contribution
 instead of assuming it away:
 
 1. Solve every configuration at two resolution levels.
@@ -338,7 +338,7 @@ instead of assuming it away:
 
 Report this as a bound, never as proof that the mesh was frozen. A large,
 resolution-stable effect with a small mesh sensitivity is strong evidence it is
-not discretisation; it does not by itself identify the physical mechanism, and
+not discretisation. It does not by itself identify the physical mechanism, and
 the mechanism should be reported as open unless separately established.
 
 An effect can also contradict the mechanism you expected. If a quantity moves in
@@ -361,21 +361,21 @@ bands is easy to misread in **both** directions.
   nearly identical endpoint frequency is the signature of **truncation**: those
   tracks do not end there physically, they were cut by the window. In a verified
   case seven tracks at one window width terminated within about 1.8 THz of each
-  other; at a wider width the same tracks resolved with comfortable edge margins.
+  other. At a wider width the same tracks resolved with comfortable edge margins.
 
 Practical procedure:
 
 - When two window widths are already available, compare them. Outcomes of
-  unrelated gates will usually be identical; what changes is *which* tracks are
+  unrelated gates will usually be identical. What changes is *which* tracks are
   edge-limited.
 - Cluster the **endpoint frequencies** of the limited tracks. A tight cluster
-  indicates truncation; scattered endpoints are more likely genuine proximity to
+  indicates truncation. Scattered endpoints are more likely genuine proximity to
   the edge.
 - Report separately: the original verdict, the count restricted to the reported
   subset, and the endpoint clustering. Never silently replace the registry's
   verdict.
 - Whether a gate should be re-registered against a narrower reported subset is an
-  **authority decision**. State the question; do not answer it unilaterally.
+  **authority decision**. State the question. Do not answer it unilaterally.
 
 ### Reading a stored analysis back
 
@@ -414,10 +414,10 @@ separate them.
   had steps where the chosen overlap was ~4e-04 against a runner-up of ~3e-01.
 - **Repeat the breakdown at a second window width** if one exists. A failure that
   keeps the same per-segment fraction when the window changes is a property of the
-  tracking; one that moves with the window is an artefact.
+  tracking. One that moves with the window is an artefact.
 
 Report the original gate verdict unchanged alongside the breakdown. Localising a
-failure explains it; it does not convert it into a pass, and it does not license a
+failure explains it. It does not convert it into a pass, and it does not license a
 narrower gate. Whether to re-register a gate against a subset of the path is an
 authority decision.
 
@@ -448,7 +448,7 @@ Rules:
   window, and treat it only as a hint to investigate.
 - Read the manifest's real structure before iterating it. A verified case assumed
   a keyed object and iterated its properties, which silently checked **zero**
-  files; the resulting "all mismatched" output was an artefact of the empty loop,
+  files. The resulting "all mismatched" output was an artefact of the empty loop,
   not a finding. Assert that the number of entries checked equals the number the
   manifest declares.
 - Report the counts explicitly — `checked`, `mismatched`, `missing` — so a zero
@@ -477,7 +477,7 @@ Two cautions:
 - **Mode indices are not comparable between different runs.** Indices are positions
   within each run's own mode list, so an index change between two window widths
   means nothing by itself. Overlap values are geometric properties of the fields
-  and *are* comparable; in the same verified case they agreed between windows to
+  and *are* comparable. In the same verified case they agreed between windows to
   about 1e-10 while the indices differed. Use the overlaps, not the indices, to
   establish reproducibility.
 - **Report the baseline you compare against.** "A large jump" is only meaningful
@@ -503,7 +503,7 @@ rather than 4 per cent. The physical reading was the opposite.
   threshold, and finite below it. Report all three counts, not a boolean.
 - State the threshold you used, since it is a reporting choice, not a measurement.
 - Compare against the physically expected structure. A termination that closes the
-  radiation channel *should* give non-radiating modes; if the classification says
+  radiation channel *should* give non-radiating modes. If the classification says
   otherwise, suspect the classification before the physics.
 - Keep the same discipline for the reverse case: do not call a large-but-finite Q
   infinite without saying so, and never derive a bound from a Q whose magnitude
@@ -515,7 +515,7 @@ rather than 4 per cent. The physical reading was the opposite.
 in the same project.
 
 - **Freezing across changing geometry** means two different model states must get
-  the *same* sub-region mesh. This can be unattainable; a mesher may not
+  the *same* sub-region mesh. This can be unattainable. A mesher may not
   reproduce a sub-region mesh across states even for provably identical geometry.
 - **Holding a mesh along a path at constant geometry** means sweeping one
   parameter without altering the geometry, and one mesh is reused. This can
@@ -537,7 +537,7 @@ that case's own mode list. Then express each consecutive frequency step as a
 multiple of the spacing at that k:
 
 - a step **well below** the local spacing is unambiguous — no competing mode is
-  close enough to be confused with it;
+  close enough to be confused with it.
 - a step **comparable to or above** the spacing is a candidate hop, because a band
   does not move several mode spacings between adjacent samples while remaining the
   same band.
@@ -611,8 +611,8 @@ Inspect the **whole overlap row** for the source mode, not just the chosen value
 
 - **Threshold failure on a well-posed assignment.** The chosen mode has the largest
   overlap by a clear factor (a verified case: 0.79 against a runner-up of 0.21), and
-  only one mode sits in a near-degenerate cluster around it. The choice is correct;
-  the mode simply changed appreciably across the step. No assignment rule will fix
+  only one mode sits in a near-degenerate cluster around it. The choice is correct.
+  The mode simply changed appreciably across the step. No assignment rule will fix
   this, and only a justified change to the threshold would.
 - **Genuine degeneracy.** The top two candidates are close in frequency AND close
   in overlap (a verified case: 0.086 THz apart with overlaps 0.671 and 0.640, plus a
@@ -671,7 +671,7 @@ Procedure:
   rather than a bare pass/fail.
 - Distinguish a **per-item** requirement from a **package-level** one. A cleanup
   receipt, a manifest, or a claim status is normally a package artifact, not a
-  field repeated in every point file; requiring it per point manufactures a gap.
+  field repeated in every point file. Requiring it per point manufactures a gap.
 - When something is genuinely missing, prefer an **additive** remedy over editing
   the existing artifacts. Editing changes hashes that the manifest already records
   and can conflict with a standing instruction not to overwrite landed results.
@@ -679,13 +679,13 @@ Procedure:
   each value, and re-record the untouched files' hashes so a reader can confirm
   they did not change.
 - **Cross-check rather than assert** the association. Where a label encodes
-  parameters that also appear inside the file, require them to agree; that catches
+  parameters that also appear inside the file, require them to agree. That catches
   a mislabelled file without re-solving anything.
 
 ### Verify that a stored complex eigenvalue reproduces its own f and Q
 
 When a result file persists a raw complex eigenvalue alongside a frequency and a
-quality factor, check that the three are mutually consistent; otherwise one may have
+quality factor, check that the three are mutually consistent. Otherwise one may have
 been post-processed differently from the others.
 
 Recover the convention **from the data** rather than assuming it. In a verified
@@ -761,7 +761,7 @@ Write each measured value as `Q(setting, mesh) = Q_true(setting) + e(setting, me
 Then
 
 - the difference between two settings at fixed mesh contains
-  `e(A) - e(B)` — a **difference of errors between settings**;
+  `e(A) - e(B)` — a **difference of errors between settings**.
 - the mesh sensitivity measured at one setting bounds `|e|` **at that setting**.
 
 Those are not the same quantity. The relevant contaminant is the difference of
@@ -815,7 +815,7 @@ decisive.
 State the limit of the method. Intersecting coordinate sets is necessary when the
 two configurations have different meshes, and the intersection can be a small
 fraction of each field (a few per cent in that case). The overlap is therefore a
-**branch diagnostic, not a formal modal inner product**; a formal inner product
+**branch diagnostic, not a formal modal inner product**. A formal inner product
 needs a fixed physical interpolation or the mass matrix.
 
 ### Comparing dict entries: exclude by value, not by identity
@@ -860,7 +860,7 @@ structure within a cell. That monotone trend is the expected signature of averag
 not evidence of a mismatched mode — so quote the **finest** binning as the most
 faithful, and report the trend rather than hiding it.
 
-Neither method is a formal modal inner product; state that, along with the fact that
+Neither method is a formal modal inner product. State that, along with the fact that
 a shared-region boundary taken from the model geometry is not re-derived by the
 comparison itself.
 
@@ -870,7 +870,7 @@ A result set assembled from more than one source will not share one schema. In a
 verified package, two of four points were adopted from earlier checkpoints and two
 were solved in the current run, and the two groups recorded **disjoint field sets**:
 the adopted ones carried geometry, physics, materials and a control-volume
-description; the solved ones carried the swept parameter, geometry read-backs and
+description. The solved ones carried the swept parameter, geometry read-backs and
 domain-selection audits. Neither group's fields were a subset of the other's.
 
 Two consequences:
@@ -903,9 +903,9 @@ returns a number.
 Record, per point:
 
 - the **domain identifiers** each operator family covers, not merely the operator
-  **tags** that exist in the model;
+  **tags** that exist in the model.
 - the **face identifiers** used as probes, with a uniqueness check that each probe
-  selection resolves to exactly one face;
+  selection resolves to exactly one face.
 - an explicit **expectation-versus-actual** record for each probe selection, so a
   selection that silently resolves to several faces is visible rather than averaged
   into the result.
@@ -939,14 +939,14 @@ index.
 
 Three outcomes, and only one is a real discrepancy:
 
-- assigned index **is** the row argmax — nothing to report;
+- assigned index **is** the row argmax — nothing to report.
 - assigned index is **not** the argmax — the score attached to the chosen pair is
-  not the largest available for that source mode;
+  not the largest available for that source mode.
 - the pair or row is missing from the stored data — report as unavailable rather
   than as agreement.
 
 Cross-validate against the recorded runner-up column. Both readings should flag the
-**same rows**; a disagreement means one of the two readings is wrong, which is worth
+**same rows**. A disagreement means one of the two readings is wrong, which is worth
 catching before either is quoted.
 
 In a verified case, a registered near-degeneracy clause (require a subspace
@@ -988,7 +988,7 @@ What to do instead:
   constant offset is itself the evidence that the mode sets correspond.
 - **Do not compare raw counts of "bad" rows between windows of different size.** A
   wider window has more rows available, so it can show more flagged rows purely
-  because it resolves more modes; that is not disagreement.
+  because it resolves more modes. That is not disagreement.
 
 The payoff was decisive for the question actually being asked. Seeing that the weak
 assignments **reproduce** in the wider window **excludes window truncation** as their
@@ -1012,11 +1012,11 @@ disappeared** on the next build, because a consolidation script **regenerated** 
 file from the detailed artifact every run.
 
 - **Find out whether a file is generated before editing it.** If a script writes it,
-  the correction belongs in the script; editing the output is temporary by
+  the correction belongs in the script. Editing the output is temporary by
   construction.
 - **Assert consistency in the generator** rather than trusting it. Refuse to write
   the summary if the recorded supersession and the artifact it summarises have
-  drifted apart; a loud refusal is better than a quietly self-contradictory package.
+  drifted apart. A loud refusal is better than a quietly self-contradictory package.
 - **Retain the superseded value under a clearly named key** instead of deleting it,
   so the change is auditable.
 - **After regenerating, verify the corrected value is actually present.** The
@@ -1044,7 +1044,7 @@ Practise:
 
 - **Grep the superseded value across every artifact**, not just the one you edited.
   Then classify each hit: an intentional retention under a clearly named
-  `*_superseded` key is fine; a hit presented as the current value is a defect.
+  `*_superseded` key is fine. A hit presented as the current value is a defect.
 - **Fix generated summaries in their generators** so the correction survives a
   rebuild.
 - **Make the verifier cross-check summaries against the source artifact.** After
@@ -1133,7 +1133,7 @@ counted as mismatches or silently coerced:
   Compare with a stated relative tolerance rather than exact equality, and record the
   tolerance used.
 - **Flattening**, where a nested record field becomes a differently named column.
-  Map the names explicitly; an unmapped pair is a naming difference, not a
+  Map the names explicitly. An unmapped pair is a naming difference, not a
   disagreement.
 
 Keep the three outcomes separate — agreed, naming difference, value disagreement —
@@ -1190,7 +1190,7 @@ Procedure:
   hint that the odd one out was a direction error rather than a bad record.
 - **Distinguish "the raw values reproduce" from "the identity closes".** These are
   different questions. The identity `A = B/C` closes to machine precision only if
-  the three factors come from one route; if the numerator comes from an independent
+  the three factors come from one route. If the numerator comes from an independent
   method it will close only approximately, and the **residual is itself a result** —
   it measures the agreement between the two routes. Report it as a number rather than
   as a pass or fail.
@@ -1207,8 +1207,8 @@ together with that range.
 A verified case fitted a band-curvature coefficient over all windows of landed points.
 Across every window with at least one degree of freedom:
 
-- the **sign was stable** — negative in all of them — so the qualitative content held;
-- the **value moved by about 10 per cent** between windows (roughly −2.71 to −2.47);
+- the **sign was stable** — negative in all of them — so the qualitative content held.
+- the **value moved by about 10 per cent** between windows (roughly −2.71 to −2.47).
 - windows confined to the smaller wavenumbers fitted with residual of order
   `1e-6`–`1e-5`, while any window reaching the largest wavenumber was **about 20×
   worse** at `1e-4`, and the fitted value shifted systematically with it.
@@ -1223,7 +1223,7 @@ Practise:
 - **Enumerate every window** with at least one degree of freedom, not the one window
   that looks best.
 - **Report sign stability separately from value stability.** A stable sign is real
-  physical content even when the magnitude is range-dependent; conflating them
+  physical content even when the magnitude is range-dependent. Conflating them
   discards a defensible finding.
 - **Look for systematic, not random, residual structure.** Residuals growing with the
   fitting range signal a missing term, which no amount of averaging will fix.
@@ -1231,7 +1231,7 @@ Practise:
   explicitly, since they have zero residual by construction.
 - **Beware a tolerance tighter than float representation.** Comparing a stored `0.1`
   (actually a value slightly above it in binary floating point) with a `1e-12` tolerance matched **nothing** and
-  silently returned nulls; the resulting empty result looked like "no windows found"
+  silently returned nulls. The resulting empty result looked like "no windows found"
   rather than a filter bug. Assert that a selection is non-empty.
 
 ### Distinguish "fits better" from "predicts better" when comparing model forms
@@ -1257,7 +1257,7 @@ form with as many parameters as the remaining training points has **zero degrees
 freedom** in every fit and therefore reproduces each held-out point *exactly*. That
 looks like perfect prediction and is pure interpolation. In the verified case the
 four-parameter form showed the best held-out error of all (`1.5e-04`) yet had
-`dof = 0` per fit; excluding it left the three-parameter form as the genuine winner.
+`dof = 0` per fit. Excluding it left the three-parameter form as the genuine winner.
 Compute and report `dof` per held-out fit and exclude the zero-dof forms from the
 ranking explicitly.
 
@@ -1323,7 +1323,7 @@ Leverage per point showed why:
 | **endpoint** | **0.958** | **0.955** |
 
 The `0.95`-plus leverage sits on **whichever point is at the end of the range**.
-Removing the far point does not remove the leverage; it transfers it to the new
+Removing the far point does not remove the leverage. It transfers it to the new
 endpoint. And the full set is nevertheless **better** conditioned, because conditioning
 depends on the **spread** of the design across the range, not only on the number of
 points — the endpoint extends the span even though it carries the leverage.
@@ -1334,12 +1334,12 @@ Practise:
   hat matrix per point, rather than to the point whose removal changed the fit. In the
   verified case these were different questions with different answers.
 - **Report both the condition number and the maximum leverage** for each range
-  considered; the two can move in opposite directions.
+  considered. The two can move in opposite directions.
 - **Do not present a narrower range as a fix** unless its conditioning is actually
   better. State the coefficient for each range together with its single-point
   sensitivity, and let the difference between ranges speak.
 - Remember that a **true observation can support a wrong inference**. The
-  leave-one-out fact was correct; the remedy drawn from it was not, and only the
+  leave-one-out fact was correct. The remedy drawn from it was not, and only the
   follow-up measurement exposed that.
 
 ### Establish whether a surface-flux sum is a difference or a sum of magnitudes
@@ -1358,7 +1358,7 @@ exactly.
 Include the explicit test in the record:
 
 - compare the stored net against `|plane_1| + |plane_2|` and against
-  `|plane_1 - plane_2|`, and state which it matches;
+  `|plane_1 - plane_2|`, and state which it matches.
 - report the **normalised imbalance** `(p1 + p2) / (|p1| + |p2|)`, which is the
   meaningful small quantity when the planes oppose — in that case between `0.24` and
   `0.87` per cent.
@@ -1367,7 +1367,7 @@ The imbalance is also physically informative, and reporting it changes an
 interpretation. Across a configuration change the individual planes moved by `36`–`39`
 per cent while the imbalance moved by only `0.27`–`0.52` percentage points, **and not in
 the same direction at the two resolutions**. The quantities that move are dominated by
-the **common** part of the two planes; the imbalance, which distinguishes a closed from
+the **common** part of the two planes. The imbalance, which distinguishes a closed from
 an open mode, barely moves. That is consistent with the change altering how much flux
 *circulates* rather than how closed the mode is — a different statement from the one
 the raw plane change suggests.
@@ -1391,7 +1391,7 @@ That number means almost nothing on its own, so the check was itself checked:
 
 - **leave-one-out on the correlation**: dropping each point in turn gave `+0.57`,
   `+0.98`, `+0.44`, `+0.71` — always the same sign, so the correlation is not carried
-  by one sample;
+  by one sample.
 - the honest label is therefore **"survived the test"**, not "supported". With four
   points, a correlation spanning `0.44` to `0.98` under point removal carries no
   mechanism and should not be used quantitatively.
@@ -1416,13 +1416,13 @@ it wrong can return zeros rather than an error.
 
 A verified case stored 25 expressions over 32 eigenmodes. The array was
 **expression-major** — 25 rows of 32 — so `stored[expression_index][solution_index]`.
-A first script assumed solution-major and indexed `stored[solution_index]`; an
+A first script assumed solution-major and indexed `stored[solution_index]`. An
 assertion comparing the slice length against the expression count **failed immediately**
 with a `32`-versus-`25` mismatch. Without that assertion the wrong slice would have been
 read silently, because a length-32 row is a perfectly valid array.
 
 The dangerous part is the **imaginary** component. In that data only one of the 25
-expressions — the complex eigenvalue — has a nonzero imaginary part; the other 24 are
+expressions — the complex eigenvalue — has a nonzero imaginary part. The other 24 are
 real-valued and their imaginary rows are identically zero. So an index or orientation
 error lands on zeros and produces a damping of zero, which looks like a lossless result
 rather than a bug.
@@ -1447,7 +1447,7 @@ reads as a finding. Check the printed numbers against the stated direction every
 
 In a verified case a quantity was sampled at two values of a sweep variable, giving
 `7.72e-05` and `6.58e-05`. The comparison was written as "rises when the first is less
-than the second", which labelled a **fall** as a **rise**. The numbers were correct; only
+than the second", which labelled a **fall** as a **rise**. The numbers were correct. Only
 the word was wrong, and the word is what a reader carries away.
 
 Practise:
@@ -1495,7 +1495,7 @@ Practise:
 - **Include control quantities that should NOT track it.** In the verified case a
   composition fraction and an energy ratio were both gap-independent, so their mismatch
   to the observable was about `99.9` per cent. That they *failed* to match is what gives
-  the comparison discriminating power; without such controls, "everything matches
+  the comparison discriminating power. Without such controls, "everything matches
   everything" cannot be excluded when all candidates are of similar magnitude.
 - **Report rank correlation across all points** in addition to the endpoint comparison,
   and say that an endpoint-only match is not a trend.
@@ -1521,7 +1521,7 @@ region as the likely mechanism. Decomposing it:
 | total energy | 17.66 % | 16.74 % |
 | boundary-region **fraction** | 14.78 % | 14.16 % |
 
-The numerator was essentially **constant**; the fraction's tracking was inherited
+The numerator was essentially **constant**. The fraction's tracking was inherited
 entirely from the denominator. Reported correctly, the finding says nothing about the
 absorber at all — the total stored energy carries the change.
 
@@ -1534,7 +1534,7 @@ fraction at `4.1` per cent. Practise:
 - **Decompose any ratio that ranks well** into numerator and denominator and report each
   separately.
 - **Exclude circular candidates.** Two routes to the same quantity will track each other
-  by construction; a quality factor computed from a flux will top any ranking against a
+  by construction. A quality factor computed from a flux will top any ranking against a
   quality factor computed from an eigenvalue. Name the exclusion explicitly.
 - **Keep a group-level statement when the individual promotion fails.** In that case the
   energies as a *group* genuinely tracked the observable far better than the surface
@@ -1584,10 +1584,10 @@ same pass that fixed the false positives could in principle have made everything
 So the detector was tested directly:
 
 - **sabotage a copy**, not the real artifact — reintroduce the exact string the
-  corrections withdrew, in a temporary copy;
-- **run the detection logic** against the copy and confirm it reports the finding;
+  corrections withdrew, in a temporary copy.
+- **run the detection logic** against the copy and confirm it reports the finding.
 - **assert the real artifact's hash is unchanged** afterwards, so the self-test cannot
-  itself have altered the thing it verifies;
+  itself have altered the thing it verifies.
 - **delete the copy and assert deletion**, and record all of this in the artifact.
 
 The result: the detector fired on the withdrawn string, so the clean result on the real
@@ -1605,7 +1605,7 @@ Generalisations:
 
 ### Read a manifest's container type before concluding it is empty
 
-A manifest keyed by path is a JSON **object**; one keyed by position is an **array**. The
+A manifest keyed by path is a JSON **object**. One keyed by position is an **array**. The
 two look alike in a listing and behave completely differently under a shell.
 
 In a verified case a shell probe of a package manifest reported **0 declared files**, and
@@ -1629,7 +1629,7 @@ Practise:
   next reader — and state the reading that was wrong, since the wrong reading is what
   invites the repeat.
 - A shell tool that silently coerces a single-element collection is a recurring source of
-  this error; when a count looks impossibly small or impossibly complete, re-derive it in
+  this error. When a count looks impossibly small or impossibly complete, re-derive it in
   the same language that wrote the file.
 
 ### Reconcile the acquire and release receipts, and explain any imbalance
@@ -1644,18 +1644,18 @@ imbalance is exactly the signature of a held lease, so it was explained from art
 rather than noted:
 
 - the unmatched acquisition was a diagnostic whose console log **stops mid-way through
-  its case list** — one case header printed, no result after it;
-- its lease record named a process that has since exited;
+  its case list** — one case header printed, no result after it.
+- its lease record named a process that has since exited.
 - the run receipt recorded that an orphan was encountered, that identity was confirmed by
   command line and lease record, that the process was terminated, and that the lease was
-  reclaimed **through the sanctioned recovery path rather than by deleting a lock**;
+  reclaimed **through the sanctioned recovery path rather than by deleting a lock**.
 - no external solver processes remained, and no live lease was present.
 
 Therefore the imbalance was the known abort, and the recovery was documented.
 
 Practise:
 
-- **Compare matched sets, not totals.** "18 versus 17" tells you something is wrong;
+- **Compare matched sets, not totals.** "18 versus 17" tells you something is wrong.
   "the unmatched one is the aborted run" tells you what.
 - **Assert the imbalance equals the known exception.** A future imbalance of the same
   shape must fail the check rather than be absorbed into the explanation. Name the
@@ -1676,7 +1676,7 @@ shape of lookup error: it inverts a pass into a fail while appearing to be data.
 In a verified case a gate on a minimum overlap was recomputed by reading the overlap from
 a plausible-but-wrong location under the selection block. The read returned nothing, and
 the gate reported **FAIL** at both settings. The overlap actually lived two levels deeper,
-under an overlap block; read correctly, the gate **PASSED** at both. The spurious failure
+under an overlap block. Read correctly, the gate **PASSED** at both. The spurious failure
 would have been recorded as a finding.
 
 Practise:
@@ -1775,7 +1775,7 @@ drifts tomorrow, while every label remains correct.
 A verified check parsed the plotting script's AST and classified the data argument of
 every drawing call:
 
-- **traceable** if it references an artifact the same script loads;
+- **traceable** if it references an artifact the same script loads.
 - **hardcoded** if it is an inline numeric list of length three or more with no artifact
   reference.
 
@@ -1786,8 +1786,8 @@ a registered limit, not a data series — so the rule targets **lists**, not sca
 Verify the classifier on an injected case:
 
 - **insert a hardcoded three-element series into a probe copy** of the plotting script and
-  confirm the check reports it, naming the line and the argument;
-- **assert the real script was not modified**;
+  confirm the check reports it, naming the line and the argument.
+- **assert the real script was not modified**.
 - **record the self-test in the artifact**, so a later reader knows the clean result was
   demonstrated rather than assumed.
 
@@ -1816,17 +1816,17 @@ Practise:
 - **Map every column to a named authority**, and list the columns you could not map, so
   the unchecked surface is explicit rather than implied.
 - **When a whole column disagrees row after row, suspect the mapping first.** Random data
-  errors do not usually affect every row identically; a systematic mismatch usually means
+  errors do not usually affect every row identically. A systematic mismatch usually means
   the comparison itself is wrong.
 - **Print the available fields before choosing one**, rather than picking the name that
   looks closest. This is the same trap as the null lookup: a plausible-looking name that
   is not the intended one.
 - **Record near misses.** A false alarm that was resolved teaches the next reader where
-  the ambiguity lives; deleting it hides the hazard.
+  the ambiguity lives. Deleting it hides the hazard.
 
 ### Derive the comparison tolerance from the precision the artifact carries
 
-A fixed tight tolerance applied to a rounded column produces a false defect; loosening it
+A fixed tight tolerance applied to a rounded column produces a false defect. Loosening it
 by hand until the check passes hides *which* column is coarse. Derive the tolerance from
 the digits actually present.
 
@@ -1844,7 +1844,7 @@ Practise:
 - **Record the derived tolerance per cell**, so a reader can see which columns are coarse
   instead of inferring it from failures.
 - **Do not tune a tolerance to make a check pass.** If a value fails, decide first whether
-  the disagreement is in the data or in the comparison; only then adjust, and justify the
+  the disagreement is in the data or in the comparison. Only then adjust, and justify the
   adjustment from the artifact's precision rather than from a desire for green.
 - **Re-derive headline constants rather than echoing them.** A summary row giving the
   maximum of a set was recomputed as the maximum of the per-gap values, which verifies
@@ -1854,7 +1854,7 @@ Practise:
 
 A pattern-based scan tuned on one document produces mostly false positives when applied
 to a whole repository. In a verified case a structural scan of 31 markdown files gave 45
-findings; inspected one by one they were **0 real leaks, 8 review items and 37 false
+findings. Inspected one by one they were **0 real leaks, 8 review items and 37 false
 positives** — documented tool names, error codes, a standard-library function name, and
 intentional repository URLs. Acting on those would have damaged correct documentation,
 and a scanner whose false positives outnumber its true findings gets ignored.
@@ -1862,10 +1862,10 @@ and a scanner whose false positives outnumber its true findings gets ignored.
 Classify rather than delete, and encode the rules:
 
 - **published API and error-code identifiers are surface, not private data**, so tokens
-  beginning with a documented prefix belong to the noise class;
-- **standard-library names** such as a hash function are not private identifiers;
-- **a repository URL that is documented or cited** is intentional; only an unlisted
-  remote warrants review;
+  beginning with a documented prefix belong to the noise class.
+- **standard-library names** such as a hash function are not private identifiers.
+- **a repository URL that is documented or cited** is intentional. Only an unlisted
+  remote warrants review.
 - **published acceptance values in a validation reference are reference data.** They are
   correctly labelled as validating one build rather than promising portable accuracy, so
   keep them for human review instead of treating them as a leak.
@@ -1875,7 +1875,7 @@ addresses — and defer everything else to review rather than asserting.
 
 Then state the limit precisely: **absence of leaks by shape is not absence of leaks in
 content.** A private value written as a round number, or a private fact stated in prose,
-matches no pattern. Shape scanning complements reading the text; it does not replace it.
+matches no pattern. Shape scanning complements reading the text. It does not replace it.
 
 ### Audit the gate CONTRACT, not only the gate result
 
@@ -1886,8 +1886,8 @@ still agree with it.
 
 Compare three independent representations:
 
-1. the **frozen registration**, including its failure clause;
-2. the **enforcement code** — which operator, against which limit;
+1. the **frozen registration**, including its failure clause.
+2. the **enforcement code** — which operator, against which limit.
 3. the **recorded outcome**, which must follow from (2).
 
 Two mismatches matter. Registration differing from enforcement means the registration is
@@ -1958,9 +1958,9 @@ artifacts it **reads**, then report every pair where one reads what another writ
 verified case this produced **83 dependency edges across 107 scripts**, including:
 
 - a gate re-evaluation and a tabular recomputation that **both** read the same analysis
-  artifact and the same point files, so their shared fields corroborate nothing;
+  artifact and the same point files, so their shared fields corroborate nothing.
 - a CSV-versus-structure check that read the re-evaluation's own output, making its gate
-  rows an **echo** rather than a re-derivation;
+  rows an **echo** rather than a re-derivation.
 - many consumers of two central finding artifacts, each inheriting rather than
   recomputing.
 
@@ -2002,7 +2002,7 @@ What such a leg needs:
 - **compare against the package and report agreement or mismatch**, with a mismatch
   meaning the package values are unconfirmed.
 - **state that reproducing a gate does not pass it.** The gate failed at both levels
-  before and after; a successful reproduction changes the strength of the evidence, not
+  before and after. A successful reproduction changes the strength of the evidence, not
   the verdict.
 
 ### A self-describing dump must have its self-description checked
@@ -2013,9 +2013,9 @@ still yields finite numbers, and if a later check and the dump share the mislabe
 they will agree while both are wrong. So the self-description needs its own audit:
 
 - **each expression names the operator its key's region requires**, so a solid-region key
-  cannot carry the air-region operator;
-- **keys are unique**, or the lookup is ambiguous;
-- **every configured region and every quantity a downstream check reads is present**;
+  cannot carry the air-region operator.
+- **keys are unique**, or the lookup is ambiguous.
+- **every configured region and every quantity a downstream check reads is present**.
 - **distinguish region integrals from global entries.** Surface integrals and scalar
   readbacks belong to a global category and correctly carry **no** region operator — a
   plane power is a surface quantity, not a domain one.
@@ -2050,12 +2050,12 @@ question "is the reported bound an underestimate?" rather than leaving it open.
 Practise:
 
 - **recompute the sensitivity on each route**, and take the **maximum** as the bound in
-  use, so the choice cannot favour the conclusion;
+  use, so the choice cannot favour the conclusion.
 - **report the cross-route agreement explicitly.** Here the two routes put the effect at
   similar values from different physical quantities, so the conclusion does not depend on
-  the route;
+  the route.
 - **check the ratio limit too** if the routes are supposed to be interchangeable, since a
-  large disagreement would mean they are not;
+  large disagreement would mean they are not.
 - **state that route agreement is not convergence.** Both routes can agree while the
   quantity is unconverged, and the gate still failed at both resolutions here.
 
@@ -2082,13 +2082,13 @@ different observables pointing at the same region is stronger than either alone.
 
 Practise:
 
-- **sweep candidate volumes** rather than trusting the one you drew;
+- **sweep candidate volumes** rather than trusting the one you drew.
 - **partition the sweep by physical role before interpreting the spread** — pooling
-  hides which member drives it;
-- **report the spread within each partition**, not a single pooled number;
+  hides which member drives it.
+- **report the spread within each partition**, not a single pooled number.
 - **check whether the verdict survives the whole sweep.** Here the effect exceeded the
   registered limit on *every* volume at both resolutions, so the gate outcome did not
-  depend on the choice even though the magnitude did;
+  depend on the choice even though the magnitude did.
 - **correct a coarse first reading explicitly**, recording why it was incomplete rather
   than silently replacing it.
 
@@ -2107,7 +2107,7 @@ list was an artefact of the sort key. Ranking by the **worst** resolution fixed 
 Then measure the **separation** before interpreting the order:
 
 - after the fix, best-to-second separation was about **1.14 times**, and the top entries
-  clustered within roughly 5 to 6 per cent of one another;
+  clustered within roughly 5 to 6 per cent of one another.
 - with separation that small there is **no discriminating winner**. The honest output is
   "these quantities cluster", not "this one tracks best".
 
@@ -2116,13 +2116,13 @@ Also check whether the ranking agrees with related evidence:
 - here the region flagged as anomalous elsewhere turned out to be among the **worst**
   trackers — its energy moved by 0.28 per cent while the target moved by 15 per cent. The
   same region being anomalous in **both** directions is consistent, and strengthens the
-  conclusion that it is an artefact region rather than a driver;
+  conclusion that it is an artefact region rather than a driver.
 - a region can also **exceed** the target's change, which rules it out as a sole driver
   and is worth reporting explicitly.
 
 Finally, state that **tracking is not causation** and that a clustered ranking promotes
-nothing. Recording "no candidate promoted, mechanism undiscriminated" is a real result;
-inventing a winner from a 1.14-times gap is not.
+nothing. Recording "no candidate promoted, mechanism undiscriminated" is a real result.
+Inventing a winner from a 1.14-times gap is not.
 
 ### Across independently meshed configurations, compare INTEGRALS not nodes
 
@@ -2139,14 +2139,14 @@ The practical consequence:
   named region does not require shared nodes, so it remains valid when the meshes differ.
   In the same case the fractional energy per region was computable and showed the solid
   holding about 88 per cent of the energy with a fractional movement of order `2e-4`
-  between configurations — an interpretable answer that the node-wise test could not give;
+  between configurations — an interpretable answer that the node-wise test could not give.
 - **measure the obstruction and report it**, rather than letting a test return nothing.
   Count the shared coordinates and compare against the node total, so "not comparable" is
-  a stated measurement;
+  a stated measurement.
 - **distinguish "files missing" from "files present but not comparable."** These are
   different facts and send a reader to different places. A first version of this check
   reported the second as the first, which would have prompted a hunt for absent data that
-  was in fact on disk;
+  was in fact on disk.
 - **do not let a structural impossibility look like a negative result.** "The test could
   not be performed" and "the test found no change" are opposite conclusions.
 
@@ -2167,18 +2167,18 @@ Practise:
 
 - **reproduce a stored value from the raw data before drawing a conclusion from your own
   recomputation.** Here the stored value reproduced to **zero** relative error, which
-  proved the definition was right and the discrepancy lay in the comparison;
+  proved the definition was right and the discrepancy lay in the comparison.
 - **check which direction the two formulas run** when a computed quantity appears to
   contradict a registered one. An always-positive metric and a signed difference will
-  disagree on sign once and only once — exactly when the quantity decreases;
+  disagree on sign once and only once — exactly when the quantity decreases.
 - **treat an impossible sign combination as a signal about the CHECK, not the physics.**
-  A quantity cannot fall while the ratio defining it rises; if that appears, the
-  comparison is wrong;
+  A quantity cannot fall while the ratio defining it rises. If that appears, the
+  comparison is wrong.
 - **report direction separately from magnitude**, so a reader cannot confuse "how much"
-  with "which way";
+  with "which way".
 - **do not assume an input error without verifying it.** The first repair attempt blamed
   the wrong inputs (a sum of magnitudes instead of a signed flux, and total instead of AC
-  energy); measuring showed those pairs were numerically **identical** here, and the real
+  energy). Measuring showed those pairs were numerically **identical** here, and the real
   cause was the sign convention.
 
 Once corrected, the same recomputation became a **coherence confirmation**: the ratio's
@@ -2207,13 +2207,13 @@ localisation the second does not support. The correct conclusion was collective,
 Practise:
 
 - **compare every candidate difference against the bound at each level**, and require
-  agreement in direction, not merely that both are "small";
+  agreement in direction, not merely that both are "small".
 - **treat a sign flip between levels as evidence of no effect**, not as a weak effect. A
-  real localisation would point the same way at both;
-- **state the conclusion the joint test supports**, which may be the collective one;
+  real localisation would point the same way at both.
+- **state the conclusion the joint test supports**, which may be the collective one.
 - **say what the test does and does not add.** Here it ruled out a one-interface
   mechanism but still did not distinguish between altered near-field coupling, changed
-  interference between the two regions, or a modified radiation pattern;
+  interference between the two regions, or a modified radiation pattern.
 - **report the bound used**, so a reader can see the margin each difference had.
 
 ### Look for a relation between EXPONENTS, then state how strong the claim is
@@ -2239,7 +2239,7 @@ relation was confirmed directly — the combination that should be constant chan
 Two things made this credible and both are worth copying:
 
 - **the agreement was far inside the bound, at two independently meshed levels.** A
-  coincidence would have to reproduce at both;
+  coincidence would have to reproduce at both.
 - **the relation was not sought.** It emerged from computing exponent ratios after the
   exponents, which is a weaker route to a discovery than looking for a specific ratio —
   and must be reported as such.
@@ -2247,11 +2247,11 @@ Two things made this credible and both are worth copying:
 Then state the claim exactly:
 
 - **the relation is established at the settings measured, not as a law.** Two settings of
-  a parameter cannot establish a scaling; a third is required before it can be called one;
+  a parameter cannot establish a scaling. A third is required before it can be called one.
 - **a plausible reading is not a demonstrated mechanism.** The relation here is what one
   expects if the radiated power scales with the square of an amplitude whose energy is
   stored, which is consistent with a fixed shape — but that is an interpretation, and it
-  is recorded as unpromoted;
+  is recorded as unpromoted.
 - **a test that cannot fail proves nothing.** Fix the prediction before seeing the
   numbers: a single power law forces the levels to yield the same exponent, so the test
   can fail, and only then is a pass informative.
@@ -2272,12 +2272,12 @@ false.
 Fixes that work:
 
 - **build the conclusion from the verdict's own fields**, with a branch per combination, so
-  a claim of coverage can only appear when the coverage flag is set;
+  a claim of coverage can only appear when the coverage flag is set.
 - **record WHY the extra coverage is absent**, as a field, so a later reader knows it is a
-  data limitation rather than an oversight;
+  data limitation rather than an oversight.
 - **state what the tested settings actually are.** Here the two passing cases were the
   **same** parameter point at two mesh resolutions, so they demonstrate mesh robustness and
-  **not** generality;
+  **not** generality.
 - **audit the conclusion for overclaiming phrases** — "is general", "demonstrated law",
   "confirms the mechanism" — as a mechanical check, since prose is where this error lives.
 
@@ -2293,10 +2293,10 @@ flag three things that are not claims — and each must be excluded or the sweep
 noise and gets ignored:
 
 - **questions.** "Does the pairing cause the non-freeze?" asserts nothing. Exclude text
-  ending in a question mark, and check the enclosing clause rather than the matched word;
+  ending in a question mark, and check the enclosing clause rather than the matched word.
 - **verbatim quotations of errors.** A captured traceback contains "the direct cause of
   the following exception" and is not a claim. Penalising captured failures would push an
-  author toward **hiding** them, which is worse than the wording it corrects;
+  author toward **hiding** them, which is worse than the wording it corrects.
 - **methodological statements about one's own process.** "The two methods are never
   merged" and "a detector weakened into always passing" use absolutes **correctly**,
   because the absolute attaches to a procedure rather than to a result.
@@ -2321,7 +2321,7 @@ changed the design of the check in a way worth copying.
 
 - a **per-unit** function reports claim words in a single sentence and is deliberately
   **not** qualifier-aware, so a sentence carrying both a claim and its own qualifier still
-  returns a hit;
+  returns a hit.
 - the **flag decision happens per artifact**, comparing the total qualifier count against
   the claim count.
 
@@ -2330,12 +2330,12 @@ verified case the readme had **11 sections containing claim words** and carried 
 qualifiers overall** — correctly not flagged.
 
 **Treat a table cell as a label, not a sentence.** Zero cells contained claim words at all
-here; cells shorter than a handful of words are labels and should be excluded rather than
+here. Cells shorter than a handful of words are labels and should be excluded rather than
 parsed as prose.
 
 **Validate on every newly covered surface**, with a constructed bad shape per surface, and
 record the probe results. Three probes were detected and a question probe was correctly
-ignored; a zero from an unvalidated classifier is not reportable.
+ignored. A zero from an unvalidated classifier is not reportable.
 
 **State what still is not covered**: wording matching no listed pattern, and figure text
 compared at the level of the **call arguments** rather than the rendered strings.
@@ -2353,7 +2353,7 @@ extractable after all.
 
 The distinction that mattered:
 
-- the limitation recorded was *"the parameter point has no data"*;
+- the limitation recorded was *"the parameter point has no data"*.
 - the limitation that actually existed was *"only one gap of that parameter point has
   data, so the cross-gap comparison cannot be formed"*.
 
@@ -2362,14 +2362,14 @@ Those permit different future work, so conflating them is not a wording quibble.
 Practise:
 
 - **search the broader workspace** — earlier phases, checkpoint directories, sibling
-  packages — before concluding a quantity is absent;
+  packages — before concluding a quantity is absent.
 - **check the schema of anything found**, since a dump from another phase may need a
-  different index key; here the mode-count field was named differently between the two
-  packages;
+  different index key. Here the mode-count field was named differently between the two
+  packages.
 - **record what WAS found and why it still does not permit the test**, so the obstruction
-  is precise and the route to clearing it is visible;
+  is precise and the route to clearing it is visible.
 - **correct the earlier statement in place and mark it superseded**, rather than deleting
-  it. The wrong version's conclusion may already have been read; hiding it loses the fact
+  it. The wrong version's conclusion may already have been read. Hiding it loses the fact
   that the error happened.
 
 ### Index the filesystem before calling a source missing
@@ -2390,12 +2390,12 @@ were searched.
 Practise:
 
 - **scan before registering a gap.** A date-stamped inventory of what is on disk costs one
-  sweep and removes the whole failure class;
+  sweep and removes the whole failure class.
 - **match on the identifier, not the filename.** The same paper arrives as `ao-59-5-a40.pdf`
-  in one directory and `amotchkina_ao_2020_ref59.pdf` in another; a filename search finds one
-  and reports the other missing;
+  in one directory and `amotchkina_ao_2020_ref59.pdf` in another. A filename search finds one
+  and reports the other missing.
 - **state the roots that were searched** alongside any negative result, so the claim cannot
-  silently outrun its coverage;
+  silently outrun its coverage.
 - **treat presence as availability only.** A file on disk is not evidence that its content was
   read, and it is not evidence that any value taken from it is correct.
 
@@ -2408,7 +2408,7 @@ and `U+FB04`. A search for the literal string `film` then **fails to match** the
 document does not say this".
 
 This matters most when a negative result is the finding. In a verified case a keyword census
-was being used to establish that a paper never used a particular model; the ligature made
+was being used to establish that a paper never used a particular model. The ligature made
 one of the searched words unmatchable, and a naive sentence extraction returned nothing at
 all for a sentence that was present verbatim in the document.
 
@@ -2416,11 +2416,11 @@ Practise:
 
 - **map the ligatures to ASCII immediately after extraction**, before any matching:
   `U+FB01 -> fi`, `U+FB02 -> fl`, `U+FB03 -> ffi`, `U+FB04 -> ffl`. Also normalise the
-  typographic quote and the Unicode minus sign, which break identifier and number matching;
+  typographic quote and the Unicode minus sign, which break identifier and number matching.
 - **collapse whitespace too.** PDF extraction breaks sentences across lines and hyphenates
-  them, so a sentence-level pattern will not match until runs of whitespace become one space;
+  them, so a sentence-level pattern will not match until runs of whitespace become one space.
 - **prove the negative.** A census that reports zero must be shown able to report non-zero
-  on a control string that IS present, or the zero is indistinguishable from a broken matcher;
+  on a control string that IS present, or the zero is indistinguishable from a broken matcher.
 - **watch decimal points in numeric patterns.** A value like `A0 = 0.310182` contains a
   period, so a `[^.]*` capture stops inside the number and silently truncates it. Anchor on a
   period that is not followed by a digit.
@@ -2440,17 +2440,17 @@ measurement.
 Practise:
 
 - **compare values, not filenames.** A different path and a different column count prove
-  nothing about independence;
+  nothing about independence.
 - **judge the difference RELATIVELY**, against each quantity's own scale. An absolute
-  difference looks alarming on a small quantity and trivial on a large one; the relative
-  figure is what classifies it;
+  difference looks alarming on a small quantity and trivial on a large one. The relative
+  figure is what classifies it.
 - **treat a match at the last-bit level as a duplicate, not as corroboration.** Counting
   it as independent would have doubled the apparent evidence for a relation, which is
-  exactly the false corroboration an independence map exists to catch;
+  exactly the false corroboration an independence map exists to catch.
 - **record the exclusion**, with the measured difference, so a later reader does not
-  re-count the same file as new evidence;
+  re-count the same file as new evidence.
 - **note extra columns without being swayed by them.** The duplicate carried additional
-  per-region rows that no open question needed; their presence did not make it
+  per-region rows that no open question needed. Their presence did not make it
   independent.
 
 ### An unused column can still check the premise everything rests on
@@ -2470,7 +2470,7 @@ solution**. In a verified case the volumes split exactly as the geometry demands
 That directly confirms the premise from a quantity no solver setting can influence.
 
 **But expect the first framing of such a sweep to be wrong.** A naive stability check
-flagged **four** regions as unstable; on inspection they were exactly the ones that
+flagged **four** regions as unstable. On inspection they were exactly the ones that
 **should** change, because they enclose the varied gap. Only a **gap-free** region that
 changed would be a defect, and none did. The test must partition regions by whether they
 contain the varied feature **before** judging stability, or it reports the geometry as a
@@ -2501,12 +2501,12 @@ Practise:
 
 - **read the tracked index from the record that stores it** — a dedicated branch field,
   not a position in the dump — and take it **per configuration**, since the index can
-  differ between settings;
+  differ between settings.
 - **confirm the two configurations tracked the same physical branch** before comparing
   anything, using a branch invariant such as frequency. A relative frequency difference
-  far below the gate is what licenses the comparison;
+  far below the gate is what licenses the comparison.
 - **expect a plausible-looking wrong answer, not an error**, so validate an index before
-  trusting any per-mode number;
+  trusting any per-mode number.
 - **record the corrected test separately rather than overwriting the first**, so the
   mistake stays visible and an amended result cannot be confused with a fitted one.
 
@@ -2550,17 +2550,17 @@ scripts**, and it was the **known-bad file** — a true positive.
 
 That outcome is what validates the sweep:
 
-- **finding nothing** would have been suspicious;
-- **finding nineteen** was the threshold being crude;
+- **finding nothing** would have been suspicious.
+- **finding nineteen** was the threshold being crude.
 - **finding precisely the known case** is the result that carries information.
 
 Practise:
 
-- **distinguish reading a value from referring to a file** when writing a static check;
+- **distinguish reading a value from referring to a file** when writing a static check.
 - **special-case mode-independent rows.** A per-region volume, or any row constant across
-  modes, needs no branch lookup — flagging it is a false positive;
+  modes, needs no branch lookup — flagging it is a false positive.
 - **judge the sweep by where the known-bad case lands.** A detector is validated by
-  finding the instance you already know about, and only that one;
+  finding the instance you already know about, and only that one.
 - **state the limit**: a static check cannot prove a column **is** the tracked mode, only
   that the script **has the information needed** to be correct. The dynamic equivalent is
   recomputing a value from the tracked mode and comparing it with the stored one.
@@ -2581,21 +2581,21 @@ scores higher everywhere would look like an explanation.
 resolve, and one of them is the instructive one:
 
 - it looked like a **good** match in the small window — overlap `0.888`, barely inside the
-  threshold;
+  threshold.
 - at the larger window the **same** assignment collapsed to **`0.003`**.
 
-So a truncated window does not merely produce **ambiguous** matches; it can produce
+So a truncated window does not merely produce **ambiguous** matches. It can produce
 **spuriously high** ones. That is a failure in the **opposite** direction, and it means the
 count of "ambiguous" cases can **understate** the problem.
 
 Practise:
 
 - **report the control**: how much do the *unflagged* cases change? If they change as much,
-  the larger window proves nothing;
-- **report every exception individually** rather than folding them into the headline;
+  the larger window proves nothing.
+- **report every exception individually** rather than folding them into the headline.
 - **classify the exceptions by direction**: genuinely unresolved (near-zero overlap in
-  both), improved-but-still-marginal, and **reversed**;
-- **say what a full test would need.** A window comparison is a **stability** test; a
+  both), improved-but-still-marginal, and **reversed**.
+- **say what a full test would need.** A window comparison is a **stability** test. A
   definition-correct subspace test needs the vectors themselves, to project the source onto
   the subspace of a near-degenerate cluster.
 
@@ -2609,7 +2609,7 @@ In a verified case two runs of the same tracking — one with a **16-mode** wind
 with **28** — were compared by mode index and produced a confident headline. A frequency
 check run **afterwards** destroyed it:
 
-- **0 of 384** index-matched pairs compared the same physical mode;
+- **0 of 384** index-matched pairs compared the same physical mode.
 - **283 of 384** compared modes differing by **2 to 9 per cent** in frequency, far outside
   the registered `1e-3` gate.
 
@@ -2620,17 +2620,17 @@ Practise:
 
 - **validate the key first, then join.** Take a branch invariant — frequency, energy, a
   symmetry label — and require the two records agree on it **within a registered gate**
-  before using the pair;
+  before using the pair.
 - **match by the invariant, not by position.** Here the correct join was nearest frequency
-  within the gate, with everything unmatched **excluded and counted**;
+  within the gate, with everything unmatched **excluded and counted**.
 - **fix the adequacy criterion before seeing the result.** Pre-registering "at least N
   matched cases" is what turned this into an **inconclusive** verdict instead of an
-  over-read `4 of 12`;
+  over-read `4 of 12`.
 - **be careful that "unchanged" is not "unhelpful".** Eight of the twelve matched cases had
   **identical** overlap and margin in both windows — the expected outcome when the mode did
-  not move, not evidence that the larger window failed;
+  not move, not evidence that the larger window failed.
 - **treat an index that cannot be resolved to a record as a structural finding.** Seven
-  cases had no track entry for the stated source index, which is worth reporting on its own;
+  cases had no track entry for the stated source index, which is worth reporting on its own.
 - **withdraw in place and keep the wrong version visible.** Its headline was reported, so
   deleting it would hide that an error happened.
 
@@ -2648,13 +2648,13 @@ Two things are worth taking from that:
 
 - **the direction of a verdict is fixed.** A **FAIL cannot be promoted to a PASS** by
   finding more problems with the same data. Additional analysis of that kind can only add
-  reasons; it can never remove the one on record. Say so, so a reader does not expect the
-  work to change the verdict;
+  reasons. It can never remove the one on record. Say so, so a reader does not expect the
+  work to change the verdict.
 - **the agreement is still worth reporting** — as a **consistency check that passed**,
   since an independent count matching the registered one is real, if modest, evidence.
 
 **Also check whether the obvious remedy actually remedies.** A larger window was hoped to
-repair the tracking; in fact **both** windows failed their gate, so enlarging the window is
+repair the tracking. In fact **both** windows failed their gate, so enlarging the window is
 **not** the remedy, and saying so prevents a wasted next attempt in that direction.
 
 **Separate what is genuinely new from what is not.** Here one structural detail was new —
@@ -2678,7 +2678,7 @@ loose ends:
 - one gate failed because a truncation parameter had **not converged** — the widths grew
   **monotonically** with truncation order and had not levelled off. **A failure that is
   monotone in the truncation parameter is the signature of a real convergence problem,
-  not numerical noise**, which is what makes the FAIL a finding;
+  not numerical noise**, which is what makes the FAIL a finding.
 - the other failed because the quantity was **independent** of a parameter to about the
   **eighth significant figure** across a 25-fold change. The registered margin was not met
   **because there was no dependence to measure**, and the readme named the likely cause in
@@ -2686,11 +2686,11 @@ loose ends:
 
 Practise:
 
-- **re-read the delivered artifact before carrying an item as open**, and date the entry;
+- **re-read the delivered artifact before carrying an item as open**, and date the entry.
 - **distinguish "failed" from "unresolved".** A gate that FAILED with a recorded
-  explanation is **closed**, not open, and treating it as open invites redoing it;
+  explanation is **closed**, not open, and treating it as open invites redoing it.
 - **keep the signature of a real failure** — monotonicity in the convergence parameter,
-  independence to many figures — since that is what separates a finding from noise;
+  independence to many figures — since that is what separates a finding from noise.
 - **note that this error and a premature "data unavailable" claim have the same shape**:
   both assert something about the evidence **from memory rather than from a fresh read**.
 
@@ -2717,11 +2717,11 @@ In the second family the "growth" is **entirely a rising background**.
 Practise:
 
 - **ask what the background is doing before comparing two swings.** A shared reference is a
-  *choice*, not a measurement, unless its level is independently constrained;
+  *choice*, not a measurement, unless its level is independently constrained.
 - **count parameters against points for every family you compare**, not only for the one you
-  prefer. Degeneracy between two zero-dof families is invisible if only one is written down;
+  prefer. Degeneracy between two zero-dof families is invisible if only one is written down.
 - **demonstrate degeneracy numerically** — solve both and report both residuals — rather than
-  arguing that a confound is conceivable;
+  arguing that a confound is conceivable.
 - **record the withdrawal, do not delete the number.** A retracted figure that leaves no trace
   tends to reappear.
 
@@ -2737,11 +2737,11 @@ though neither was refuted by the old data.
 
 Practise:
 
-- **state the degrees of freedom a new point buys**, as the justification for its cost;
+- **state the degrees of freedom a new point buys**, as the justification for its cost.
 - **hold every other quantity fixed**, so the new point extends a genuinely single-variable
-  series. Where a quantity is tied to others by a relation, say which one is being varied;
+  series. Where a quantity is tied to others by a relation, say which one is being varied.
 - **expect the new point to be the most expensive**, since the design usually grows the
-  domain, and say so before solving;
+  domain, and say so before solving.
 - **do not carry forward a prediction that just failed.** If a model's prediction at the new
   point is the one that already missed, the value of the point is the **freedom**, not that
   number — and say which.
@@ -2778,13 +2778,13 @@ a band.
 Practise:
 
 - **for every quantity you derive under an assumption, register the assumption's failure as
-  its own outcome**, not merely as a caveat;
+  its own outcome**, not merely as a caveat.
 - **count the alternatives before hashing.** If a model has three ways to be wrong, the band
-  list needs three branches plus an explicit **outside-everything** outcome;
+  list needs three branches plus an explicit **outside-everything** outcome.
 - **report an unanticipated outcome as a registration defect**, naming which assumption
-  failed and why it was avoidable — do **not** re-read it into the nearest existing label;
+  failed and why it was avoidable — do **not** re-read it into the nearest existing label.
 - **keep the fit-free part of the claim separate from the fitted part.** Here *periodicity*
-  survived while *constant amplitude* fell; conflating them would have discarded a true
+  survived while *constant amplitude* fell. Conflating them would have discarded a true
   statement along with a false one.
 
 ### Do not fit as many parameters as you have points
@@ -2795,21 +2795,21 @@ information** — yet such fits are easy to run and easy to report.
 
 This trap recurred **three times in one project**:
 
-- a **two-parameter fit to two points** reported as a result;
+- a **two-parameter fit to two points** reported as a result.
 - a **windowed comparison keyed by index** rather than by frequency, which silently compared
-  different physical modes;
+  different physical modes.
 - a **three-parameter sinusoid to three standoff points**, which would have returned a period
   that merely restated an assumption.
 
 Practise:
 
 - **count parameters against points before fitting**, and if they are equal, do not present
-  the fit as evidence;
+  the fit as evidence.
 - **prefer a fit-free consequence of the hypothesis.** Here periodicity alone implied the
   point one period away must repeat — a prediction needing **no** fitted values, and therefore
-  able to **fail**;
+  able to **fail**.
 - **state when a fit becomes evidence**: adding **one more point** gives the model a degree of
-  freedom, so the parameter becomes testable instead of merely satisfiable;
+  freedom, so the parameter becomes testable instead of merely satisfiable.
 - **report the qualitative consequence that needs no fit** — non-monotonicity here — since it
   can refute a whole model class on its own.
 
@@ -2828,7 +2828,7 @@ In the first, the interaction is **negligible** against the main effect: Q is cl
 **independent** of the cell size. In the second the interaction **exceeds every main effect**.
 
 A quantity set by how two parts **exchange energy** depends **jointly** on their separation and
-on how strongly the second responds; a quantity set by the mesh or by a cell volume does not.
+on how strongly the second responds. A quantity set by the mesh or by a cell volume does not.
 So the contrast itself argues for a **boundary interaction** rather than a discretisation
 effect — and it agrees with an independent stored-energy result that the cell is nearly inert.
 
@@ -2836,9 +2836,9 @@ Practise:
 
 - **cross the parameters rather than varying one at a time** when an interaction is plausible.
   A single-parameter sweep cannot reveal one, and here the interaction was the **largest**
-  quantity in the table;
+  quantity in the table.
 - **report the interaction as a ratio to the main effect**, not as a raw number, so its
-  importance is legible and comparable across models;
+  importance is legible and comparable across models.
 - **compare two crossings in the same model** when both exist. The contrast is evidence about
   which part of the model actually governs the result.
 
@@ -2875,19 +2875,19 @@ region's shape change detectable at all.
 Practise:
 
 - **remove the scale by least squares, then look at the residual** — do not compare raw fields,
-  whose normalisation is arbitrary;
+  whose normalisation is arbitrary.
 - **compare spans, not fitted exponents**, for the additive-versus-multiplicative decision. The
-  span argument needs **no** functional form;
+  span argument needs **no** functional form.
 - **exclude the regions whose parameter you changed** from a spatial fit. Including them
   conflates *"this region changed because its own material changed"* with *"this is a weak-field
   region where a fixed perturbation looks large"* — with them the slope was **−1.87**, without
-  them **−2.74**;
+  them **−2.74**.
 - **beware a high R² produced by the denominator.** Regressing `log|dE| − log|E|` on `log|E|`
   leaves the **residuals unchanged** while enlarging the total variance, since `log|E|` varies
   far more than `log|dE|`. Here that turned R² **0.231 → 0.976** with the **same** residual, so
-  the higher value is a **denominator effect**, not evidence;
+  the higher value is a **denominator effect**, not evidence.
 - **do not fit a power law to two points.** A two-point power law passes through both points
-  exactly, so R² is **1 by construction**. Return **no fit** rather than a meaningless one;
+  exactly, so R² is **1 by construction**. Return **no fit** rather than a meaningless one.
 - **report a poor fit as poor.** A slope threshold is not a licence to describe the data as
   *"roughly uniform"* when the printed curve spans a factor of 7.
 
@@ -2916,13 +2916,13 @@ Practise:
 
 - **enumerate the numerical scales from the model record** — element sizes, probe and absorber
   thicknesses, cell dimensions, lattice period — and the **physical** ones — wavelengths in each
-  medium, half and full;
+  medium, half and full.
 - **compare against half a wavelength for a round-trip effect**, not the full wavelength. A
-  standoff-dependent oscillation is a **round trip**;
+  standoff-dependent oscillation is a **round trip**.
 - **state the residual rather than hiding it.** Here it was **4.3 per cent**, about **7×** the
   mesh sensitivity, so real rather than scatter. A round-trip condition carries
   **reflection phases**, so an effective period above the bare half-wavelength is expected —
-  but explaining it needs a phase model, and one residual cannot constrain one;
+  but explaining it needs a phase model, and one residual cannot constrain one.
 - **record the residual as unexplained.** "Expected rather than surprising" is not the same as
   explained.
 
@@ -2951,7 +2951,7 @@ The same setting is a **maximum** at one standoff and a **minimum** at the other
 to a single curve:
 
 1. the swing **magnitude has a maximum** — 3286.49 exceeds both 1412.19 and 989.75, so the
-   coupling is **largest at an intermediate strength**;
+   coupling is **largest at an intermediate strength**.
 2. the swing **changes sign** between the last two settings, so it passes through **zero**.
 
 So the coupling is **neither a scaling nor a shift**: there is an intermediate strength at which
@@ -2961,10 +2961,10 @@ claim and its refuted replacement are **recorded**, not deleted.
 Practise:
 
 - **write down the replacement's predictions immediately**, then design the measurement that
-  would refute it. A simpler story feels safe precisely because it is untested;
+  would refute it. A simpler story feels safe precisely because it is untested.
 - **apply an odd-ladder test to the derived quantity** — here the difference between two
   settings — not only to the raw curve. That is what turns a statement about a curve into a
-  statement about a **coupling**;
+  statement about a **coupling**.
 - **keep both the withdrawn claim and the refuted replacement.** A record of two failed
   explanations and one surviving narrower statement is more useful than a tidy single story.
 
@@ -3002,14 +3002,14 @@ That is a statement about the **form of a sufficient description**, not a **coun
 Practise:
 
 - **attribute a shape to a shape.** A peaked response says the parameter's dependence is
-  peaked; it does not count mechanisms;
+  peaked. It does not count mechanisms.
 - **state the single-mechanism alternative explicitly** and check it against every other
-  measurement before claiming multiplicity;
+  measurement before claiming multiplicity.
 - **prefer the narrower claim the data force.** "The absorber is not a single real scalar" is
-  weaker-sounding than "there are several pathways" and is the one the evidence supports;
+  weaker-sounding than "there are several pathways" and is the one the evidence supports.
 - **withdraw in place.** Annotate the artifact that carries the overclaim, name the correction
   and its hash, state what was withdrawn and what stands, and **leave the withdrawn text in
-  place** so the record shows what was published;
+  place** so the record shows what was published.
 - **check clauses doing hidden work.** *"A single returning wave **with a fixed phase**…"* — the
   condition had not been established, so the inference drawn from it went too.
 
@@ -3041,9 +3041,9 @@ the peak **cannot** be a discretisation or geometry effect.
 Practise:
 
 - **prefer odd ladders** — three settings in one variable give the middle-versus-ends test,
-  which is model-free;
+  which is model-free.
 - **write the consecutive differences explicitly** and assert their product is negative when
-  claiming non-monotonicity;
+  claiming non-monotonicity.
 - **do not treat "rises then falls" as monotone** in any direction. Two consecutive steps with
   opposite signs are, by definition, not monotone.
 - **check names against conditions.** A registered condition reading "the middle exceeds the
@@ -3063,9 +3063,9 @@ Practise:
 
 - **identify the phase relationship first** — are the two points both extrema, one extremum and
   one flank, or adjacent extrema? — and only then choose the fraction of a period to compare
-  against;
+  against.
 - **record the wrong check and its correction** rather than deleting it. An apparent
-  inconsistency that was an artefact of the test will otherwise be rediscovered;
+  inconsistency that was an artefact of the test will otherwise be rediscovered.
 - **prefer a phase check that uses different information** from the one already done — here an
   amplitude-and-sign check, independent of the turning-point positions used earlier.
 
@@ -3103,12 +3103,12 @@ Practise:
 
 - **check the SIGN of a change at more than one operating point**, not just its magnitude. A
   sign flip is far more informative than any single difference and is invisible if you compare
-  one point only;
-- **state what class of models a sign reversal excludes**, and say the exclusion needs no fit;
+  one point only.
+- **state what class of models a sign reversal excludes**, and say the exclusion needs no fit.
 - **look for the implied zero crossing** when two nearby settings disagree in sign — it is a
-  model-free statement and can be checked against an independently measured period;
+  model-free statement and can be checked against an independently measured period.
 - **resist fitting amplitude and phase from exactly two values**, and say what would give the
-  fit a degree of freedom instead;
+  fit a degree of freedom instead.
 - **confirm branch identity before believing a dramatic result.** Here the two runs tracking
   the same mode had **different eigenvalue-list indices** (14 and 15) while agreeing in
   frequency to **2.5 MHz** and in field overlap to **0.9994** against a **0.72** runner-up, so
@@ -3140,17 +3140,17 @@ values of the parameter and confirm the **element count is unchanged** (here `10
 0.5 and 2.0) and the domain selections are identical. Only then is the comparison
 single-variable **by construction** rather than by hope.
 
-**Enumerate properties from the live object; do not guess names.** Read them back and check
+**Enumerate properties from the live object. Do not guess names.** Read them back and check
 which accept being written, and confirm how the API reports an **invalid** name
 (`Unknown_property`) so a bad key cannot pass silently.
 
 Practise:
 
 - **look for parameters that live outside the geometry** — coordinate systems, solver settings,
-  material coefficients, study features — when a design ties several dimensions together;
+  material coefficients, study features — when a design ties several dimensions together.
 - **state what the control does and does not isolate.** A sensitivity to the absorber does
   **not** distinguish a returning wave from a boundary truncating a near field differently, and
-  a factor-to-reflectivity mapping is **not** measured unless it is measured;
+  a factor-to-reflectivity mapping is **not** measured unless it is measured.
 - **record the parameter's provenance in the pre-solve record**, so a run that dies still shows
   what it was testing.
 
@@ -3185,13 +3185,13 @@ Practise:
 
 - **assert the setting was located BEFORE asserting it took.** Search every plausible
   placement, and **stop the run** if a preregistration *names* an override that cannot be
-  found;
+  found.
 - **read the value back out of the model** and raise on disagreement, so the record shows what
-  the solver saw, not what was requested;
+  the solver saw, not what was requested.
 - **treat an exactly-zero difference as a warning**, not a triumph. Physical comparisons give
-  small results; bit-identical ones usually mean the variation never happened;
+  small results. Bit-identical ones usually mean the variation never happened.
 - **fix the lookup, not the record.** Editing the preregistration to match the bug would make
-  the record agree with the mistake;
+  the record agree with the mistake.
 - **keep the failed run** — a mislabelled repeat is still a valid **repeatability**
   measurement, here bounding run-to-run variation at about **1e−11**, and it documents the
   bug.
@@ -3219,11 +3219,11 @@ refutation by a factor of about **27**.
 Practise:
 
 - **name the exact definition** of the quantity you are explaining, and check its region
-  membership before proposing a regional cause;
+  membership before proposing a regional cause.
 - **run both closures when two routes exist** (here a flux-normalised Q and an eigenfrequency
-  Q see different regions), since closing one leaves the other open;
-- **state the refutation factor as computed.** "About 27" is honest; rounding it to "two
-  orders of magnitude" is not;
+  Q see different regions), since closing one leaves the other open.
+- **state the refutation factor as computed.** "About 27" is honest. Rounding it to "two
+  orders of magnitude" is not.
 - **look for the non-monotonicity.** A region whose share is *largest at the smallest* domain
   cannot explain an effect that **grows** with domain size, however large its share.
 
@@ -3241,8 +3241,8 @@ of branch identity**, complementing a field-overlap measurement.
 Practise:
 
 - **check what a stored record already contains** before designing a solve — per-region
-  energies, fluxes and mode metadata often answer the question directly;
-- **form shares, not absolute energies**, since absolute values scale with normalisation;
+  energies, fluxes and mode metadata often answer the question directly.
+- **form shares, not absolute energies**, since absolute values scale with normalisation.
 - **use stable region shares as a branch-identity cross-check**, while stating that it is
   necessary rather than sufficient and does not replace the overlap gate.
 
@@ -3272,9 +3272,9 @@ that point *was* placed one predicted period away. **Exclude it.**
 Practise:
 
 - **audit how each turning point was placed** before using a separation as a measurement. A
-  point chosen *by* the prediction cannot test it;
+  point chosen *by* the prediction cannot test it.
 - **report the independent estimate and the circular one separately**, naming why the second
-  is excluded, so a later reader does not average them;
+  is excluded, so a later reader does not average them.
 - **fix the period and re-fit.** With period and phase pinned, a sinusoid on a background has
   one parameter fewer, so it gains a **degree of freedom** and can finally **fail**.
 
@@ -3292,10 +3292,10 @@ rather than scattered — the signature of a **mis-specified background**, not n
 Practise:
 
 - **compare extrema-to-extrema, not point-to-point.** Same-sign shifts of both maxima and
-  both minima rule out a linear trend at a glance, with no fitting;
-- **read residual signs, not just their size.** Same-sign runs indicate model error; scatter
-  indicates noise;
-- **say what the refutation does and does not cover.** It excludes a *linear* background; a
+  both minima rule out a linear trend at a glance, with no fitting.
+- **read residual signs, not just their size.** Same-sign runs indicate model error. Scatter
+  indicates noise.
+- **say what the refutation does and does not cover.** It excludes a *linear* background. A
   curved one could lift both extrema, and establishing its form needs more points or a
   physical model.
 
@@ -3309,21 +3309,21 @@ deliberately.
 A verified sequence:
 
 1. **3 parameters, 3 points** — two different families fitted **exactly** (residuals
-   **0.00e+00** and **1.8e−12**); data could not choose.
+   **0.00e+00** and **1.8e−12**). Data could not choose.
 2. **3 parameters, 4 points** after fixing the period from an independent turning-point
    measurement — the model now had **one** degree of freedom, and was **refuted** at
    **RMS 4.2 per cent** against a mesh sensitivity of **0.61 per cent**.
 
 Practise:
 
-- **state the degrees of freedom before interpreting any fit**;
+- **state the degrees of freedom before interpreting any fit**.
 - **use an independent measurement to pin a parameter**, converting it from free to fixed and
-  buying the model a degree of freedom;
+  buying the model a degree of freedom.
 - **state the interpretation rule before looking at the residual** — e.g. "an RMS below the
   mesh sensitivity would mean the model describes the series" — so the verdict is not chosen
-  after the fact;
+  after the fact.
 - **do not upgrade a non-refutation into a confirmation.** Four points cannot establish a
-  functional form; surviving one test is not being confirmed.
+  functional form. Surviving one test is not being confirmed.
 
 ### Separate "is the effect real?" from "do the settings agree?"
 
@@ -3348,10 +3348,10 @@ is under-resolved.
 Practise:
 
 - **report the effect-to-sensitivity ratio alongside the gate verdict**, so a reader can see
-  the effect is real even when agreement fails;
+  the effect is real even when agreement fails.
 - **say what refining cannot fix.** If the two settings differ in a geometric quantity rather
   than in resolution, more mesh will never make them agree, and that is worth stating
-  explicitly;
+  explicitly.
 - **do not let a failed gate imply a failed measurement.** A real effect and a failed
   agreement gate are perfectly consistent.
 
@@ -3371,9 +3371,9 @@ per cent of the gate difference is the standoff effect**" can be stated with the
 Practise:
 
 - **assert the equality to a tight tolerance** and record the residual, so the link is
-  demonstrated rather than asserted;
+  demonstrated rather than asserted.
 - **report the metric's own precision** — an identity to machine precision is a much stronger
-  link than agreement to three digits;
+  link than agreement to three digits.
 - **do not extend the decomposition past the sampled range.** It is exact **at** the four
   cells, not a model that can be extrapolated.
 
@@ -3386,7 +3386,7 @@ because a non-discriminating metric is itself information.
 Two verified cases in one package:
 
 - a **PML-reflection fit** whose residual was **≈ 1.0** — the model explained nothing, and
-  the fitted wavenumber hit **both** scan bounds, so the metric could not reject anything;
+  the fitted wavenumber hit **both** scan bounds, so the metric could not reject anything.
 - a **flux-asymmetry** test where the between-group separation (**0.00637**) was **smaller**
   than the within-group spread (**0.00798**), so it could not separate a real effect from
   scatter.
@@ -3402,9 +3402,9 @@ noticing it prevented a weak trend from being read as corroboration.
 Practise:
 
 - **state the discriminating margin before running the diagnostic**, as a number, so failure
-  is recognisable rather than arguable;
-- **compare the effect against its own spread**, not just against zero;
-- **record failed diagnostics in the deliverable** with an explicit non-discrimination flag;
+  is recognisable rather than arguable.
+- **compare the effect against its own spread**, not just against zero.
+- **record failed diagnostics in the deliverable** with an explicit non-discrimination flag.
 - **check which quantity a diagnostic actually tracks**, and compare that with which quantity
   the hypothesis says it should track. A diagnostic following the wrong quantity is evidence
   against, not merely absent evidence for.
@@ -3436,11 +3436,11 @@ main effect — standoff **15.17 per cent** against cell **0.09 per cent**, a fa
 Practise:
 
 - **assert the identity in code** (`assert abs(inter - ((A-C)-(D-B))) < 1e-9`) so a later
-  edit that breaks it fails loudly instead of silently multiplying the evidence;
+  edit that breaks it fails loudly instead of silently multiplying the evidence.
 - **count the effects, not the comparisons.** A 2×2 gives two main effects and one
-  interaction; "the estimates agree at both levels" is the interaction restated;
+  interaction. "the estimates agree at both levels" is the interaction restated.
 - **report the SIZES as the finding** and the agreement as the same statement in other
-  words, rather than as a second confirmation;
+  words, rather than as a second confirmation.
 - **remember what a factorial buys**: an interaction term tests whether the factors act
   **independently**, which a pair of points cannot. Where an earlier conclusion was a
   *deduction that assumed* independence — two comparisons with no singly-varied pair —
@@ -3466,10 +3466,10 @@ forward, so the distinction matters.
 Practise:
 
 - **name which ratio you are quoting**, in the text and in the artifact field name, so
-  `inside_margin` cannot be read as `difference_ratio`;
+  `inside_margin` cannot be read as `difference_ratio`.
 - **check whether the conclusion needs the band at all.** If the hit sits at a small
   fraction of its band AND the miss is several times outside it, say the outcome is
-  band-independent rather than leaning on the margin;
+  band-independent rather than leaning on the margin.
 - **when a claim is corrected, correct it everywhere it was published** — the plan, the
   artifacts and any written-back guidance — since a number repeated in three places will
   survive in whichever one is read next.
@@ -3524,12 +3524,12 @@ differs in an unintended way: the agreement was not the thing being tested.
 Practise:
 
 - **ask whether a measured Q is intrinsic or boundary-influenced**, and test it by moving
-  the absorber: an intrinsic Q does not care how far away it is;
+  the absorber: an intrinsic Q does not care how far away it is.
 - **treat standoff dependence as absorber feedback**, and say plainly that neither the
-  intrinsic Q nor a clean radiative Q has been measured;
+  intrinsic Q nor a clean radiative Q has been measured.
 - **state the surviving candidates separately** — reflection, more room for the near field
   to decay, and changed probe-plane capture — and note that making the absorber *more
-  absorbent at fixed standoff and fixed cell* separates them, since that varies neither;
+  absorbent at fixed standoff and fixed cell* separates them, since that varies neither.
 - **look for a result you were not testing.** A point built to isolate one quantity may
   incidentally be a better test of another, and that is worth reporting as its own finding
   with its own stated limit.
@@ -3558,12 +3558,12 @@ Practise:
 
 - **write the setup measurements before the run**, not after: element and vertex counts,
   the operator and selection readbacks, the boundary termination, and the memory available
-  at that moment;
+  at that moment.
 - **record the host memory in the artifact**, so a resource failure is diagnosable later
-  rather than reconstructed from memory;
+  rather than reconstructed from memory.
 - **state the limit of an element-count comparison**: equal counts do **not** prove equal
   factorisation cost, because a differing geometry changes the sparsity pattern and hence
-  the fill-in. It removes a *dramatically larger* problem; it does not bound the cost.
+  the fill-in. It removes a *dramatically larger* problem. It does not bound the cost.
 
 ### A failed solve is recorded as a failure, and the preregistration is NOT edited
 
@@ -3579,11 +3579,11 @@ predictions explicitly listed as **still unmeasured**, and the retry specified a
 Practise:
 
 - **record the failure as an artifact**, with the exception, the stage it occurred at, and
-  what had completed successfully before it;
+  what had completed successfully before it.
 - **keep the registered file byte-identical**, and re-verify its hash afterwards — an
-  edited registration is worse than no registration, because it still looks authoritative;
+  edited registration is worse than no registration, because it still looks authoritative.
 - **say which alternative the failure could not exclude**, and then go and exclude it with
-  a measurement if one is available, rather than asserting the convenient explanation;
+  a measurement if one is available, rather than asserting the convenient explanation.
 - **check for orphans and partial artifacts** after a mid-solve failure, and state that you
   checked. This is exactly when a stray process or half-written file contaminates a
   package.
@@ -3614,11 +3614,11 @@ means the cell does.
 Practise:
 
 - **write the relation down before choosing points**, so the confound is visible rather
-  than discovered after the numbers disagree;
+  than discovered after the numbers disagree.
 - **look for a point that shares one quantity with each of two existing points** before
-  assuming a factorial grid is needed;
+  assuming a factorial grid is needed.
 - **register both predicted outcomes and a band** before solving, with the band justified
-  against a **measured** numerical bound rather than a guess;
+  against a **measured** numerical bound rather than a guess.
 - **register a third outcome.** If the result lands outside both bands, report it as
   neither rather than forcing it into the nearer one.
 
@@ -3626,7 +3626,7 @@ Practise:
 
 Before recording a discrepancy, check whether the two values are the **same quantity**
 computed with different **analysis choices**. A fit window, a point count and a fit order
-are all choices; changing one changes the number **without any disagreement existing**.
+are all choices. Changing one changes the number **without any disagreement existing**.
 
 In a verified case a ledger carried an unreconciled difference between two curvature
 values. Deriving both from the stored points under both windows resolved it completely:
@@ -3648,11 +3648,11 @@ and each was correctly attached to its own fit. The ledger's own recalled figure
 Practise:
 
 - **name the analysis choices** — window, point count, fit order — beside every fitted
-  value, so two values can be compared correctly or shown to be different questions;
+  value, so two values can be compared correctly or shown to be different questions.
 - **reproduce both numbers from the stored points** rather than reasoning about them. The
-  attribution is then arithmetic, not interpretation;
+  attribution is then arithmetic, not interpretation.
 - **check a recorded discrepancy's own number against the artifacts.** If it matches
-  neither source, the entry is unreliable in more than one way;
+  neither source, the entry is unreliable in more than one way.
 - **do not force a reconciliation where a genuine open question remains.** A third value
   here was identified as probably mislabelled in its role, but settling that needed an
   artifact the workspace does not hold, so it was recorded as a **provenance question**
@@ -3681,18 +3681,18 @@ shows the target is bracketed rather than hit by luck.
 worth naming:
 
 - **all three asserted something about the state of the evidence**, written from memory or
-  from **one of several** relevant values;
-- **all three decayed silently**, because nothing forced a re-read;
+  from **one of several** relevant values.
+- **all three decayed silently**, because nothing forced a re-read.
 - **two directions of error appeared**: entries that were too **pessimistic** (a resolved
-  gate called unresolved; a reached target called unreached) are as damaging as optimistic
+  gate called unresolved. A reached target called unreached) are as damaging as optimistic
   ones, and the pessimistic ones attract less scrutiny.
 
 Practise, before carrying any item as **open** or as **failed**:
 
-- **re-read the artifact** and check whether the record already answers it;
+- **re-read the artifact** and check whether the record already answers it.
 - **check that all relevant values from it are represented**, not just the first or the
-  most cautious one;
-- **prefer a scan through a target over a single point at it**, and say which you have;
+  most cautious one.
+- **prefer a scan through a target over a single point at it**, and say which you have.
 - **state what the correction does NOT authorise.** Reinstating "target reached" for one
   configuration must not be read as a claim about a different system, and the scope ceiling
   should be restated alongside the correction.
@@ -3727,9 +3727,9 @@ when the run finished.
 Practise:
 
 - **record the solver setting per case**, and treat any package-level label as a summary
-  that may hide a mixture;
+  that may hide a mixture.
 - **read the termination from the model** when a summary is disputed, and report the
-  feature tag, its selection and the boundary count;
+  feature tag, its selection and the boundary count.
 - **check for an empty selection.** A boundary feature that exists but selects nothing
   terminates nothing, and its presence in a feature list can be mistaken for an active
   boundary condition.
@@ -3748,15 +3748,15 @@ every file the package's **own manifest** declared gave **38 of 38 matching**: u
 Practise:
 
 - **make an integrity field assert what its name says.** Derive "unchanged" by **re-hashing
-  against a manifest**, never by checking that filenames exist;
+  against a manifest**, never by checking that filenames exist.
 - **report missing files as their own field**, so one absent name cannot masquerade as a
-  content mismatch;
+  content mismatch.
 - **name the test after what it does.** A file-existence check called `files_present` cannot
-  be misread as evidence that the data is intact;
+  be misread as evidence that the data is intact.
 - **fix it in the generator.** A derived summary regenerates, so a correction applied to the
   output is overwritten on the next run.
 
-### Read field names from the record; an empty column reads as absent data
+### Read field names from the record. An empty column reads as absent data
 
 When parsing records whose schema you did not write, **read the keys from the data**. A
 guessed generic key does not raise — it returns nothing, and the artifact then carries an
@@ -3770,12 +3770,12 @@ schema used different names again for the same quantities.
 
 Practise:
 
-- **print one record before writing the parser**, and copy its keys;
+- **print one record before writing the parser**, and copy its keys.
 - **assert that essential columns are populated** — `assert any(r["gap"] is not None ...)` —
-  since a non-empty record count passes while every column is blank;
+  since a non-empty record count passes while every column is blank.
 - **expect several schemas in one dataset.** Records adopted from an earlier run and records
   solved in the current run may share no field names, so parse each explicitly and record
-  which source a value came from;
+  which source a value came from.
 - **record what you skipped.** A file whose top level is a list, or which failed to parse,
   belongs in the artifact as a count, or a silently smaller inventory looks complete.
 
@@ -3795,13 +3795,13 @@ Practise:
 
 - **treat bit-identical output across a sweep as a defect** and diagnose it before
   reporting anything derived from it. The package here records the flat spectrum as a
-  **setup defect, never as physics** — that is the right disposition;
+  **setup defect, never as physics** — that is the right disposition.
 - **when fitting anything to such data, expect a machine-precision residual and refuse to
   report it.** A "curvature" fitted to identical points is meaningless, and its tiny
-  residual is the tell;
+  residual is the tell.
 - **test flatness with a STATED THRESHOLD, not exact equality.** Exact equality returned
   **False** at a deviation of `1.3e-11` — float round-trip noise. Choose a threshold orders
-  of magnitude above the noise and orders below any real movement, and say what it is;
+  of magnitude above the noise and orders below any real movement, and say what it is.
 - **read every relevant document before declaring a question closed.** One package's readme
   reported a gate as a resolved failure while a second document recorded the **definitive
   test of the same question as still OPEN**, blocked on the working band. Both were true at
@@ -3810,7 +3810,7 @@ Practise:
 
 ### Mode identity and overlap diagnostics
 
-Frequency continuity alone is a weak branch identifier; pair it with a field
+Frequency continuity alone is a weak branch identifier. Pair it with a field
 overlap against a reference mode, and report the runner-up and the separation.
 
 - Take the modulus **after** summing over vector components:
@@ -3825,7 +3825,7 @@ overlap against a reference mode, and report the runner-up and the separation.
   and record explicitly that this fallback was used.
 - Near degeneracy: compare the subspace and assign candidates one-to-one rather
   than relying on a single pointwise maximum.
-- Mode indices from the installed `mph` bindings are 1-based; index 0 selects the
+- Mode indices from the installed `mph` bindings are 1-based. Index 0 selects the
   last mode, which silently shifts the whole spectrum if used as "the first".
 - Read the returned solution count from the evaluation result. Do not assume the
   requested count was returned.
@@ -3840,7 +3840,7 @@ record so a later reader can recompute rather than trust a derived scalar.
 When comparing an eigenvalue-derived Q with an energy/flux-derived Q, both must
 use the **same** control volume. Using a total-domain energy against a flux
 through an interior probe plane mismatches the two and produces a discrepancy
-that is bookkeeping, not physics. Keep the flux sign; do not take absolute values
+that is bookkeeping, not physics. Keep the flux sign. Do not take absolute values
 before comparing, since opposite-signed contributions are part of the evidence.
 
 ### Reading batched evaluations safely
@@ -3919,10 +3919,10 @@ fit honest:
 - **A fit with as many free parameters as data points is not a test.** Two points
   fitted with a two-coefficient model give a residual of exactly zero by
   construction. Report the degrees of freedom (`n_points - n_free_parameters`)
-  and exclude zero-residual-by-construction fits from any "best fit" verdict;
-  otherwise the reported minimum is a meaningless 0.
+  and exclude zero-residual-by-construction fits from any "best fit" verdict.
+  Otherwise the reported minimum is a meaningless 0.
 - **Do not extrapolate a fit past a known channel-opening threshold.** A new
-  propagating order changes the physics at a computable normalised frequency; a
+  propagating order changes the physics at a computable normalised frequency. A
   fit established below that threshold says nothing above it.
 - **Report the margin, not just pass/fail.** A fit whose residual meets a
   tolerance by only a small factor is weak evidence, and a higher-order model
@@ -3944,7 +3944,7 @@ shape-invariant check, before proposing a mechanism:
   configuration did not swap or re-partition the mode, and the change must live
   in the outflow.
 - **Compare the relative movement of the two factors.** Whichever moves further
-  dominates; reporting only the Q change cannot distinguish "more energy stored"
+  dominates. Reporting only the Q change cannot distinguish "more energy stored"
   from "more power leaving".
 - **Check the sign against the proposed mechanism.** A mechanism that predicts a
   smaller absorbed fraction *and* a smaller outflow is refuted if the outflow
@@ -3977,22 +3977,22 @@ optical-constants table over five windows. Every fit converged, and they did not
 | full table | failed in k | yet another |
 
 The spread in the static term was a factor of about **17**. The best-fitting window
-looked perfectly acceptable on its own; only the spread revealed that the model was
+looked perfectly acceptable on its own. Only the spread revealed that the model was
 being asked to reproduce more structure than it had freedom for.
 
 Practise:
 
 - **Fit several defensible windows and report every parameter's spread**, using the
   maximum-over-minimum ratio rather than a standard deviation, since the values are
-  not samples from one distribution;
+  not samples from one distribution.
 - **form the residual per physical quantity.** A residual formed on a combined error
   lets a good fit to one quantity hide a bad fit to another. Here the real part fitted
   well while the imaginary part was wrong by hundreds of per cent, which a combined
-  residual would have concealed;
+  residual would have concealed.
 - **separate "the fit is bad" from "the data is flat".** Check whether the target is
   actually varying over the fit band. A column that is constant by construction
   carries no dispersion for the model to reproduce, so a large residual there is a
-  statement about the **table**, not only about the fit;
+  statement about the **table**, not only about the fit.
 - **state the identifiability limit explicitly** rather than silently quoting one
   window's numbers as though they were determined.
 
@@ -4012,13 +4012,13 @@ measured and published in an earlier package, at three settings of the loss para
 Practise:
 
 - **enumerate what changes between the two configurations**, and treat each as a
-  separate axis;
+  separate axis.
 - **size each axis from existing artifacts first**, by arithmetic, without solving.
   An axis that turns out to be two orders of magnitude smaller than another is not
-  worth a solve;
+  worth a solve.
 - **reuse the landed measurements explicitly, citing path and hash**, rather than
-  re-running them; and cross-check the reused values against a **different** artifact
-  that states them, so the reuse is verified rather than copied;
+  re-running them. And cross-check the reused values against a **different** artifact
+  that states them, so the reuse is verified rather than copied.
 - **then solve only the axis that is genuinely unmeasured.** This typically reduces a
   paired comparison to a single point.
 
@@ -4038,12 +4038,12 @@ the same quantities in a README file, written by different code, disagreed by ro
 Practise:
 
 - **include every column that identifies the row** in the key, or filter explicitly on
-  the ones you are holding fixed and assert the count you expect;
+  the ones you are holding fixed and assert the count you expect.
 - **assert the selection size** — `len(result) == n_expected` — so a collapse from four
-  rows to one is loud rather than silent;
+  rows to one is loud rather than silent.
 - **cross-check reused numbers against a second artifact that states them**, ideally one
   produced by different code. Agreement between two copies of the same file proves
-  nothing; agreement between a table and a prose summary is a real check;
+  nothing. Agreement between a table and a prose summary is a real check.
 - **record which row you selected and why** in the output, so a later reader can see
   that the peak was chosen deliberately rather than by dict ordering.
 
@@ -4065,12 +4065,12 @@ about `9x` below the same bound, and it **failed under both models by a similar 
 Practise:
 
 - **recompute the gate's own metric under each model**, from the artifacts, rather than
-  reasoning from the per-point numbers;
+  reasoning from the per-point numbers.
 - **report both verdicts side by side.** "FAIL under model A, FAIL under model B" is a far
-  stronger robustness statement than any amount of per-point agreement;
+  stronger robustness statement than any amount of per-point agreement.
 - **state explicitly that a second FAIL is not a rescue.** The point is robustness of the
   verdict, not a route to a pass, and the write-up should say so, because a reader may
-  otherwise read "the metric barely moved" as "the gate is nearly passing";
+  otherwise read "the metric barely moved" as "the gate is nearly passing".
 - **when the model change is not the physical one**, scale the measured effect to the
   physical case and report the scaled value separately from the measured one, so the two
   cannot be confused.
@@ -4082,18 +4082,18 @@ the expensive part is already done and is usually sitting on disk as a saved mod
 from the start pays for the solve twice.
 
 In a verified case a two-point run completed its first solve, then died in the collection step
-with a `TypeError`; the solved model was a 370 MB file on disk, untouched. Re-measuring that
+with a `TypeError`. The solved model was a 370 MB file on disk, untouched. Re-measuring that
 file took `82` seconds against roughly `15` minutes for the solve.
 
 Practise:
 
 - **save the model immediately after the solve returns**, before any post-processing, so a
-  later failure cannot cost the solve;
+  later failure cannot cost the solve.
 - **make the runner resume-aware**: if a solved model exists with no result record beside it,
   load and measure it instead of re-solving. Keep the overwrite guard on the *record*, not on
-  the model — refusing because a model exists would discard a completed solve;
+  the model — refusing because a model exists would discard a completed solve.
 - **persist a pre-solve summary before solving**, since a failure inside the solve otherwise
-  destroys the configuration you need to diagnose it;
+  destroys the configuration you need to diagnose it.
 - **expect the resume path to need its own reconstruction.** A summary written to survive a
   crash is not a complete state object: in the same case the pre-solve record omitted the
   domain groups the collector required, and re-deriving them from the loaded model was
@@ -4111,11 +4111,11 @@ after the solve had already run.
 Practise:
 
 - **pass the loaded module as a parameter** to anything that needs it, so two versions cannot
-  coexist in one run;
+  coexist in one run.
 - **after patching a copy, assert the patch is visible** where it will be used, e.g. inspect
-  the function signature, rather than assuming the import graph resolved the way you intended;
+  the function signature, rather than assuming the import graph resolved the way you intended.
 - **check whether the original is hash-recorded before editing it.** If a landed package
-  records the file's digest, patching it in place breaks that package's verification; copy it,
+  records the file's digest, patching it in place breaks that package's verification. Copy it,
   record both hashes, and redirect the copy's output paths — a copy usually still points at
   the original's output directory.
 
@@ -4128,17 +4128,17 @@ extrema, component ratios, ranges, coverage, and a bounded sample.
 
 For paired on/off-resonance evidence:
 
-- use identical slice, grid, interpolation, units, and color limits;
-- report missing-cell/coverage statistics;
-- preserve source/configuration/dataset hashes;
+- use identical slice, grid, interpolation, units, and color limits.
+- report missing-cell/coverage statistics.
+- preserve source/configuration/dataset hashes.
 - optionally render PNGs in an isolated plotting process rather than relying on
   headless COMSOL image export.
 
 For geometry-aware native field plots, bind the artifact to physical surface
 categories, not only numeric entity IDs. Record adjacent domains, representative
 face centers and normals, exposed-versus-internal classification, and the exact
-selected IDs for each geometry state. Re-probe mirrored or rebuilt geometry;
-an external material-air boundary, an internal material-material interface, and
+selected IDs for each geometry state. Re-probe mirrored or rebuilt geometry.
+An external material-air boundary, an internal material-material interface, and
 a Cut Plane are not interchangeable even when their projections overlap.
 
 For paper-target field maps, read the exact field-export header before choosing
@@ -4146,7 +4146,7 @@ the wavelength, slice coordinate, grid, or color scale. Different material
 states can use slightly different wavelengths even when the caption gives one
 approximate resonance, and a main panel can use per-view limits while the SI
 shows the same arrays on a shared scale. Preserve both renderings when both are
-scientifically relevant; compare only self-calculated arrays against the author
+scientifically relevant. Compare only self-calculated arrays against the author
 arrays.
 
 Do not transfer a rotational-symmetry argument from an integrated spectrum to a
@@ -4169,7 +4169,7 @@ local fields or an unrelated observable.
 
 For line-profile comparisons, report an absolute or normalized error metric
 alongside correlation and preserve the normalization rule. Correlation `1`
-allows an affine amplitude/baseline difference; it does not prove pointwise
+allows an affine amplitude/baseline difference. It does not prove pointwise
 identity. When identity matters, also require slope near `1`, intercept near
 `0`, and RMSE within the declared tolerance on identical coordinates.
 
@@ -4178,15 +4178,15 @@ boundary while the reproduced model uses a centered primitive cell. Align such
 maps only by a deterministic translation derived from the declared lattice
 vectors and geometry, such as an exact half-period recentering. Record the
 translation, wrapping rule, and pre/post coordinate ranges. Never maximize image
-correlation, hotspot overlap, or another agreement metric to choose the shift;
-that would tune the comparison to the target rather than reconcile coordinate
+correlation, hotspot overlap, or another agreement metric to choose the shift.
+That would tune the comparison to the target rather than reconcile coordinate
 conventions.
 
 Treat live field-tool discovery as authoritative. If an existing-dataset field
 extractor rejects a bounded raw request because it requires private normalized
 transport fields such as fingerprints or derived grid counts, do not invent
 those fields by hand. Use a documented public solver-free normalizer when one
-exists; otherwise record the contract mismatch and export the solved dataset
+exists. Otherwise record the contract mismatch and export the solved dataset
 through direct bounded clientapi interpolation with the same hashes, grid,
 coverage, and visual-review requirements. A preflight `next_call` hint is also
 non-authoritative when the live profile already exposes and successfully runs
@@ -4250,7 +4250,7 @@ Two practices make the recovery trustworthy rather than merely plausible:
 
 - **Recover `M` twice from different pairs and compare the two matrices.** If
   the recovery depended on the pair chosen, that difference exposes it. Report
-  it; do not assume invariance.
+  it. Do not assume invariance.
 - **Do not let conditioning decide which pair is admissible.** This corrects an
   earlier version of this section, which said that any well-conditioned pair
   gives the same `M` and suggested choosing the pair whose state matrix has the
@@ -4356,11 +4356,11 @@ the lowest order tested gets an answer that is not merely imprecise but
 already agrees, the sweep is not a test.
 
 **Report a residual and a tail per order, not only the order-to-order
-difference.** Agreement between two orders says the number stopped moving; it
+difference.** Agreement between two orders says the number stopped moving. It
 does not say the number was ever right. Two quantities belong beside every order:
 
 - the **differential residual** — how well the truncated candidate satisfies the
-  equation it is supposed to solve;
+  equation it is supposed to solve.
 - the **harmonic tail norm** — how small the outermost retained coefficient is.
   In a low-order truncation this has not decayed by construction, so a screen
   built on it will reject the lowest orders outright. That rejection is the
@@ -4369,7 +4369,7 @@ does not say the number was ever right. Two quantities belong beside every order
 
 Expect a sweep where the lowest orders produce **no admissible answer at all**
 rather than a slightly wrong one, and report those orders explicitly. A verdict
-cannot be "converged" when only one order yielded a number; and it cannot be
+cannot be "converged" when only one order yielded a number. And it cannot be
 "not converged" either, because no comparison was made. Give it its own outcome.
 
 Also fix the resolution the verdict is claimed at. A bisection that stops at
@@ -4393,7 +4393,7 @@ unit-modulus multiplier, and the energy is not invariant under that rotation.
 An earlier version of this section implied the opposite and was refuted by its
 own output — a stable operating point showed a clearly non-zero one-period
 energy change. Energy is a valid bookkeeping quantity and an invalid growth
-test; the multiplier is the growth test.
+test. The multiplier is the growth test.
 
 Two consequences worth carrying:
 
@@ -4405,7 +4405,7 @@ Two consequences worth carrying:
   the wrong sign.
 - The clean link between the two is `u(T)/u(0) = mu^2`, and it holds **only for a
   pure Floquet mode**. Started from an arbitrary initial condition the state is a
-  mixture of both multipliers and the ratio is meaningless; started from the
+  mixture of both multipliers and the ratio is meaningless. Started from the
   eigenvector it reproduced `mu^2` to about 1e-14 while the arbitrary-condition
   value was wrong in the second decimal. If you quote that identity, say which
   initial condition it was evaluated on.

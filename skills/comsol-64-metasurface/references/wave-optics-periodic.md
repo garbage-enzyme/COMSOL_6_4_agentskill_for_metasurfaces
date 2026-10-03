@@ -23,12 +23,12 @@ ps.selection("excitedPortSelection").set([top_boundary])
 
 `PeriodicStructure` creates Floquet-condition and periodic-port children plus a
 reference-direction feature. Use `ewfd.Rtotal`, `ewfd.Ttotal`, and
-`ewfd.Atotal`; do not assume an `S11` variable exists.
+`ewfd.Atotal`. Do not assume an `S11` variable exists.
 
 The base interface commonly contains wave-equation, PEC, initial-value, and
 continuity features. Discover their live tags instead of assuming a fixed
 sequence. Periodic-port selections created by the compound feature can be locked
-and auto-managed; repair topology/parent settings rather than forcing a child
+and auto-managed. Repair topology/parent settings rather than forcing a child
 selection.
 
 The domains adjacent to periodic ports must be homogeneous and isotropic. Put
@@ -54,11 +54,11 @@ ps.runCommand("addDiffractionOrders")
 
 Probe edge parameter ranges before choosing endpoints or midpoints. The physical
 meaning of `LinearPol=S/P` depends on `rdir1`, incidence plane, and angle. Record
-the requested physical target separately; keep it `label_only` until field
+the requested physical target separately. Keep it `label_only` until field
 evidence establishes the actual direction.
 
 Treat `S`, `P`, `Mixed`, and circular handedness enums as COMSOL labels. Discover
-the exact enum accepted by the installed build, and verify the physical field;
+the exact enum accepted by the installed build, and verify the physical field.
 `rhcp/lhcp` names are not self-validating across observation conventions.
 
 For a coherent equal-phase S/P input, COMSOL 6.4 accepts `LinearPol=Mixed` and
@@ -74,7 +74,7 @@ assert str(ps.getString("LinearPol")) == "Mixed"
 assert float(str(ps.getString("etaP"))) == 0.5
 ```
 
-This supplies a real, equal-phase mixture; it is not an arbitrary relative-phase
+This supplies a real, equal-phase mixture. It is not an arbitrary relative-phase
 control. Combine it with separate S, P, and one calibrated circular solve when a
 full 2x2 absorptivity/coherency reconstruction is needed. Keep wavelength,
 incidence, geometry, mesh, normalization, and dataset identity identical across
@@ -101,7 +101,7 @@ ps.set("LinearPol", "S")
 ```
 
 When semantics are uncertain, inspect an official Application Library `.mph`
-read-only. Modern `.mph` files are ZIP containers; property descriptions and
+read-only. Modern `.mph` files are ZIP containers. Property descriptions and
 stored set actions can appear in `smodel.json` or `dmodel.xml`. Never modify or
 unpack the source in place.
 
@@ -136,7 +136,7 @@ mesh.run()
 
 - The default `size` node cannot be removed and cannot be given a restricted
   selection (its type is `MeshSizeDefault` and it has no selection). Create
-  additional `Size` features with distinct tags instead; only a second feature
+  additional `Size` features with distinct tags instead. Only a second feature
   reusing the tag `size` fails. COMSOL applies the last applicable `Size` to a
   domain, so an added Size can override the default for chosen domains.
 - `CopyFace` source/destination selections normally inherit the geometry context.
@@ -149,10 +149,10 @@ mesh.run()
   `compatibility_unproven` separately.
 - If needed, build only an ephemeral clone, record native mesh counts/error, then
   delete the clone and verify the source hash.
-- FormUnion or FormAssembly does not make a FreeTet-only periodic mesh compatible;
-  corresponding face partitions and copied source meshes are still required.
+- FormUnion or FormAssembly does not make a FreeTet-only periodic mesh compatible.
+  Corresponding face partitions and copied source meshes are still required.
 - Reading a built mesh back: counts come from `mesh.getNumElem(type)` and
-  `mesh.getNumVertex()`; arrays come from `mesh.getVertex()` and
+  `mesh.getNumVertex()`. Arrays come from `mesh.getVertex()` and
   `mesh.getElem("tet")` on the mesh sequence. The `mesh.stat()` object has counts
   but no vertex or connectivity accessor, so a `getattr`-guarded probe against it
   yields `None` rather than raising.
@@ -160,12 +160,12 @@ mesh.run()
   the vertex accessor is component-major (3-by-N), and the connectivity accessor
   can return an empty array with fewer than two dimensions when no volume
   elements exist (for example, a domain-restricted `Size` with no volume mesher).
-- A `Size` feature constrains element size but creates no elements; a `FreeTet`
+- A `Size` feature constrains element size but creates no elements. A `FreeTet`
   covering the same domains is required, otherwise the tet count is zero.
 - Two runs that differ only in a remote parameter are not guaranteed to produce
   the same mesh for a sub-region, even when that sub-region's geometry is exactly
-  identical. Do not treat a sub-region mesh hash as stable without testing it;
-  see `troubleshooting.md` for the controlled observation and how to bound the
+  identical. Do not treat a sub-region mesh hash as stable without testing it.
+  See `troubleshooting.md` for the controlled observation and how to bound the
   discretisation contribution when an exact freeze is unavailable.
 
 ## Oblique primitive cells
@@ -185,7 +185,7 @@ cell_y = [-b/2, -b/2, b/2, b/2]
 - Extrude full layers from the same footprint.
 - Build internal shifted features so the lower partition translates exactly to
   the upper partition under `a2`.
-- Fill the surrounding volume; do not leave unintended voids.
+- Fill the surrounding volume. Do not leave unintended voids.
 - Classify `a1` faces from the slanted boundary equations and `a2` faces from
   the top/bottom coordinate planes.
 - Prove source/destination cardinality and translation before meshing.
@@ -194,7 +194,7 @@ cell_y = [-b/2, -b/2, b/2, b/2]
 
 For MCP setters, require a provenance-tracked derived model and an exact
 pre-state hash. Preflight exactly one `PeriodicStructure`, exactly two periodic
-ports, and a nonempty reference direction. Snapshot parent and both children;
-serialize mutation; write all required nodes; read them back exactly. On any
+ports, and a nonempty reference direction. Snapshot parent and both children.
+serialize mutation. Write all required nodes. Read them back exactly. On any
 failure, roll back every node. If restoration cannot be proved, mark the derived
 model dirty and refuse it for validated work.

@@ -1,6 +1,6 @@
 ---
 name: comsol-mcp-development
-description: Develop, review, test, package, release, deploy, and recover the Windows-only COMSOL Multiphysics MCP server. Use when editing the COMSOL MCP repository or its tools, schemas, profiles, settings, durable jobs, evidence contracts, tests, CI workflows, recipes, packaging, wheel installation, production stdio host, or when diagnosing Windows races, process leaks, resource exhaustion, CI stalls, installed-source mismatches, and release-gate failures. Do not use for ordinary COMSOL modeling or scientific result validation; use the COMSOL operations skill for those tasks.
+description: Develop, review, test, package, release, deploy, and recover the Windows-only COMSOL Multiphysics MCP server. Use for repository code, tools, schemas, profiles, settings, durable jobs, evidence contracts, CI, recipes, packaging, wheel installation, and the production stdio host. Also use to diagnose Windows races, process leaks, resource exhaustion, CI stalls, installed-source mismatches, and release-gate failures. For ordinary COMSOL modeling or scientific validation, use the COMSOL operations skill.
 ---
 
 # COMSOL MCP development
@@ -10,8 +10,8 @@ physical-validation guidance in the separate COMSOL operations skill.
 
 ## Mandatory workflow
 
-1. Read the repository `AGENTS.md`, then the layout document and the closest
-   implementation, test, schema, and contract before editing.
+1. Before editing, read the repository `AGENTS.md` and layout document.
+   Read the relevant implementation, test, schema, and contract.
 2. Treat the live repository and installed-package identities as authority.
    Historical plans explain why a rule exists but do not override current code.
 3. Keep unit, schema, packaging, documentation, and process-only work
@@ -25,6 +25,18 @@ physical-validation guidance in the separate COMSOL operations skill.
 7. Distinguish deterministic code failures, timing races, process leaks,
    resource exhaustion, transport loss, and stale deployment before selecting a
    fix. One error can expose another latent defect.
+
+## Documentation changes
+
+Use ASD-STE100-inspired writing for English procedures and explanations.
+Use short sentences with explicit actors and consistent terms.
+Apply the same clarity principles to Chinese without claiming English dictionary compliance.
+Preserve every condition, exception, number, unit, API identifier, and requirement strength.
+Keep uncertainty explicit. Do not turn an implementation claim into a test result.
+Keep precise wording when simplification would change its meaning.
+Check English and Chinese facts against the same code and evidence.
+Review file descriptions in the repository layout as documentation too.
+A structural linter does not prove semantic equivalence or certified STE compliance.
 
 ## Reference router
 
@@ -61,8 +73,8 @@ Read each selected reference completely before acting.
 
 Use `reproduced`, `deterministic_failure`, `timing_race`, `resource_exhaustion`,
 `transport_failure`, `deployment_mismatch`, `implemented_pending_ci`, `fixed`,
-`rejected`, and `deferred` precisely. A local pass is not exact-SHA CI success;
-a source-tree pass is not production deployment; a restarted MCP host is not a
+`rejected`, and `deferred` precisely. A local pass is not exact-SHA CI success.
+A source-tree pass is not production deployment. A restarted MCP host is not a
 successful COMSOL solve.
 
 ## Reusable maintenance patterns
@@ -79,7 +91,7 @@ successful COMSOL solve.
 - For wavelength-controlled one-point evidence, retain and compare all three
   identities: caller-requested value, evaluated model parameter, and solved
   frequency-derived wavelength. Equality between only the latter two can hide
-  a study sweep overriding the requested point; use the study's explicit
+  a study sweep overriding the requested point. Use the study's explicit
   single-point parameter control and fail closed on any requested-value drift.
 - For subprocess protocols carried on stdout, treat every imported dependency
   as a possible protocol writer. Prefer the dependency's current module entry
@@ -88,13 +100,13 @@ successful COMSOL solve.
   stdout line as the declared protocol.
 - For PDF/manual indexing workers, reserve stdout exclusively for framed JSON
   events. Duplicate the protocol fd before redirecting native-library stdout
-  to bounded stderr; otherwise native PDF diagnostics can masquerade as invalid
+  to bounded stderr. Otherwise native PDF diagnostics can masquerade as invalid
   JSON and cause a false worker failure. Verify the real corpus, preserve the
   previous index on cancellation/failure, and record only bounded relative
   source/page diagnostics.
 - For native COMSOL adjoint adapters, prove the objective can be assembled by
   the native sensitivity solver. A forward-valid aggregate such as `Ttotal`
-  may be undefined in the adjoint objective scope; use a documented
+  may be undefined in the adjoint objective scope. Use a documented
   differentiation-aware order expression when required and bind the generated
   sensitivity solution/dataset identities. Keep raw complex `fsens` evidence
   separate from the accepted real derivative component, which requires an
@@ -105,7 +117,7 @@ successful COMSOL solve.
   or material-coordinate NaNs, preserve the accepted trajectory and failed
   evidence, replay bounded next-step fractions with fresh forward solves, and
   audit frame/Jacobian feasibility before changing policy. A smaller move-limit
-  causal pass is model evidence, not a universal default; never hide an
+  causal pass is model evidence, not a universal default. Never hide an
   automatic reduction, iteration truncation, or method fallback.
 - The `comsolless_read_only` profile is frozen at five stdlib-only read-only
   tools (mph_inspect, mph_diff, model_identity,
@@ -118,6 +130,6 @@ successful COMSOL solve.
   references folder — never duplicate that usage guide here.
 - An isolated licensed smoke on a newer MPh backend does not widen the
   supported dependency range. Before declaring a new lane, bind the imported
-  version, module path, interpreter and source identity; run both the retained
+  version, module path, interpreter and source identity. Run both the retained
   minimum and new lane through solver-free, licensed, cleanup, installed-wheel
   and exact-SHA CI gates. Refuse a missing overlay instead of falling back.

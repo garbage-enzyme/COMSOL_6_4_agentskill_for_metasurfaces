@@ -18,7 +18,7 @@ and artifact chains.
 
 Treat exact, tolerance-based, semantic, label-only, and unavailable differences
 as distinct states. A matching label is not physical identity. Preview a durable
-job through the same discriminated validator used by submission; a preview is
+job through the same discriminated validator used by submission. A preview is
 not admission, solve success, or scientific acceptance.
 
 ## Spectral line-shape comparison
@@ -30,12 +30,12 @@ support brackets the feature and supplies enough independent points.
 
 Transform wavelength data explicitly when fitting in frequency, angular
 frequency, or energy. Map the fitted center and half-prominence crossings back
-to the original wavelength evidence; linewidths are not invariant under a
+to the original wavelength evidence. Linewidths are not invariant under a
 nonlinear coordinate transform.
 
 Report residual diagnostics, support sensitivity, AIC, AICc when defined, BIC,
-deltas, and descriptive Akaike weights. These compare relative model support;
-they do not prove a Lorentzian decay mechanism, Fano interference, mode identity,
+deltas, and descriptive Akaike weights. These compare relative model support.
+They do not prove a Lorentzian decay mechanism, Fano interference, mode identity,
 or publication acceptance. Retain an unresolved result when support changes the
 winner or a required crossing remains unbracketed.
 
@@ -59,7 +59,7 @@ the licensed solve.
 Substitute directional absorptivity for emissivity only after verifying the exact
 frequency, direction, and polarization channel is linear, time-invariant,
 reciprocal, and in local thermal equilibrium. Unknown assumptions remain
-conditional; a nonreciprocal channel is not covered by the reciprocal equality.
+conditional. A nonreciprocal channel is not covered by the reciprocal equality.
 
 Evaluate Planck spectra with explicit wavelength, frequency, or wavenumber
 Jacobians. Preserve projected-solid-angle integration, polarization basis,
@@ -76,10 +76,10 @@ tags. Reject topology change for the minimal replay route.
 
 Run and persist these stages under one owner:
 
-1. preflight and exact readback;
-2. stationary thermal/structural solve;
-3. temperature, stress, displacement, energy, frame, and mesh evidence;
-4. verified Moving Mesh/spatial-frame transfer;
+1. preflight and exact readback.
+2. stationary thermal/structural solve.
+3. temperature, stress, displacement, energy, frame, and mesh evidence.
+4. verified Moving Mesh/spatial-frame transfer.
 5. exact optical replay with raw R/T/A and wavelength synchronization.
 
 Keep Moving Mesh inactive during the thermal/structural solve and activate it

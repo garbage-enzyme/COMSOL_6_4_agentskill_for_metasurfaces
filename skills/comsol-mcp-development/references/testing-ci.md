@@ -14,11 +14,11 @@
 
 Use the smallest layer that proves the behavior, then expand by risk:
 
-1. deterministic unit tests with fake clocks, fake processes, and injected I/O;
+1. deterministic unit tests with fake clocks, fake processes, and injected I/O.
 2. Windows process-only tests for sharing, identity, Job Objects, pipes, and
-   cleanup;
+   cleanup.
 3. repository integration tests for stdio, package boundaries, schemas, and
-   receipts without COMSOL;
+   receipts without COMSOL.
 4. opt-in licensed COMSOL acceptance for release-specific clientapi or physical
    behavior.
 
@@ -28,7 +28,7 @@ rejection, rollback, cleanup, replay, and corruption cases.
 
 Bind outcome assertions to durable state as well as the returned summary. A
 resource refusal before work must expose the gate decision and persist no false
-row; a replay/skip result must still prove that the prior complete rows and
+row. A replay/skip result must still prove that the prior complete rows and
 collector summaries exist on disk. Do not use temporary lock-file presence or
 absence as an oracle unless lock visibility is itself a public contract.
 
@@ -61,7 +61,7 @@ and release gate artifact roots and pytest basetemps directly under the
 approved ASCII test root with a leaf that satisfies the repository-declared
 path budget. Do not use descriptive nested gate roots. A Win32 temporary-file
 `FileNotFoundError` under a deep generated path is first a gate-invocation path
-failure; rerun from a short root only after confirming the failed tests pass
+failure. Rerun from a short root only after confirming the failed tests pass
 there.
 
 GitHub-hosted Windows execution may require serial pytest even when local xdist
@@ -76,7 +76,7 @@ on its reviewed current release, pin the GUI job to an exact official Python
 patch artifact known to contain Tcl/Tk, and run a minimal `tk.Tk()` create,
 withdraw, idle-update, and destroy preflight before installing the project. If
 the exact official artifact repeatedly fails that preflight, keep real-window
-layout and DPI acceptance in the local Windows gate; retain non-window GUI
+layout and DPI acceptance in the local Windows gate. Retain non-window GUI
 contracts in CI, and never silently skip the missing runtime as a green layout
 result.
 
@@ -89,7 +89,7 @@ licensed side effects genuinely differ. Exact-SHA acceptance must inspect every
 required job in the unified run.
 
 Never start a full local suite or gate while a heavy COMSOL solve is active. A
-heavy solve may exhaust the host alone; overlap only increases the risk.
+heavy solve may exhaust the host alone. Overlap only increases the risk.
 
 ## Deterministic time and warnings
 
@@ -104,7 +104,7 @@ Run focused suites with warnings promoted to errors when repairing cleanup.
 For Windows PowerShell child acceptance, give each case an isolated output
 directory and enforce an independent wall-clock timeout. When stdout and stderr
 are redirected, drain both asynchronously before waiting so the timeout cannot
-hide a pipe deadlock; terminate only the exact child identity on expiry.
+hide a pipe deadlock. Terminate only the exact child identity on expiry.
 
 Serialize floating-point evidence with invariant round-trip formatting and
 parse it with the same culture in tests. Prefix regexes and locale-default
@@ -120,8 +120,8 @@ into production runtime state.
 
 When Git reports modified files but both index and worktree diffs are empty,
 prove blob equality before treating the entries as stat/EOL noise. Refresh by
-staging tracked content only when the resulting cached diff is still empty;
-never discard or reset a user's real change to satisfy a clean release gate.
+staging tracked content only when the resulting cached diff is still empty.
+Never discard or reset a user's real change to satisfy a clean release gate.
 
 ## Failure diagnosis
 
@@ -131,12 +131,12 @@ time or a progress percentage.
 
 Classify separately:
 
-- deterministic assertion/schema/allowlist mismatch;
-- timeout with diagnostic stack;
-- worker or executor shutdown stall;
-- process/pipe/resource leak;
-- host resource exhaustion;
-- dependency-lane incompatibility;
+- deterministic assertion/schema/allowlist mismatch.
+- timeout with diagnostic stack.
+- worker or executor shutdown stall.
+- process/pipe/resource leak.
+- host resource exhaustion.
+- dependency-lane incompatibility.
 - packaging or installed-source mismatch.
 
 One deterministic failure repeated in several jobs is one root cause, not

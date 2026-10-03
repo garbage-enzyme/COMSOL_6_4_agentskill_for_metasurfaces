@@ -33,3 +33,12 @@ repository.
 
 Companion MCP server:
 https://github.com/garbage-enzyme/COMSOL_Multiphysics_MCP_6_4_Calibrated
+
+## Documentation wording
+
+Use [asd-ste100](https://github.com/danyuchn/asd-ste100-skill) when editing skill text and references.
+Use short sentences, explicit actors, and consistent terms.
+Preserve technical meaning, conditions, exceptions, uncertainty, and requirement strength.
+Keep code, API names, numeric evidence, and quoted messages exact.
+Apply clarity rules to Chinese without claiming English dictionary compliance.
+Check semantics separately from structural lint results.

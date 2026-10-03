@@ -21,22 +21,22 @@ dependency names or wheel download sizes.
 
 Distinguish all of these values:
 
-- compressed wheel size;
-- installed MCP package files;
-- default runtime dependencies;
-- empty Python/venv baseline;
-- complete steady-state venv;
-- temporary download, extraction, and pip-cache headroom;
-- optional extras such as manual or semantic search;
-- user data such as PDF manuals, lexical/vector indexes, models, and evidence;
+- compressed wheel size.
+- installed MCP package files.
+- default runtime dependencies.
+- empty Python/venv baseline.
+- complete steady-state venv.
+- temporary download, extraction, and pip-cache headroom.
+- optional extras such as manual or semantic search.
+- user data such as PDF manuals, lexical/vector indexes, models, and evidence.
 - COMSOL Multiphysics and Java, which are external products rather than Python
   package dependencies.
 
 Do not encode one workstation's measured sizes as product requirements. Package
 versions, filesystem cluster size, Python distribution, optional extras, pip
 cache policy, and preinstalled shared dependencies change the result. Report
-the exact measured environment and recommend conservative free-space headroom;
-for a few-hundred-MiB default runtime, one GiB of free space is a practical
+the exact measured environment and recommend conservative free-space headroom.
+For a few-hundred-MiB default runtime, one GiB of free space is a practical
 installation allowance, not a contractual minimum.
 
 Large scientific stacks usually dominate. Rank actual installed distributions

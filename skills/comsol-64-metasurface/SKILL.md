@@ -1,6 +1,6 @@
 ---
 name: comsol-64-metasurface
-description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations, startup settings, execution-mode selection, modeling, durable solves, evidence validation, and recovery through COMSOL MCP or standalone/clientapi. Use when configuring the shared settings or Settings GUI; choosing interactive, inline, launcher, standalone, or MPH-only execution; driving COMSOL through MCP or mph.Client; building Acoustics, PDE, Heat Transfer, Solid Mechanics, Wave Optics, thermal-emission, thermo-optomechanical, or metasurface models; collaborating with local Server/Desktop; debugging clientapi, selection, mesh, port, material, or study failures; recovering after resource exhaustion or MCP disconnection; running resumable sweeps; comparing spectral line shapes; or auditing polarization, passivity, power closure, wavelength synchronization, convergence, provenance, resource admission, and solver ownership.
+description: Operate COMSOL Multiphysics 6.4+ and MPh 1.3.1 through COMSOL MCP or standalone/clientapi. Use for shared settings, Settings GUI, and interactive, inline, launcher, standalone, or MPH-only mode selection. Use for modeling, durable solves, evidence validation, and recovery. Physics coverage includes Acoustics, PDE, Heat Transfer, Solid Mechanics, Wave Optics, thermal emission, thermo-optomechanics, and metasurfaces. Also use for local Server/Desktop collaboration and clientapi, selection, mesh, port, material, or study failures. It covers resource-exhaustion and MCP-disconnection recovery, resumable sweeps, and spectral line-shape comparison. Use to audit polarization, passivity, power closure, wavelength synchronization, convergence, provenance, resource admission, and solver ownership.
 ---
 
 # COMSOL 6.4+ operations
@@ -8,6 +8,13 @@ description: COMSOL Multiphysics 6.4+ and MPh 1.3.1 operations, startup settings
 Use this file as the short entry point. Read only the reference modules required
 for the current task. All paths below are relative so the same folder works in
 Claude Code, Codex CLI, and opencode.
+
+## Wording and evidence
+
+Use short sentences, explicit actors, and consistent technical terms.
+Preserve conditions, exceptions, numbers, units, and uncertainty when simplifying English or Chinese.
+Keep API identifiers and quoted diagnostics exact.
+Separate task completion, evidence integrity, and scientific acceptance.
 
 ## Mandatory operating rules
 
@@ -17,7 +24,7 @@ Claude Code, Codex CLI, and opencode.
 3. Treat source models as immutable. Apply mutations only to provenance-tracked
    derived copies and verify the source SHA-256 afterward.
 4. Use one point per solve for fragile or long sweeps. Persist each validated row
-   with flush and `fsync`; resume only exact configuration identities.
+   with flush and `fsync`. Resume only exact configuration identities.
 5. Never infer physical polarization from `S/P`, energy closure from shared
    internal normalizations, convergence from a fixed-wavelength amplitude, or
    solver progress from CPU/disk activity alone.
@@ -49,7 +56,7 @@ Claude Code, Codex CLI, and opencode.
     and re-read the mapping after save/reload.
 14. Validate native objectives in the sensitivity solver, not only in forward
     evaluation. A quantity such as `Ttotal` can be forward-valid yet fail
-    native adjoint assembly; use the supported differentiation-aware
+    native adjoint assembly. Use the supported differentiation-aware
     diffraction-order expression (for example `comp1.ewfd.Torder_0_0`) when
     appropriate. Treat `fsens(control)` as raw complex evidence and accept a
     component only after independent central finite-difference and directional
@@ -86,15 +93,15 @@ the same shared settings file used by every agent. Treat the checked-in
 recovery, and explicitly authorized agent edits. Missing entries use safe
 defaults. An illegal value falls back only that entry and is reported through
 `capabilities` or `evidence_integrity_status` as a bounded `settings_errors`
-item; malformed JSON falls back to the complete safe default document and
+item. Malformed JSON falls back to the complete safe default document and
 reports the error. Check `project_settings.configuration_state` before relying
 on a profile or path.
 
 For shared Desktop/Server work, choose any valid base profile and enable the
 independent shared-server feature in the GUI Profile tab. The advanced JSON
-equivalent is `shared_server.enabled=true`; no `desktop_shared` profile exists.
+equivalent is `shared_server.enabled=true`. No `desktop_shared` profile exists.
 Restart the MCP host after startup-setting changes. Evidence-integrity checks
-remain default-on; only an explicit GUI opt-out or JSON boolean `false` may
+remain default-on. Only an explicit GUI opt-out or JSON boolean `false` may
 disable a check, and it must propagate `strictly_verified: false`. Treat the old
 individual environment variables as compatibility overrides, not the normal
 multi-agent configuration.
@@ -102,7 +109,7 @@ multi-agent configuration.
 ## Simulation execution modes
 
 Choose the execution mode before starting a run. Mode selection is agent
-workflow guidance, not an MCP operation; do not look for or invent a generic
+workflow guidance, not an MCP operation. Do not look for or invent a generic
 mode-recommendation tool.
 
 - Use `interactive` for incremental MCP edits, readback, and short feedback.
@@ -120,7 +127,7 @@ mode-recommendation tool.
   target Python. It still requires COMSOL and its bundled Java runtime.
 - Use `mphonly` when the required handoff is one final portable MPH, commonly
   for a COMSOL-managed cluster or cloud environment. A COMSOL Job Configuration
-  checkpoint can recover only to its latest checkpoint; do not claim exact
+  checkpoint can recover only to its latest checkpoint. Do not claim exact
   per-point durability. One final MPH does not mean zero temporary, log,
   synchronization, or recovery files during execution.
 
@@ -142,15 +149,15 @@ a clarification request, not a guessed package.
   installed or currently available. Start COMSOL only when the offline result
   is insufficient and the caller explicitly requests a live-session check.
 - Report file/source/derived/checkpoint identity from
-  `model_identity`; live session identity is structured-unavailable unless the
+  `model_identity`. Live session identity is structured-unavailable unless the
   caller explicitly requests it from an already-connected session.
 - Treat bounded-step receipts (`bounded_step_receipt`) as the review record:
   pre/post state hashes, checkpoint identity, numerical checks, and separated
   transport/execution/evidence/cleanup/scientific outcomes. A checkpoint is
   usable only when its bytes plus source/model/revision identities all match
-  the receipt; otherwise decide restart.
+  the receipt. Otherwise decide restart.
 - For long tasks, distinguish observer timeout, transport disconnect,
-  worker failure, and verified solver terminal state; cleanup is proven only
+  worker failure, and verified solver terminal state. Cleanup is proven only
   by exact owned-identity absence, never by name matching or monitor silence.
 - Integrity evidence from these tools is never FEM validation.
 
@@ -184,12 +191,12 @@ For a task spanning several areas, read only their union. Examples:
 
 ## Default execution sequence
 
-1. Discover the active tool/profile surface; treat live discovery as authority.
+1. Discover the active tool/profile surface. Treat live discovery as authority.
 2. Query ownership/status without starting COMSOL.
 3. Hash the source and normalize the exact requested configuration.
 4. Run solver-free preflight first: topology, selections, expressions, policy,
    artifact paths, resource availability, and immutable identity.
-5. Acquire ownership once; then create/load the client and derived model.
+5. Acquire ownership once. Then create/load the client and derived model.
 6. Run the smallest diagnostic or one-point gate before a sweep.
 7. Persist raw values and assumptions before interpretation.
 8. Release model/client/worker/descendants/port/lease and verify absence.

@@ -2,16 +2,16 @@
 
 Read this reference only when the required COMSOL operation is unavailable
 through the active MCP surface. Prefer the MCP server whenever it can accept the
-exact serialized operation; it supplies ownership, containment, durable-state,
+exact serialized operation. It supplies ownership, containment, durable-state,
 and evidence controls that direct MPh does not recreate.
 
 ## Gate
 
 Use direct MPh only after one of these terminal conditions:
 
-- no COMSOL MCP client or server is configured on the host;
-- the server executable/import is unavailable; or
-- a serialized startup attempt completed with a terminal failure; or
+- no COMSOL MCP client or server is configured on the host.
+- the server executable/import is unavailable.
+- a serialized startup attempt completed with a terminal failure.
 - live capability discovery proves that the required bounded operation, such as
   native plot-group/image export, is absent from the active profile and no safe
   generic MCP operation can express it.
@@ -24,13 +24,13 @@ healthy MCP session is connected. Disconnect and verify lease release first.
 
 Before creating a direct client, perform a fresh process inventory and refuse if
 any COMSOL, Java, MPh, solver-worker, or uncertain lease owner exists. Do not
-start a second client to recover a failed direct-client process; terminate that
+start a second client to recover a failed direct-client process. Terminate that
 Python process and begin again only after a fresh inventory.
 
 ## Install MPh
 
 COMSOL Multiphysics must already be installed and licensed locally. Create a
-non-editable, ASCII-path environment; never install a fallback into the project
+non-editable, ASCII-path environment. Never install a fallback into the project
 source tree:
 
 ```powershell
@@ -56,7 +56,7 @@ root and requested version first. Direct MPh is not a license bypass.
 ## Minimal isolated run
 
 Use one source model, one declared point, and one unique output path. Hash the
-source before and after; save through the Java ClientAPI so Unicode destinations
+source before and after. Save through the Java ClientAPI so Unicode destinations
 remain reliable.
 
 ```python
@@ -108,5 +108,5 @@ each point before starting another.
 Direct MPh lacks MCP's solver lease, path containment, durable job/cancellation,
 profile discovery, and evidence-integrity controls. Apply those checks manually
 or label the result as a limited standalone smoke. A successful native call or
-finite number is not physical validation; use declared material, geometry,
+finite number is not physical validation. Use declared material, geometry,
 mesh, boundary, convergence, and independent-reference evidence for the claim.

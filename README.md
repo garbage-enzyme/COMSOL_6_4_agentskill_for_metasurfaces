@@ -5,7 +5,7 @@
 Two progressive-disclosure skills:
 
 - `comsol-64-metasurface` for COMSOL modeling, solver operation, host recovery,
-  and physical validation;
+  and physical validation.
 - `comsol-mcp-development` for server engineering, tests, CI, packaging,
   deployment, and review maintenance.
 
@@ -16,7 +16,7 @@ Agent.
 
 | CLI | Entry |
 | --- | --- |
-| Claude Code | Copy the complete folder to `~/.claude/skills/comsol-64-metasurface/`; a project-local `CLAUDE.md` import also remains supported. |
+| Claude Code | Copy the complete folder to `~/.claude/skills/comsol-64-metasurface/`. A project-local `CLAUDE.md` import also remains supported. |
 | Codex CLI | Install the folder under the Codex skills directory or point to it from `AGENTS.md`. |
 | opencode | Copy the folder under `~/.config/opencode/skills/`. |
 | Hermes Agent | Install under `~/.hermes/skills/` or expose the repository `skills/` directory through `skills.external_dirs`. |
@@ -51,25 +51,25 @@ when their task area is needed.
 
 Operational skill:
 
-- standalone `ModelClient` overload and geometry-probing traps;
+- standalone `ModelClient` overload and geometry-probing traps.
 - isolated COMSOL 6.4 Electrochemistry Module profile, interface/property
-  probing, bounded mutations, and evidence limits;
-- typed Pressure Acoustics, mathematical PDE, and named selections;
-- periodic ports, incidence angles, polarization, CopyFace meshes, oblique cells;
-- Drude/loss signs, layered boundaries, dispersive sweeps, PML/manual Floquet;
-- durable jobs, cancellation, Windows sharing/identity stability, host recovery;
-- R/T/A, physical flux closure, wavelength sync, provenance, convergence, fields;
+  probing, bounded mutations, and evidence limits.
+- typed Pressure Acoustics, mathematical PDE, and named selections.
+- periodic ports, incidence angles, polarization, CopyFace meshes, oblique cells.
+- Drude/loss signs, layered boundaries, dispersive sweeps, PML/manual Floquet.
+- durable jobs, cancellation, Windows sharing/identity stability, host recovery.
+- R/T/A, physical flux closure, wavelength sync, provenance, convergence, fields.
 - MIM, grating, nanopillar, parameter-scan, and field-export recipes.
 
 Development skill:
 
-- public tool/profile/schema/settings contracts and bounded validation;
-- durable state, process ownership, cancellation, admission, and Windows I/O;
-- solver-free tests, hosted CI policy, warning cleanup, and gate diagnosis;
-- wheel/sdist boundaries, non-editable deployment, and installed build identity;
+- public tool/profile/schema/settings contracts and bounded validation.
+- durable state, process ownership, cancellation, admission, and Windows I/O.
+- solver-free tests, hosted CI policy, warning cleanup, and gate diagnosis.
+- wheel/sdist boundaries, non-editable deployment, and installed build identity.
 - optional DeepSeek Harness stdio compatibility bridge, serialized ownership,
-  durable-job mirroring, and settings-change boundaries;
-- evidence-bound compatibility attempts for explicitly requested pre-6.4 builds;
+  durable-job mirroring, and settings-change boundaries.
+- evidence-bound compatibility attempts for explicitly requested pre-6.4 builds.
 - hierarchical review validation, repair ledgers, exact-SHA CI, and release flow.
 
 ## Install
