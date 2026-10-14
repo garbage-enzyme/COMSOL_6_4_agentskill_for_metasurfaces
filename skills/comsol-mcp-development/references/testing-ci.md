@@ -75,6 +75,12 @@ Keep property acceptance, equation compilation and constrained convergence as se
 Verify actual constraint enforcement against an active-bound oracle and a fresh forward solve.
 This observation does not establish the behavior of every COMSOL version or feature.
 
+After a native optimizer timeout, test a known analytic baseline with one bounded sensitivity study.
+Compare the raw native derivative with the independently derived value in matching units.
+A correct baseline derivative does not prove optimizer convergence or identify the timeout cause.
+Use measured point cost as an estimate, not a guaranteed campaign duration.
+Keep later execution within the caller's declared resource limits.
+
 Declare any test-only input factory or node resolver replacement in native evidence.
 Keep production typed getters, conversion, constraint configuration, and solver operations unchanged.
 Capture native configuration and forward control values through read-only observers.

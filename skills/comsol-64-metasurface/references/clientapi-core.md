@@ -73,6 +73,12 @@ A bounded COMSOL 6.4 probe rejects `getBooleanMatrix` for `Piecewise.pieces` and
 This result does not establish universal refusal for other native properties.
 Scalar Boolean readback does not establish two-dimensional Boolean matrix readback.
 
+For a tested COMSOL 6.4 method-input property, `getValueType` reports `StringMatrix` before and after a Boolean-matrix write.
+Its `getBooleanMatrix` returns a primitive Java `boolean[][]` with exact Boolean cells.
+Keep the storage label and typed-getter result as separate evidence.
+Check the returned Java array class, dimensions, cell types and production conversion.
+A fixture resolver does not establish public support for the fixture's node path.
+
 For `LineData.elementdata`, the tested COMSOL 6.4 runtime reports `IntMatrix`.
 Read its element connectivity with `getIntMatrix`.
 Keep native getter evidence separate from adapter node-path support.
