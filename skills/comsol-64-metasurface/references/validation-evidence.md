@@ -155,6 +155,29 @@ use it as a substitute for independent physical flux closure.
 Persist per-domain `Qh` for lossy materials. Treat tiny signed values in declared
 lossless domains as numerical noise only under an explicit tolerance.
 
+For a planar fixture at normal incidence along `-z`, a homogeneous isotropic
+air plane permits independent incident/reflected field decomposition. With
+`Z0` as the air impedance, define the tangential electric amplitudes:
+
+```text
+E_down = (Ex - Z0*Hy, Ey + Z0*Hx) / 2
+E_up   = (Ex + Z0*Hy, Ey - Z0*Hx) / 2
+I_down = (abs(Ex-Z0*Hy)^2 + abs(Ey+Z0*Hx)^2) / (8*Z0)
+I_up   = (abs(Ex+Z0*Hy)^2 + abs(Ey-Z0*Hx)^2) / (8*Z0)
+```
+
+Integrate these intensities on the declared top plane. Integrate signed
+Poynting flux on the bottom plane and record its positive direction explicitly.
+Check the phasor amplitude convention and homogeneous plane media first.
+Do not apply this normal-incidence decomposition to oblique or diffracting fields
+without the corresponding modal decomposition.
+
+An all-air clone can check the port reference and transverse field ratio.
+A simple lossless interface also permits an analytic Fresnel comparison.
+Preserve any numerical `A_flux` residual instead of reporting it as absorption.
+Because `A_flux = 1-R_flux-T_flux`, algebraic closure alone is not independent
+energy-balance or material-loss validation. These checks do not establish mesh convergence.
+
 ## Wavelength synchronization
 
 Whenever dispersion uses `wl`, record in every row:

@@ -87,6 +87,12 @@ Update the ledger after local verification, after commit/push, after CI, and
 after deployment. Preserve failed runs and superseded receipts rather than
 rewriting history.
 
+After an accepted repair, record reusable API and validation lessons in the
+relevant skill reference. Keep private models, local paths, receipts, and project
+status in the private plan. When the caller authorizes repository synchronization,
+push the scoped skill and plan commits and verify each remote commit identity.
+Preserve unrelated changes and synchronize the intended installed skill copies.
+
 Keep review-tool false-positive rules outside the product repository unless
 they are intentionally public project policy. Order specific path rules before
 general fallbacks when the tool uses first-match semantics, then validate JSON

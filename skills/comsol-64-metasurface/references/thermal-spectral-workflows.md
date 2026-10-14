@@ -93,3 +93,15 @@ zero-temperature-rise invariance, fixed and convective boundaries, units,
 selections, material-state presence, mesh quality/inversion, parameter rollback,
 source immutability, and final process/lease cleanup. Keep execution completion,
 evidence completeness, and scientific disposition separate.
+
+For native Heat Transfer loads, apply volumetric power through `HeatSource.Q0`.
+Configure convection with `HeatFluxBoundary`, `HeatFluxType=ConvectiveHeatFlux`,
+`h`, and `Text`. Read the values and named selection entities back before solving.
+Check volume selections have dimension three and boundary selections dimension two
+for a three-dimensional fixture.
+
+A zero-load replay cannot establish that the solver used a nonzero heat source.
+Use a bounded causal fixture with nonzero integrated power and two declared
+convection coefficients. Keep geometry, mesh, source power, and other boundaries fixed.
+Check the expected temperature response and retain both solved artifacts.
+Record this as fixture evidence rather than material or device validation.
