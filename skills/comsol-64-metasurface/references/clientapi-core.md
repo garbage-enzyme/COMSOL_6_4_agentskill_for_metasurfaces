@@ -78,6 +78,15 @@ Read its element connectivity with `getIntMatrix`.
 Keep native getter evidence separate from adapter node-path support.
 A fixture-only resolver does not establish public support for result-feature paths.
 
+COMSOL 6.4 can normalize an isotropic material tensor to one scalar cell.
+Accept scalar and diagonal readback only when they express the same declared tensor.
+Do not require the original matrix shape as proof that the setter succeeded.
+
+For a direct frequency solve, bind the result dataset to its solution and study.
+Use solution.study() for the study tag on the tested clientapi runtime.
+A resolver that requires StoreSolution nodes is specific to that sweep topology.
+Do not reuse it for a single-point solve without checking its assumptions.
+
 ## Geometry expressions and length units
 
 COMSOL 6.4 Block size and position properties can report DoubleArray storage.

@@ -84,6 +84,12 @@ For standalone clients, clear owned models and end the contained process.
 Call disconnect only when the client has an attached server port.
 Cleanup exceptions must still fail the gate.
 
+Prevalidate a cancellation fixture against the unchanged gate bounds before cancellation acceptance.
+A lossless scattering fixture can have a small negative numerical absorption residual.
+That residual can fail a strict nonnegative bound before the job reaches the cancellation phase.
+Use a separately declared fixture that satisfies the bound. Preserve the original failed evidence.
+Keep fixture preparation, cancellation execution and physical validation as separate claims.
+
 ## Solver-free enforcement
 
 Unit, lint, compile, documentation, schema, wheel, sdist, and default CI must not
