@@ -102,6 +102,15 @@ Retain process-owner objects until children exit. Dropping `Popen` or pipe
 owners while durable children still run can produce warnings, blocked output,
 or interpreter-shutdown stalls. Use hidden windows for noninteractive helpers.
 
+Windows CPython venv launchers can create another Python process.
+Popen.pid can identify the launcher while os.getpid() identifies the executing worker.
+Bind durable worker records and watchdog targets to the executing process identity.
+For a known redirector, require one direct child with the exact launched command.
+Check creation times and recheck the launcher identity after child enumeration.
+Refuse missing, ambiguous, reused or mismatched identities within the existing deadline.
+Include a real Windows venv path with spaces in process-only acceptance.
+Check completion, cancellation and resume with COMSOL closed.
+
 ## Atomic Windows I/O
 
 Write through a unique temporary file, flush, `fsync`, replace atomically, and
