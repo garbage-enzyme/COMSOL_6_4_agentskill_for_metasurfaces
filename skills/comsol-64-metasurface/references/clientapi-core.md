@@ -63,6 +63,21 @@ for method in obj.getClass().getMethods():
 - COMSOL expressions require valid grouping. For example, use `(1[V])^2`, not
   `1[V]^2`.
 
+## Typed native matrix readback
+
+Record the native property type with `getValueType(name)` before selecting a typed getter.
+Check the returned Java array rank and primitive cell type.
+A native matrix getter can refuse conversion from another storage type.
+
+A bounded COMSOL 6.4 probe rejects `getBooleanMatrix` for `Piecewise.pieces` and `Interpolation.table`, including `true` and `false` strings.
+This result does not establish universal refusal for other native properties.
+Scalar Boolean readback does not establish two-dimensional Boolean matrix readback.
+
+For `LineData.elementdata`, the tested COMSOL 6.4 runtime reports `IntMatrix`.
+Read its element connectivity with `getIntMatrix`.
+Keep native getter evidence separate from adapter node-path support.
+A fixture-only resolver does not establish public support for result-feature paths.
+
 ## Geometry probing
 
 Never assume entity numbers from construction order alone when selections affect

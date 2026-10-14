@@ -67,6 +67,11 @@ Check native constraint activation, expressions, bounds, and the declared conver
 Check feasibility and the objective with a fresh independent forward solve.
 An iteration limit alone does not establish convergence.
 
+Declare any test-only input factory or node resolver replacement in native evidence.
+Keep production typed getters, conversion, constraint configuration, and solver operations unchanged.
+Capture native configuration and forward control values through read-only observers.
+Separate an accepted getter result from public adapter path support and scientific validation.
+
 ## Solver-free enforcement
 
 Unit, lint, compile, documentation, schema, wheel, sdist, and default CI must not
