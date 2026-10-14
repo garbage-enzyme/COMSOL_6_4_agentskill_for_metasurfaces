@@ -171,3 +171,21 @@ Reproduce deterministic assertions after host recovery. Do not label them
 resource failures merely because the same run also exhausted resources. For an
 intermittent lifecycle fix, require repeated clean runs and exact-SHA CI, not one
 successful retry or a larger timeout.
+
+## Native startup timeout and lease-release failure probes
+
+Use an isolated runtime for native startup fault probes.
+Record actual native constructor entry and return times.
+A readiness handshake before entry can coordinate a fault without delaying the native constructor.
+When a test uses a shorter watchdog, retain the production value and label the test override.
+Prove that the timeout occurs between actual constructor entry and return.
+Do not describe this result as a naturally occurring production-duration hang.
+
+On Windows, a real handle without delete sharing can deny lease deletion after successful native client retirement.
+Distinguish this lease-release failure from a native client.clear exception.
+Verify retained cleanup_pending state, retained lease ownership, durable terminal state and refusal of a second start.
+Verify that the native constructor executes only once.
+Close the fault handle during final cleanup.
+Prove exact child exit before stale recovery.
+Verify fresh process, lease and job inventories after recovery.
+Keep deterministic client-retirement failure controls separate from this native lease-release evidence.
