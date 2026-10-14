@@ -37,3 +37,17 @@ Keep untested, unsupported, and failed cases separate.
 For nonblocking acceptance, record the submit response before the job reaches its terminal state.
 Check that the control channel remains usable while the job runs.
 For cancellation acceptance, observe a running job before cancellation and collect the final cleanup evidence.
+
+## Stock DSH client capability boundary
+
+The stock dsh-mcp-client in DSH0.2.1-alpha.2 uses ordinary tools/call dispatch.
+Under2025-11-25, it refuses tools with execution.taskSupport=required before wire dispatch.
+Under2026-07-28, its observed requests declare empty client capabilities and do not opt into Tasks.
+These results establish ordinary fallback and explicit refusal for that pinned client.
+They do not establish native Tasks support or apply to every DSH version.
+
+Use a fixture that follows the negotiated protocol.
+The2026 tool schema removes the legacy execution field.
+The2026 tools/list response requires ttlMs and cacheScope.
+Record each transport generation because automatic version negotiation can reopen stdio.
+Keep protocol-fixture failures separate from native client failures.
