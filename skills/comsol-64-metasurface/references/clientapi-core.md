@@ -78,6 +78,16 @@ Read its element connectivity with `getIntMatrix`.
 Keep native getter evidence separate from adapter node-path support.
 A fixture-only resolver does not establish public support for result-feature paths.
 
+## Geometry expressions and length units
+
+COMSOL 6.4 Block size and position properties can report DoubleArray storage.
+`getDoubleArray` evaluates them in the geometry length unit.
+`getStringArray` preserves their expressions, including explicit units.
+Use expression readback for exact edit verification and restoration.
+Do not compare unit-bearing input strings directly with evaluated numeric arrays.
+Do not restore those numeric arrays as unitless expressions after a unit change.
+Keep evaluated quantities separate when checking physical dimensions.
+
 ## Geometry probing
 
 Never assume entity numbers from construction order alone when selections affect

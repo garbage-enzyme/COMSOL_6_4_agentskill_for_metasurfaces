@@ -72,6 +72,18 @@ Keep production typed getters, conversion, constraint configuration, and solver 
 Capture native configuration and forward control values through read-only observers.
 Separate an accepted getter result from public adapter path support and scientific validation.
 
+Licensed integration suites can contain both source probes and installed-server probes.
+An installed-server probe can clear PYTHONPATH and launch outside the checkout.
+Use an isolated interpreter with the accepted wheel and declared test dependencies.
+Attribute a missing installed package before diagnosing a closed MCP connection as a transport defect.
+
+Forward the declared core count to every native constructor and lifecycle restart.
+An environment variable alone does not prove that each child uses its value.
+Verify actual lifecycle arguments and retain effective resource settings in the receipt.
+For standalone clients, clear owned models and end the contained process.
+Call disconnect only when the client has an attached server port.
+Cleanup exceptions must still fail the gate.
+
 ## Solver-free enforcement
 
 Unit, lint, compile, documentation, schema, wheel, sdist, and default CI must not
