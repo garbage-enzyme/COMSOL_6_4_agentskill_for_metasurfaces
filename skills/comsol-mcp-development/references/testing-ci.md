@@ -67,6 +67,14 @@ Check native constraint activation, expressions, bounds, and the declared conver
 Check feasibility and the objective with a fresh independent forward solve.
 An iteration limit alone does not establish convergence.
 
+COMSOL 6.4 can read back explicit `constraintActive=["on"]` and then fail Optimization equation compilation.
+A controlled comparison compiles when only this property returns to its native empty default.
+Preserve constraint expressions and bounds during this comparison.
+Record the empty default exactly. Do not report an invented `on` readback.
+Keep property acceptance, equation compilation and constrained convergence as separate gates.
+Verify actual constraint enforcement against an active-bound oracle and a fresh forward solve.
+This observation does not establish the behavior of every COMSOL version or feature.
+
 Declare any test-only input factory or node resolver replacement in native evidence.
 Keep production typed getters, conversion, constraint configuration, and solver operations unchanged.
 Capture native configuration and forward control values through read-only observers.
