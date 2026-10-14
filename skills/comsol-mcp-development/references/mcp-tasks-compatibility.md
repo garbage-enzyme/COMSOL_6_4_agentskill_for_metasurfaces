@@ -22,6 +22,11 @@ simulation start through native Tasks.
 - Retain one scheduler and one serialized COMSOL owner. Protocol-level
   concurrency never authorizes simultaneous Java calls or a second solver.
 
+Read the Tasks wire generation before selecting a result method.
+In stable SEP-2663, tasks/get carries the terminal result and tasks/result is removed.
+After completed native work, a client-harness error must not trigger automatic resubmission.
+Verify the original durable rows, task mapping and terminal result through a fresh client.
+
 ## Client evidence
 
 Distinguish native-client calls, an SDK test harness, and unit tests.
