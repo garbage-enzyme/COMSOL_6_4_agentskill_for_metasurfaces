@@ -60,6 +60,13 @@ from raw evidence. Check native receipt bindings against the referenced files.
 Preserve the producer's declared operation order near floating-point cancellation.
 Use resealed contradictory receipts to test semantic checks beyond hash validation.
 
+Before a licensed optimizer test, inspect the exact derivative support supplied to the production adapter.
+An empty constraint list cannot establish constrained convergence.
+Use an active constraint that changes the optimum relative to an unconstrained control.
+Check native constraint activation, expressions, bounds, and the declared convergence criteria.
+Check feasibility and the objective with a fresh independent forward solve.
+An iteration limit alone does not establish convergence.
+
 ## Solver-free enforcement
 
 Unit, lint, compile, documentation, schema, wheel, sdist, and default CI must not
