@@ -206,3 +206,29 @@ resonance-position uncertainty. A missing damping parameter can change linewidth
 and peak height without explaining a large center shift. Before tuning material
 parameters, audit geometry, polarization, wavelength synchronization, boundary
 formulation, competing branches, and mesh convergence.
+
+## Verified recipe pitfalls
+
+A configured parametric study can retain only its final solution.
+Check requested, evaluated and frequency-derived wavelengths for every retained point.
+When retention is uncertain, disable the parametric feature and solve each wavelength explicitly.
+Set both the dispersive material parameter and the electromagnetic step before each solve.
+
+A WorkPlane can already partition an interface before a later PartitionFaces feature runs.
+Capture the boundary count before creating the WorkPlane.
+The outer ring and central patch can have the same center.
+Combine internal-domain adjacency with final boundary area to identify the patch.
+For the tested COMSOL 6.4 geometry API, use measureFinal().selection().geom(2).
+Select the boundary, then call getArea().
+An arbitrary coordinate-dependent layer-thickness expression can leave the linked global layer unchanged.
+Use real partitioned boundaries and confirm the effective global material chain.
+
+An impedance termination can cover the nominal output port and invalidate its transmission expression.
+Declare zero transmission only when the actual boundary formulation establishes an opaque termination.
+Label that zero as an assumption and check R+A closure.
+A transmitting dielectric layer still requires measured transmission and R+T+A closure.
+
+Ordinary Java model.save(path) can retain ownership of the saved file on Windows.
+For staged atomic publication, use model.save(staging_path, True) to request Save Copy.
+Verify a nonempty staged artifact before replacing the destination.
+Keep the source model unchanged and verify owned-process cleanup separately.
