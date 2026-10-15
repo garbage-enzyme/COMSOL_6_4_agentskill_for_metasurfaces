@@ -293,3 +293,18 @@ Record the child module path and content identity before licensed work.
 A parent commit check alone does not establish the worker source identity.
 If the child identity differs, cancel the exact attempt and preserve its consumed resources.
 Check cleanup before a corrected run.
+
+
+## Native optimizer geometry acceptance
+
+A native COMSOL optimizer can finish with inverted elements in its retained solution.
+Check the declared deformation Jacobian in the optimizer dataset before removing that model.
+Bind the dataset to the optimizer solution and select the intended final solution explicitly.
+Retain the raw extrema, sample count, expression and caller threshold before refusing invalid geometry.
+Check the fresh forward geometry separately.
+A failed fresh forward solve cannot establish that the native optimizer geometry was valid.
+Preserve the optimizer model before removal when diagnosing a later forward failure.
+For MPh evaluation, resolve a dataset node through its solution association.
+A Java dataset tag alone can differ from the dataset name expected by MPh.
+A smoothing comparison can improve a fixed point without validating the full optimization trajectory.
+Do not promote a fixture-specific smoothing result to a universal default.
