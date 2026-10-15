@@ -240,3 +240,17 @@ Test the actual child-launch path with a short solver-free subprocess.
 Check the selected timeout and persisted child receipt.
 Cover disabled optional stages and explicitly enabled comparison stages.
 Replacing the entire child runner cannot check launch preparation.
+
+## Independent optimizer feasibility
+
+A native optimizer can return a low objective while violating a configured active constraint.
+A matching fresh forward objective does not establish constraint feasibility.
+Evaluate every declared constraint in both the optimizer dataset and the fresh forward dataset.
+Pass the declared unit and select the final solution explicitly.
+Reject nonfinite, complex or nonscalar values before comparing the declared bounds.
+Preserve caller tolerances when the contract declares them.
+Keep raw values, units, bounds and dataset identities in the receipt.
+Reject an infeasible result even when the native solver reports success.
+Use an active-bound analytic oracle to distinguish constrained and unconstrained optima.
+An empty activation readback and successful compilation do not prove constraint enforcement.
+A gradient-method comparison can improve execution without fixing constraint enforcement.
