@@ -230,3 +230,13 @@ Do not call an intermittent stall fixed after one pass. Establish a fresh
 post-fix baseline and require the repository-declared consecutive exact-SHA CI
 window. Distinguish a fast deterministic failure from a no-progress stall when
 counting stability.
+
+## Optional stage launch coverage
+
+Resolve the selected stage budget before reading optional stage fields.
+A dictionary of evaluated values reads every field before key selection.
+Disabled optimizer stages must not require their optional budgets.
+Test the actual child-launch path with a short solver-free subprocess.
+Check the selected timeout and persisted child receipt.
+Cover disabled optional stages and explicitly enabled comparison stages.
+Replacing the entire child runner cannot check launch preparation.
