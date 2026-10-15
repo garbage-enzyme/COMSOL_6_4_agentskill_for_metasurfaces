@@ -111,3 +111,22 @@ required cleanup and lease evidence is available. Never replace or restart the
 installed server while an active job, lease, COMSOL process, Java owner, or
 cleanup uncertainty remains. Preserve bridge state and server receipts. Never
 rewrite evidence to match a client-side notification.
+
+## Headless client evidence and job identifiers
+
+Treat headless JSON events as display records, not complete raw MCP messages.
+DSH0.2.1-alpha.2 can truncate a tool-result string at8192characters in that event stream.
+Truncated JSON does not prove that the server returned invalid JSON.
+Use the native session-persistence read handle to inspect the complete stored tool result.
+Keep this inspection read-only and bind the message to its original toolCallId.
+
+DSH supervision jobs and server durable jobs use different identifier namespaces.
+Use the server job_id with job_status, job_tail, job_cancel and job_resume.
+Use the DSH supervision identifier with its native job tools.
+An unknown-job response from the wrong namespace does not justify another submission.
+Verify the original durable job and retained artifacts before selecting the next action.
+
+Accept named-client integration through the interface that the repository bridge supports.
+Record native MCP Tasks extension support as a separate protocol capability.
+An ordinary durable-job pass does not establish native Tasks opt-in.
+A stock-plugin Tasks refusal does not invalidate a successful repository-bridge client path.
