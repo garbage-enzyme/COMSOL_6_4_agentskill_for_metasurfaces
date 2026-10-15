@@ -280,4 +280,4 @@ When testing this behavior, preserve the physical bound.
 Transform its feasibility tolerance into the new expression unit.
 Keep the objective, gradient method, mesh, move limit and budgets fixed during the comparison.
 Confirm the active bound, stationarity and objective independently after optimization.
-Keep numerical optimizer acceptance separate from passivity and other physical acceptance checks.
+Keep numerical optimizer acceptance separate from passivity and other physical acceptance criteria.
