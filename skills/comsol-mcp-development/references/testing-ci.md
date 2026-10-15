@@ -308,3 +308,15 @@ For MPh evaluation, resolve a dataset node through its solution association.
 A Java dataset tag alone can differ from the dataset name expected by MPh.
 A smoothing comparison can improve a fixed point without validating the full optimization trajectory.
 Do not promote a fixture-specific smoothing result to a universal default.
+
+
+## Reference coordinates in prescribed deformation
+
+In the tested COMSOL Deformed Geometry setup, x and y in prescribed displacement expressions denote deformed coordinates.
+The expressions x-material.u and y-material.v recover the reference coordinates for this displacement convention.
+For a centered affine size change, use the reference coordinate in the displacement formula.
+Using the deformed coordinate creates an implicit mapping and can produce the wrong final size.
+Check solved domain dimensions with independent coordinate extrema after a nonzero control change.
+Parameter readback and agreement between two objectives do not establish actual shape dimensions.
+A small deformation can pass this check while a larger deformation still fails nonlinear initialization.
+Keep coordinate correctness, deformation validity and solver convergence as separate acceptance checks.
