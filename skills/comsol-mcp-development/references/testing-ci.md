@@ -366,3 +366,14 @@ Do not replace missing samples with silent interpolation or a nearest nominal sa
 When correcting inputs, preserve the failed immutable manifest and bind the replacement to its own identity.
 Recheck cache compatibility and consumed resources before any continuation.
 Additional cores cannot correct missing input data.
+
+## Optimizer gradient property target
+
+In the tested COMSOL 6.4 configuration, gradientmma belongs to the generated Optimization solver feature.
+The Optimization study feature rejects this property.
+Generate the solver sequence before selecting the unique Optimization solver feature.
+Set gradientmma on that feature.
+Read the value from the same feature before solving.
+A study feature and a solver feature can share a type name without accepting the same properties.
+Preserve a failed probe when correcting its configuration wrapper.
+Repeat the complete numerical gate with the original thresholds after the correction.
