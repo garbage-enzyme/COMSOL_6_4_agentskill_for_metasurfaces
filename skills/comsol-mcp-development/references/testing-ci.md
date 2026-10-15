@@ -254,3 +254,15 @@ Reject an infeasible result even when the native solver reports success.
 Use an active-bound analytic oracle to distinguish constrained and unconstrained optima.
 An empty activation readback and successful compilation do not prove constraint enforcement.
 A gradient-method comparison can improve execution without fixing constraint enforcement.
+
+## Constraint tolerance provenance
+
+A strict zero-violation guard can reject results that satisfy a frozen caller tolerance.
+Pass each declared constraint tolerance explicitly to both optimizer and fresh forward checks.
+Bind each tolerance to its constraint identifier and expression unit.
+Reject missing identifiers, unknown identifiers, negative values and nonfinite values.
+Keep the default strict when the caller provides no tolerance.
+An algebraically equivalent dimensionless constraint requires the corresponding tolerance transformation.
+Record raw residuals and the applied tolerance before acceptance.
+Preserve the original failed receipt when a guard prevents the fresh forward stage.
+Do not infer convergence from a residual alone when the full frozen oracle remains incomplete.
