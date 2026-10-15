@@ -221,7 +221,7 @@ Combine internal-domain adjacency with final boundary area to identify the patch
 For the tested COMSOL 6.4 geometry API, use measureFinal().selection().geom(2).
 Select the boundary, then call getArea().
 An arbitrary coordinate-dependent layer-thickness expression can leave the linked global layer unchanged.
-Use real partitioned boundaries and confirm the effective global material chain.
+Use real partitioned boundaries and check the effective global material chain.
 
 An impedance termination can cover the nominal output port and invalidate its transmission expression.
 Declare zero transmission only when the actual boundary formulation establishes an opaque termination.
@@ -230,5 +230,5 @@ A transmitting dielectric layer still requires measured transmission and R+T+A c
 
 Ordinary Java model.save(path) can retain ownership of the saved file on Windows.
 For staged atomic publication, use model.save(staging_path, True) to request Save Copy.
-Verify a nonempty staged artifact before replacing the destination.
-Keep the source model unchanged and verify owned-process cleanup separately.
+Check for a nonempty staged artifact before replacing the destination.
+Keep the source model unchanged and check owned-process cleanup separately.
