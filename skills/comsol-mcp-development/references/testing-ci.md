@@ -266,3 +266,18 @@ An algebraically equivalent dimensionless constraint requires the corresponding 
 Record raw residuals and the applied tolerance before acceptance.
 Preserve the original failed receipt when a guard prevents the fresh forward stage.
 Do not infer convergence from a residual alone when the full frozen oracle remains incomplete.
+
+
+## Native constraint scaling
+
+A controlled COMSOL 6.4 GCMMA comparison confirms that constraint scaling can change practical enforcement.
+The dimensional constraint misses its active bound despite a low objective.
+An equivalent dimensionless residual passes the frozen numerical oracle with an explicit adjoint gradient.
+A fresh forward solve confirms the final controls, objective and constraint residual.
+This evidence applies to the controlled fixture and configuration.
+It does not establish a universal solver default or physical correctness.
+When testing this behavior, preserve the physical bound.
+Transform its feasibility tolerance into the new expression unit.
+Keep the objective, gradient method, mesh, move limit and budgets fixed during the comparison.
+Confirm the active bound, stationarity and objective independently after optimization.
+Keep numerical optimizer acceptance separate from passivity and other physical acceptance checks.
