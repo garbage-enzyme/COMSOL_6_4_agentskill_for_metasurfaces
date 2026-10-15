@@ -320,3 +320,29 @@ Check solved domain dimensions with independent coordinate extrema after a nonze
 Parameter readback and agreement between two objectives do not establish actual shape dimensions.
 A small deformation can pass this check while a larger deformation still fails nonlinear initialization.
 Keep coordinate correctness, deformation validity and solver convergence as separate acceptance checks.
+
+
+## Removed wrappers and explicit finalist loading
+
+MPh Model equality can call Java tag access on both operands.
+Comparing a live wrapper with a removed wrapper can raise an object-disposed exception.
+Use Python identity when tracking owned wrappers and discard retired references after removal.
+Persist required Java tags before disposal.
+
+For explicit COMSOL loading, configure initialization on the actual generated solver sequence.
+Verify initmethod, initsol and solnum before calling solution.runAll().
+A later study.run() can regenerate the sequence and replace those settings.
+Reserve every declared loading solve before allocating optimizer solves.
+Check geometry and material Jacobians separately, plus independently measured dimensions at each point.
+Fixed loading does not prove adaptive continuation, mesh convergence or passive physics.
+
+## Thin-layer loss diagnostics
+
+Read the actual global material link before changing a component shell expression.
+A component shell edit can leave the effective linked material unchanged.
+For layered transition boundaries, integrate ewfd.Qsh on the selected boundary.
+A volume evaluation can reject this boundary variable or miss thin-layer dissipation.
+In a tested fixture, changing the effective global Drude damping sign reversed both absorption and integrated surface dissipation.
+This is formulation-specific evidence, not a universal complex-permittivity convention.
+Preserve the source and compare one material property at a time in derived copies.
+A corrected terminal point requires renewed optimizer and physical validation.
