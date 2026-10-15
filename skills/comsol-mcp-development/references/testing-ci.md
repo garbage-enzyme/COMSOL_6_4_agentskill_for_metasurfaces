@@ -365,4 +365,4 @@ Generate these coordinates with the same offset convention used during execution
 Do not replace missing samples with silent interpolation or a nearest nominal sample.
 When correcting inputs, preserve the failed immutable manifest and bind the replacement to its own identity.
 Recheck cache compatibility and consumed resources before any continuation.
-Additional cores cannot repair missing input data.
+Additional cores cannot correct missing input data.
