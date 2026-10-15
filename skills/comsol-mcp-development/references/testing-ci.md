@@ -356,3 +356,13 @@ After an effective material correction, repeat optimization from a separately de
 A corrected terminal point alone does not validate the earlier optimization trajectory.
 Compare the renewed native objective with a fresh independently initialized forward solution.
 Keep fixed-point passivity, optimizer execution, mesh convergence and physical acceptance as separate outcomes.
+
+## Material samples for finalist validation
+
+An exact-sample material adapter can complete nominal conditions and fail later at an off-design wavelength.
+Check every declared finalist wavelength against both the material range and available tensor samples before licensed startup.
+Generate these coordinates with the same offset convention used during execution.
+Do not replace missing samples with silent interpolation or a nearest nominal sample.
+When correcting inputs, preserve the failed immutable manifest and bind the replacement to its own identity.
+Recheck cache compatibility and consumed resources before any continuation.
+Additional cores cannot repair missing input data.
