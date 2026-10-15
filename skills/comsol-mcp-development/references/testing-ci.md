@@ -281,3 +281,15 @@ Transform its feasibility tolerance into the new expression unit.
 Keep the objective, gradient method, mesh, move limit and budgets fixed during the comparison.
 Confirm the active bound, stationarity and objective independently after optimization.
 Keep numerical optimizer acceptance separate from passivity and other physical acceptance criteria.
+
+
+## Child source identity
+
+A parent process can import the candidate checkout while its detached worker imports an older installed package.
+Changes to the parent's sys.path do not propagate to a new Python interpreter.
+For source acceptance, bind the child working directory or PYTHONPATH explicitly.
+For installed acceptance, use the accepted interpreter outside the checkout and clear source overrides.
+Record the child module path and content identity before licensed work.
+A parent commit check alone does not establish the worker source identity.
+If the child identity differs, cancel the exact attempt and preserve its consumed resources.
+Check cleanup before a corrected run.
