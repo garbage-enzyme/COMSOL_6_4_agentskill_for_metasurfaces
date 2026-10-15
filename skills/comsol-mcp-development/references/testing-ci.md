@@ -346,3 +346,13 @@ In a tested fixture, changing the effective global Drude damping sign reversed b
 This is formulation-specific evidence, not a universal complex-permittivity convention.
 Preserve the source and compare one material property at a time in derived copies.
 A corrected terminal point requires renewed optimizer and physical validation.
+
+
+## Passive optimization after a material correction
+
+An algebraic R+T+A sum near one can coexist with negative local dissipation.
+Check the declared passive bounds and the applicable dissipative density separately.
+After an effective material correction, repeat optimization from a separately derived corrected baseline.
+A corrected terminal point alone does not validate the earlier optimization trajectory.
+Compare the renewed native objective with a fresh independently initialized forward solution.
+Keep fixed-point passivity, optimizer execution, mesh convergence and physical acceptance as separate outcomes.
