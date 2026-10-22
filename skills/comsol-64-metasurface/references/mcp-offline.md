@@ -59,6 +59,19 @@ Use one source model, one declared point, and one unique output path. Hash the
 source before and after. Save through the Java ClientAPI so Unicode destinations
 remain reliable.
 
+S01 safety rules for this example:
+
+- Reject when source and output resolve to the same file identity
+  (`os.path.samefile`), not only when the path strings differ.
+- Refuse to overwrite an existing output unless the caller explicitly allows it
+  after hashing the prior file.
+- Use an exclusive temporary output and publish atomically. Never save directly
+  onto the source path.
+- Keep runtime roots on ASCII paths. On a Chinese-username home, do not fall
+  back to `%LOCALAPPDATA%` if it is non-ASCII. Declare an ASCII root instead.
+- Always run load/save/remove/source-check. A cleanup error must not skip the
+  immutable-source verification.
+
 ```python
 from hashlib import sha256
 import os
@@ -75,17 +88,48 @@ def file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
-source = Path(os.environ["COMSOL_SOURCE_MODEL"]).resolve()
-output = Path(os.environ["COMSOL_OUTPUT_MODEL"]).resolve()
+source = Path(os.environ["COMSOL_SOURCE_MODEL"]).expanduser().resolve()
+output = Path(os.environ["COMSOL_OUTPUT_MODEL"]).expanduser().resolve()
+runtime_root = Path(os.environ.get("COMSOL_ASCII_RUNTIME", "")).expanduser()
+if not str(runtime_root).isascii():
+    raise RuntimeError("COMSOL_ASCII_RUNTIME must be an ASCII path")
+if not source.is_file():
+    raise RuntimeError("source model is missing")
+if output.exists():
+    try:
+        if os.path.samefile(source, output):
+            raise RuntimeError("output aliases the immutable source")
+    except FileNotFoundError:
+        pass
+    if os.environ.get("COMSOL_ALLOW_OVERWRITE") != "1":
+        raise RuntimeError("output already exists; set COMSOL_ALLOW_OVERWRITE=1 after hashing")
+tmp_output = output.with_name(output.name + ".tmp-partial")
+if tmp_output.exists():
+    raise RuntimeError("temporary output already exists")
+
 source_hash = file_hash(source)
-client = mph.Client(version="6.4")
-model = client.load(str(source))
+client = None
+model = None
 try:
+    client = mph.Client(version="6.4")
+    model = client.load(str(source))
     jm = model.java
     # Apply only a declared, bounded derived mutation and one study point.
-    jm.save(str(output))
+    jm.save(str(tmp_output))
+    if not tmp_output.is_file() or tmp_output.stat().st_size <= 0:
+        raise RuntimeError("temporary output was not written")
+    os.replace(tmp_output, output)
 finally:
-    client.remove(model)
+    if model is not None and client is not None:
+        try:
+            client.remove(model)
+        except Exception:
+            pass
+    if tmp_output.exists():
+        try:
+            tmp_output.unlink()
+        except OSError:
+            pass
 
 if file_hash(source) != source_hash:
     raise RuntimeError("immutable source changed")
