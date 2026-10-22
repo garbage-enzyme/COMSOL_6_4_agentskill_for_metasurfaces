@@ -9,6 +9,7 @@
 - Restore MCP access
 - Resume safely
 - Reduce recurrence risk
+- Out-of-core workspace memory behavior
 
 ## Recognize the incident
 
@@ -95,3 +96,25 @@ unattended run.
   than carrying assumptions from a different mesh or solver backend.
 - Archive a path-redacted recovery receipt with the error, resource snapshot,
   last durable point, ownership evidence, cleanup, and resume decision.
+
+## Out-of-core workspace memory behavior
+
+A direct solver with the out-of-core property set to `on` does not stay small.
+Its workspace allocates elastically until nearly the whole system commit limit
+is used. Measured peaks reached about 98.4 percent of commit from start
+baselines between 0.66 and 0.84. The allocation follows free headroom, not a
+fixed size. A whole-host commit ceiling below that level trips at the solve
+even on an otherwise lightly loaded host.
+
+Setting the property to `off` is memory-bounded. A small periodic wave-optics
+model with a deformation stage solved with a measured peak near 0.80
+whole-host fraction instead of 0.98. The numeric result matched the
+out-of-core run to 1.8e-11. Setting the property to `auto` also bounds memory,
+but its spill machinery can invalidate post-solve object references. A COMSOL
+error `variable points to an object that no longer exists in the model`
+appeared during post-solve evaluation under `auto` and did not appear under
+`off`.
+
+When a caller enforces a whole-host commit ceiling, prefer `off` for small
+models. Record the out-of-core setting with the run evidence. A ceiling trip
+under `on` does not indicate a defect in the model, the mesh, or the worker.

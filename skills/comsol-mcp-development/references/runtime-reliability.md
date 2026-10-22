@@ -9,6 +9,7 @@
 - Atomic Windows I/O
 - Admission races and status inventories
 - Resource exhaustion
+- Typed native-condition fixture prerequisites
 - Recovery and regression evidence
 
 ## MCP transport and solver ownership
@@ -160,6 +161,32 @@ One resource incident can expose a second deployment defect. For example, a
 previous host may remain alive after a package migration while its configured
 restart command still points to a repository-only module. Diagnose trigger and
 direct restart failure separately.
+
+## Typed native-condition fixture prerequisites
+
+A typed native-condition forward job assumes the frozen source model carries
+standard auto-generated solver sequences. The worker resolves
+`solution_tag -> stationary_solver_tag -> linear_solver_tag`, such as
+`sol1 -> s1 -> d1`, before it regenerates sequences for the deformation stage.
+A source without these objects fails with a COMSOL `Unknown solution` or
+`Unknown SolverFeature` error. A source rebuilt or restored by hand must run
+`createAutoSequences` and read back the exact declared structure first.
+
+A restored source can come from a surviving derived clone. Remove only the
+nodes the adapter and collector create: the deformation physics interface, the
+deformation study step, the control parameters, and, depending on the clone
+state, the solver sequences. Then rebuild standard sequences and verify the
+fixture identities by live readback: control geometry, material domain map,
+and study shape. Keep the original clone unchanged and re-verify its hash.
+
+The fixture `condition_controls` freeze an `out_of_core_value`. The value `on`
+drives the out-of-core workspace to allocate elastically to about 98.4 percent
+of whole-host commit and trips any whole-host ceiling at the shape solve. The
+value `off` is memory-bounded and numerically equivalent to `on` within 1.8e-11
+on a small periodic model. The value `auto` bounds memory but its spill
+machinery can break post-solve object references. Freeze `off` for fixtures
+that run under whole-host commit ceilings, and treat a ceiling trip under `on`
+as a policy conflict, not a worker defect.
 
 ## Recovery and regression evidence
 
